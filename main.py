@@ -115,10 +115,8 @@ st.plotly_chart(fig, use_container_width=True)
 st.divider()
 
 #Interpretabilité
-# #
-# #
-
-st.image(f"{BASE_DIR}/globalshap.png", use_column_width='always')
+st.header('Facteurs globalement plus significatifs ')
+st.image(f"{BASE_DIR}/globalshap.png", width=10)
 # Explainer
 # with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
 #     explainer = pickle.load(f)
