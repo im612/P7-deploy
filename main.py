@@ -121,6 +121,14 @@ st.image(f"{BASE_DIR}/globalshap2.png")
 
 st.header('Facteurs déterminants pour ce profil')
 
+import s3fs
+aws_bucket = 'p7-bucket'
+s3 = s3fs.S3FileSystem(anon=True)
+# s3.ls('my-bucket')
+
+with s3.open(f'{aws_bucket}/test_split_orig.csv', 'rb') as f:
+    df = pd.read_csv(g)
+
 
 # import aws_session
 # import boto3
@@ -128,13 +136,12 @@ st.header('Facteurs déterminants pour ce profil')
 # access_id = st.secrets['s3']['access_id']
 # access_key = st.secrets['s3']['access_key']
 
-from st_files_connection import FilesConnection
-aws_bucket = 'p7-bucket'
-# Create connection object and retrieve file contents.
-# Specify input format is a csv and to cache the result for 600 seconds.
-conn = st.experimental_connection('s3', type=FilesConnection)
-df = conn.read(f"test_split_orig.csv", input_format="csv", ttl=600)
-# df = conn.read(f"{aws_bucket}/test_split_orig_S3.csv", input_format="csv", ttl=600)
+# from st_files_connection import FilesConnection
+# # Create connection object and retrieve file contents.
+# # Specify input format is a csv and to cache the result for 600 seconds.
+# conn = st.experimental_connection('s3', type=FilesConnection)
+# df = conn.read(f"test_split_orig.csv", input_format="csv", ttl=600)
+# # df = conn.read(f"{aws_bucket}/test_split_orig_S3.csv", input_format="csv", ttl=600)
 
 st.write(df.shape)
 
