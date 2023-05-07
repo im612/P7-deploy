@@ -119,15 +119,6 @@ def get_the_rest():
     threshold = 0.9
     return best_model, X_work, threshold
 
-
-def get_explainer():
-    # Explainer
-    with open(f"{BASE_DIR}/explainer.pkl", "rb") as f:
-        explainer = pickle.load(f)
-    f.close()
-    return explainer
-
-
 def get_threshold():
     best_model, X_work, threshold = get_the_rest()
     return threshold
@@ -169,6 +160,22 @@ def get_prediction(id):
         prediction = 1
 
     return prediction
+
+
+# Interpetabilité
+# Explainer
+def get_explainer():
+    # Explainer
+    # with open(f"{BASE_DIR}/explainer.pkl", "rb") as f:
+    with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
+        explainer = pickle.load(f)
+    f.close()
+    return explainer
+
+
+# with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
+#     explainer = pickle.load(f)
+# f.close()
 
 
 # def run_shap(id):

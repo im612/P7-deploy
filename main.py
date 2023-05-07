@@ -114,63 +114,15 @@ st.plotly_chart(fig, use_container_width=True)
 
 st.divider()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# # # # response = requests.post(url=f"http://86.214.128.9:8080/probability", data=qj)
-# objind = response.json()
-
-# st.write(objind, prob)
-
-# @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
-# def get_prob(qji):
-#     response = requests.post(url=f"{urlname}/probability", data=qji)
-# #     # indnames = requests.post(url=f"{urlname}/indnames")
-#     return response
-# #
-# response = get_prob(qj)
-# st.write(response)
-
-# prob = objind['probability']
-
-#
-# # APPEL AUX ENDPOINTS
-# # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
-# q = {"id" : f'{id.tolist()[0]}'}
-# q = {"id" : f"{id, id['id']}"}
-# q = {"id" : f'{id["id"]}'}
-# st.write(id)
-# q = id
-# qj = json.dumps(q)
-# # https://stackoverflow.com/questions/64057445/fast-api-post-does-not-recgonize-my-parameter
-#
-# # interact with FastAPI endpoint
-#
-# # fireto = 'fastapi'
-# fireto = '0.0.0.0'
-# # fireto = 'backend'
-#
-
-
-
-
+#Interpretabilité
 # #
 # #
-# # # Explainer
-# # with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
-# #     explainer = pickle.load(f)
-# # f.close()
+
+st.image(f"{BASE_DIR}/globalshap.png")
+# Explainer
+# with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
+#     explainer = pickle.load(f)
+# f.close()
 # #
 # # #Jeu de données
 # # X = test_df.drop(columns=['SK_ID_CURR', 'TARGET'])
@@ -275,5 +227,42 @@ st.divider()
 #     objind = response.json()
 #     indnames = objind['listindnames']
 #     return indnames
-
 # indnames = load_indnames()
+
+
+# resti
+# # # # response = requests.post(url=f"http://86.214.128.9:8080/probability", data=qj)
+# objind = response.json()
+
+# st.write(objind, prob)
+
+# @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
+# def get_prob(qji):
+#     response = requests.post(url=f"{urlname}/probability", data=qji)
+# #     # indnames = requests.post(url=f"{urlname}/indnames")
+#     return response
+# #
+# response = get_prob(qj)
+# st.write(response)
+
+# prob = objind['probability']
+
+#
+# # APPEL AUX ENDPOINTS
+# # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
+# q = {"id" : f'{id.tolist()[0]}'}
+# q = {"id" : f"{id, id['id']}"}
+# q = {"id" : f'{id["id"]}'}
+# st.write(id)
+# q = id
+# qj = json.dumps(q)
+# # https://stackoverflow.com/questions/64057445/fast-api-post-does-not-recgonize-my-parameter
+#
+# # interact with FastAPI endpoint
+#
+# # fireto = 'fastapi'
+# fireto = '0.0.0.0'
+# # fireto = 'backend'
+#
+
+
