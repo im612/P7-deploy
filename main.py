@@ -68,7 +68,13 @@ seuil = obj3['seuil']
 col1, col2, col3 = st.columns(3)
 # # col1, col3 = st.columns(2)
 col1.metric("Code client", "%d" % id)
-col2.metric("Prédiction", "%d" % pred )
+if pred == 0:
+    pred_word = "Solvable"
+elif pred == 1:
+    pred_word = "Non solvable"
+
+col2.metric("Prédiction", pred_word)
+
 # col3.metric("Probabilité de non solvabilité", "%.2f" % prob, "%.2f" % (seuil - prob))
 # #
 if pred < seuil:
