@@ -118,7 +118,7 @@ st.divider()
 st.header('Facteurs globalement plus significatifs ')
 # st.image(f"{BASE_DIR}/globalshap.png", width=1, use_column_width='never'')
 # st.image(f"{BASE_DIR}/globalshap.png", width=0.6,use_column_width='never')
-st.image(f"{BASE_DIR}/globalshap2.png", width=0.6)
+st.image(f"{BASE_DIR}/globalshap2.png")
 # Explainer
 # with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
 #     explainer = pickle.load(f)
