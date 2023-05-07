@@ -12,7 +12,7 @@ import uvicorn
 from model import get_probability_df
 from model import get_prediction
 from model import get_threshold
-from model import get_indnames, load_indnames
+from model import get_indnames, load_indnames, load_colnames
 
 # asyncronous models
 # https://asgi.readthedocs.io/en/latest/
@@ -54,6 +54,12 @@ def ind_names():
     val = get_indnames()
     # val = load_indnames()
     return {"listindnames": val}
+
+@app.post("/colnames")
+def col_names():
+    val = load_colnames()
+    # val = load_indnames()
+    return {"listcolnames": val}
 
 # if __name__ == "__main__":
 #     uvicorn.run("main:app", host="0.0.0.0", port=8080)

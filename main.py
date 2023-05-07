@@ -2,15 +2,14 @@
 
 import requests
 import streamlit as st
-# import pandas as pd
+import pickle
 import json
-# import pickle
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
-import  pandas as pd
-# import shap
-# from streamlit_shap import st_shap
-# import aws_session
+import pandas as pd
+import shap
+from streamlit_shap import st_shap
+
 from pathlib import Path
 import sklearn
 # from requests_toolbelt.multipart.encoder import MultipartEncoder
@@ -121,31 +120,36 @@ st.image(f"{BASE_DIR}/globalshap2.png")
 
 st.header('Facteurs déterminants pour ce profil')
 
-# import s3fs
-#
 access_id = st.secrets['AWS_ACCESS_KEY_ID']
 access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
 aws_bucket = 'p7-bucket'
-# s3 = s3fs.S3FileSystem(key=access_id, secret=access_key)
-# # s3.ls('my-bucket')
-#
-# with s3.open(f'{aws_bucket}/test_split_orig.csv', 'rb') as f:
-#     df = pd.read_csv(g)
 
-df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+@st.cache_data(ttl=3600)
+def ssp():
+    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
                    storage_options={'key' : access_id, 'secret' : access_key})
-# import aws_session
-# import boto3
+    # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
+    colnames = requests.post(url=f"{urlname}/colnames")
+    df = pd.DataFrame(df, columns=colnames)
+    X = df.drop(columns=['SK_ID_CURR', 'TARGET'])
+    with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
+        explainer = pickle.load(f)
+    del df
+    with st.spinner('Je récupère les facteurs déterminants...'):
+        shap_values = explainer(X)
+    st.success('Fini ')
+
+    return X, shap_values
 
 
-# from st_files_connection import FilesConnection
-# # Create connection object and retrieve file contents.
-# # Specify input format is a csv and to cache the result for 600 seconds.
-# conn = st.experimental_connection('s3', type=FilesConnection)
-# df = conn.read(f"test_split_orig.csv", input_format="csv", ttl=600)
-# # df = conn.read(f"{aws_bucket}/test_split_orig_S3.csv", input_format="csv", ttl=600)
+X, shap_values = ssp()
+ind = indnames.tolist().index(id)
 
-st.write(df.shape)
+st.header('Facteurs déterminants pour ce profil')
+st_shap(shap.plots.waterfall(shap_values[ind]), height=800, width=2000)
+
+
+# st.write(df.shape)
 
 
 
@@ -197,7 +201,7 @@ st.write(df.shape)
 # # # shap_go = 1
 # # shap_go = 0
 # #
-# # def ssp() # per la cache
+
 # #
 # # if shap_go == 0:
 # #     with st.spinner('Je récupère les facteurs déterminants...'):
