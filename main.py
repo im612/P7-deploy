@@ -23,7 +23,7 @@ exec(Path("main_backend.py").read_text(), globals())
 st.set_page_config(layout="wide", page_title="Tableau de bord crédit clients", page_icon="📂")
 
 st.header("Prêt à dépénser")
-st.title("Tableau de bord")
+st.header("Tableau de bord")
 st.title("Détail sur l'état des crédits sollicités")
 
 
@@ -80,13 +80,12 @@ else:
 col3.metric("Probabilité de non solvabilité", "%.2f" % prob, f"{pref}%.2f" % (seuil - prob))
 # https: // docs.streamlit.io / library / api - reference  # display-text
 
-# # if pred < seuil:
-# #     st.header('Le crédit est accordé :+1:')
-# #     # https: // docs.streamlit.io / library / api - reference  # display-text
-# # else:
-# #     st.header('Le crédit est decliné :-1:')
-# # st.write('Le crédit est refusé car la probabilité de non solvabilité dépasse %.2f' % seuil)
-# # #
+if pred < seuil:
+    st.header('Le crédit est accordé :+1:')
+    # https: // docs.streamlit.io / library / api - reference  # display-text
+else:
+    st.header('Le crédit est decliné :-1:')
+st.write('Le crédit est refusé car la probabilité de non solvabilité dépasse %.2f' % seuil)
 
 st.divider()
 
