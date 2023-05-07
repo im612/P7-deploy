@@ -22,10 +22,9 @@ exec(Path("main_backend.py").read_text(), globals())
 # Streamlit
 st.set_page_config(layout="wide", page_title="Tableau de bord crédit clients", page_icon="📂")
 
-st.header("Prêt à dépénser")
+st.title("Prêt à dépénser")
 st.header("Tableau de bord")
-st.title("Détail sur l'état des crédits sollicités")
-
+st.subheader("Détail des crédits sollicités")
 
 urlname=st.secrets['config']['API_URL']
 # urlname2=st.secrets['config']['API_URL2']
