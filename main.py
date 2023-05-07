@@ -7,6 +7,7 @@ import json
 # import pickle
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
+import  pandas as pd
 # import shap
 # from streamlit_shap import st_shap
 # import aws_session
@@ -134,9 +135,7 @@ aws_bucket = 'p7-bucket'
 conn = st.experimental_connection('s3', type=FilesConnection)
 df = conn.read(f"{aws_bucket}/test_split_orig_S3.csv", input_format="csv", ttl=600)
 
-# Print results.
-for row in df.itertuples():
-    st.write(f"{row.Owner} has a :{row.Pet}:")
+st.write(df.shape)
 
 
 
