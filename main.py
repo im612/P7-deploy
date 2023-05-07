@@ -133,7 +133,8 @@ aws_bucket = 'p7-bucket'
 # Create connection object and retrieve file contents.
 # Specify input format is a csv and to cache the result for 600 seconds.
 conn = st.experimental_connection('s3', type=FilesConnection)
-df = conn.read(f"{aws_bucket}/test_split_orig_S3.csv", input_format="csv", ttl=600)
+st.experimental_connectiondf = conn.read(f"{aws_bucket}/test_split_orig_S3.csv", input_format="csv", ttl=600)
+df = conn.read("test_split_orig_S3.csv", input_format="csv", ttl=600)
 
 st.write(df.shape)
 
