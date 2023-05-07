@@ -130,13 +130,14 @@ def ssp():
                    storage_options={'key' : access_id, 'secret' : access_key})
     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
     colnames = requests.post(url=f"{urlname}/colnames")
+
     df = df.drop(columns=['SK_ID_CURR', 'TARGET'])
     X = pd.DataFrame(df, columns=colnames)
     with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
         explainer = pickle.load(f)
     del df
     with st.spinner('Je récupère les facteurs déterminants...'):
-        shap_values = explainer(X)
+        shap_values = explainer(X, check_additivity=False)
     st.success('Fini ')
     del explainer
 
