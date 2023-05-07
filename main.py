@@ -136,17 +136,20 @@ def get_x():
 
     return X_w_id
 
+@st.cache_data(ttl=3600)
+def get_explainer():
+    with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
+        explainer = pickle.load(f)
+    return explainer
 
 @st.cache_data(ttl=3600)
-def ssp(id_i):
+def sh_w_id(id_i):
     X_w_id = get_x()
+    explainer = get_explainer()
 
     id = int(id_i)
     X_line = pd.DataFrame(X_w_id.loc[X['SK_ID_CURR'] == id])
     X_line = X_line.drop(columns='SK_ID_CURR')
-
-    with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
-        explainer = pickle.load(f)
 
     with st.spinner('Je récupère les facteurs déterminants...'):
         # shap_values = explainer(X_line, check_additivity=False)
@@ -156,7 +159,7 @@ def ssp(id_i):
     return shap_values
 
 
-shap_values = ssp(id)
+shap_values = sh_w_id(id)
 ind = indnames.tolist().index(id)
 
 st.header('Facteurs déterminants pour ce profil')
