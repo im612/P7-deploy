@@ -121,20 +121,22 @@ st.image(f"{BASE_DIR}/globalshap2.png")
 
 st.header('Facteurs déterminants pour ce profil')
 
-import s3fs
+# import s3fs
+#
+access_id = st.secrets['AWS_ACCESS_KEY_ID']
+access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
 aws_bucket = 'p7-bucket'
-s3 = s3fs.S3FileSystem(anon=True)
-# s3.ls('my-bucket')
+# s3 = s3fs.S3FileSystem(key=access_id, secret=access_key)
+# # s3.ls('my-bucket')
+#
+# with s3.open(f'{aws_bucket}/test_split_orig.csv', 'rb') as f:
+#     df = pd.read_csv(g)
 
-with s3.open(f'{aws_bucket}/test_split_orig.csv', 'rb') as f:
-    df = pd.read_csv(g)
-
-
+df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+                   storage_options={'key' : access_id, 'secret' : access_key})
 # import aws_session
 # import boto3
 
-# access_id = st.secrets['s3']['access_id']
-# access_key = st.secrets['s3']['access_key']
 
 # from st_files_connection import FilesConnection
 # # Create connection object and retrieve file contents.
