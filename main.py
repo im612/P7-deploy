@@ -116,7 +116,7 @@ st.divider()
 
 #Interpretabilité
 st.header('Facteurs globalement plus significatifs ')
-st.image(f"{BASE_DIR}/globalshap.png", width=2)
+st.image(f"{BASE_DIR}/globalshap.png", width=1)
 # Explainer
 # with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
 #     explainer = pickle.load(f)
