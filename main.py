@@ -41,8 +41,6 @@ indnames = objind['listindnames']
 id = st.selectbox("Saisir le code client :", [i for i in indnames])
 st.header(f'Code client: {str(int(id))}')
 
-st.divider()
-
 # # APPEL AUX ENDPOINTS
 # # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
 # # https://stackoverflow.com/questions/64057445/fast-api-post-does-not-recgonize-my-parameter
@@ -52,22 +50,16 @@ qj = json.dumps(q)
 response = requests.post(url=f"{urlname}/probability", data=qj)
 # st.write(response)
 objprob = response.json()
-# st.write(objprob)
-
 # ok
-
 prob = objprob['probability']
-st.write(prob)
 
-# # #
 response = requests.post(url=f"{urlname}/prediction", data=qj)
 obj2 = response.json()
 pred = obj2['prediction']
-# #
+
 response = requests.post(url=f"{urlname}/seuil", data=qj)
 obj3 = response.json()
 seuil = obj3['seuil']
-
 
 # Premiers indicateurs
 col1, col2, col3 = st.columns(3)
