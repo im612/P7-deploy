@@ -26,7 +26,7 @@ st.title("Prêt à dépénser")
 st.header("Tableau de bord")
 st.subheader("Détail des crédits sollicités")
 
-urlname=st.secrets['config']['API_URL']
+urlname=st.secrets['API_URL']
 # urlname2=st.secrets['config']['API_URL2']
 
 # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
@@ -122,30 +122,49 @@ st.header('Facteurs déterminants pour ce profil')
 
 
 # import aws_session
-import boto3
+# import boto3
 
-access_id = st.secrets['s3']['access_id']
-access_key = st.secrets['s3']['access_key']
+# access_id = st.secrets['s3']['access_id']
+# access_key = st.secrets['s3']['access_key']
 
-session = boto3.Session(aws_access_key_id=access_id,
-                        aws_secret_access_key=access_key)
-# 1. IMPORT FILE from an s3 bucket
-# https://www.youtube.com/watch?v=mNwO_z6faAw
-# https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
+from st_files_connection import FilesConnection
 aws_bucket = 'p7-bucket'
+# Create connection object and retrieve file contents.
+# Specify input format is a csv and to cache the result for 600 seconds.
+conn = st.experimental_connection('s3', type=FilesConnection)
+df = conn.read(f"{aws_bucket}/test_split_orig_S3.csv", input_format="csv", ttl=600)
+
+# Print results.
+for row in df.itertuples():
+    st.write(f"{row.Owner} has a :{row.Pet}:")
+
+
+
+
 #
-@st.cache_data(ttl=3600)  # 👈 Add the caching decorator
-def download_aws(aws_filename, local_filename, session,
-                 bucket_name=aws_bucket):
-    s3 = session.resource('s3')
-    s3.Bucket(bucket_name).download_file(aws_filename, local_filename,)
-    print("Download Successful!")
-    return True
-
-
-my_file = Path("./model_frontend/test_split_orig_S3.csv")
-if not my_file.is_file():
-    download_aws('test_split_orig.csv', 'test_split_orig_S3.csv', session)
+#
+#
+#
+#
+# session = boto3.Session(aws_access_key_id=access_id,
+#                         aws_secret_access_key=access_key)
+# # 1. IMPORT FILE from an s3 bucket
+# # https://www.youtube.com/watch?v=mNwO_z6faAw
+# # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
+# aws_bucket = 'p7-bucket'
+# #
+# @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
+# def download_aws(aws_filename, local_filename, session,
+#                  bucket_name=aws_bucket):
+#     s3 = session.resource('s3')
+#     s3.Bucket(bucket_name).download_file(aws_filename, local_filename,)
+#     print("Download Successful!")
+#     return True
+#
+#
+# my_file = Path("./model_frontend/test_split_orig_S3.csv")
+# if not my_file.is_file():
+#     download_aws('test_split_orig.csv', 'test_split_orig_S3.csv', session)
 #     # https: // stackoverflow.com / questions / 82831 / how - do - i - check - whether - a - file - exists - without - exceptions
 
 

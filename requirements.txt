@@ -14,3 +14,6 @@ scikit-learn==1.1.1
 streamlit==1.21.0
 #streamlit-shap==1.0.2
 plotly
+s3fs
+# Direct pypi install coming soon
+git+https://github.com/streamlit/files-connection
