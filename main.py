@@ -116,9 +116,44 @@ st.divider()
 
 #Interpretabilité
 st.header('Facteurs globalement plus significatifs ')
-# st.image(f"{BASE_DIR}/globalshap.png", width=1, use_column_width='never'')
-# st.image(f"{BASE_DIR}/globalshap.png", width=0.6,use_column_width='never')
 st.image(f"{BASE_DIR}/globalshap2.png")
+
+st.header('Facteurs déterminants pour ce profil')
+
+
+# import aws_session
+import boto3
+
+access_id = st.secrets['s3']['access_id']
+access_key = st.secrets['s3']['access_key']
+
+session = boto3.Session(aws_access_key_id=access_id,
+                        aws_secret_access_key=access_key)
+# 1. IMPORT FILE from an s3 bucket
+# https://www.youtube.com/watch?v=mNwO_z6faAw
+# https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
+aws_bucket = 'p7-bucket'
+#
+@st.cache_data(ttl=3600)  # 👈 Add the caching decorator
+def download_aws(aws_filename, local_filename, session,
+                 bucket_name=aws_bucket):
+    s3 = session.resource('s3')
+    s3.Bucket(bucket_name).download_file(aws_filename, local_filename,)
+    print("Download Successful!")
+    return True
+
+
+my_file = Path("./model_frontend/test_split_orig_S3.csv")
+if not my_file.is_file():
+    download_aws('test_split_orig.csv', 'test_split_orig_S3.csv', session)
+#     # https: // stackoverflow.com / questions / 82831 / how - do - i - check - whether - a - file - exists - without - exceptions
+
+
+
+# #     st_shap(shap.plots.waterfall(shap_values[ind]), height=800, width=2000)
+#
+
+
 # Explainer
 # with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
 #     explainer = pickle.load(f)
