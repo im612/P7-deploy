@@ -84,7 +84,27 @@ if pred < seuil:
     # https: // docs.streamlit.io / library / api - reference  # display-text
 else:
     st.header('Le crédit est decliné :-1:')
-st.write('Le crédit est refusé car la probabilité de non solvabilité dépasse %.2f' % seuil)
+st.write('Le crédit est refusé si la probabilité de non solvabilité dépasse %.2f' % seuil)
+
+# Gauge chart
+# https://plotly.com/python/gauge-charts/
+# https://docs.streamlit.io/library/api-reference/charts/st.plotly_chart
+
+probfig = float("%.2f" % prob)
+
+fig = go.Figure(go.Indicator(
+    domain = {'x': [0, 1], 'y': [0, 1]},
+    value = probfig,
+    mode = "gauge+number",
+    title = {'text': "Probabilité de non solvabilité"},
+    delta = {'reference': 0.9},
+    gauge = {'axis': {'range': [0.0, 1.0]},
+             'steps' : [
+                 {'range': [0.0, 0.9], 'color': "lightgreen"},
+                 {'range': [0.9, 1.0], 'color': "red"}],
+             'threshold' : {'line': {'color': "orange", 'width': 4}, 'thickness': 0.75, 'value': probfig}}))
+
+st.plotly_chart(fig, use_container_width=True)
 
 st.divider()
 
@@ -138,25 +158,7 @@ st.divider()
 
 
 
-# # # Gauge chart
-# # # https://plotly.com/python/gauge-charts/
-# # # https://docs.streamlit.io/library/api-reference/charts/st.plotly_chart
-# #
-# # probfig = float("%.2f" % prob)
-# #
-# # fig = go.Figure(go.Indicator(
-# #     domain = {'x': [0, 1], 'y': [0, 1]},
-# #     value = probfig,
-# #     mode = "gauge+number",
-# #     title = {'text': "Probabilité de non solvabilité"},
-# #     delta = {'reference': 0.9},
-# #     gauge = {'axis': {'range': [0.0, 1.0]},
-# #              'steps' : [
-# #                  {'range': [0.0, 0.9], 'color': "lightgreen"},
-# #                  {'range': [0.9, 1.0], 'color': "red"}],
-# #              'threshold' : {'line': {'color': "orange", 'width': 4}, 'thickness': 0.75, 'value': probfig}}))
-# #
-# # st.plotly_chart(fig, use_container_width=True)
+
 # #
 # #
 # # # Explainer
