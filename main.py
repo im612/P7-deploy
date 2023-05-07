@@ -125,30 +125,43 @@ access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
 aws_bucket = 'p7-bucket'
 
 @st.cache_data(ttl=3600)
-def ssp():
+def get_x():
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-                   storage_options={'key' : access_id, 'secret' : access_key})
+                     storage_options={'key': access_id, 'secret': access_key})
     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
     colnames = requests.post(url=f"{urlname}/colnames")
 
-    df = df.drop(columns=['SK_ID_CURR', 'TARGET'])
-    X = pd.DataFrame(df, columns=colnames)
+    df = df.drop(columns=['TARGET'])
+    X_w_id = pd.DataFrame(df, columns=colnames)
+
+    return X_w_id
+
+
+@st.cache_data(ttl=3600)
+def ssp(id_i):
+    X_w_id = get_x()
+
+    id = int(id_i)
+    X_line = pd.DataFrame(X_w_id.loc[X['SK_ID_CURR'] == id])
+    X_line = X_line.drop(columns='SK_ID_CURR')
+
     with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
         explainer = pickle.load(f)
-    del df
+
     with st.spinner('Je récupère les facteurs déterminants...'):
-        shap_values = explainer(X, check_additivity=False)
+        # shap_values = explainer(X_line, check_additivity=False)
+        shap_values = explainer(X_line)
     st.success('Fini ')
-    del explainer
 
-    return X, shap_values
+    return shap_values
 
 
-X, shap_values = ssp()
+shap_values = ssp(id)
 ind = indnames.tolist().index(id)
 
 st.header('Facteurs déterminants pour ce profil')
-st_shap(shap.plots.waterfall(shap_values[ind]), height=800, width=2000)
+# st_shap(shap.plots.waterfall(shap_values[ind]), height=800, width=2000)
+st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
 
 
 # st.write(df.shape)
