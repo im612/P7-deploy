@@ -24,12 +24,7 @@ st.set_page_config(layout="wide", page_title="Tableau de bord crédit clients", 
 st.title("Tableau de bord crédit clients - Pret à dépénser")
 
 urlname=st.secrets['config']['API_URL']
-urlname2=st.secrets['config']['API_URL2']
-
-# ON_HEROKU = os.environ.get("PORT'ON_HEROKU')
-ON_HEROKU = os.environ.get("PORT")
-# ON_HEROKU = os.environ("PORT")
-st.write(ON_HEROKU)
+# urlname2=st.secrets['config']['API_URL2']
 
 # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
 @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
@@ -46,25 +41,43 @@ indnames = objind['listindnames']
 id = st.selectbox("Saisir le code client :", [i for i in indnames])
 st.header(f'Code client: {str(int(id))}')
 
+q = {"id" : f"{id}"}
+qj = json.dumps(q)
+response = requests.post(url=f"{urlname}/probability", data=qj)
+# st.write(response)
+objprob = response.json()
+# st.write(objprob)
+
 # ok
 
-q = {"id" : f"{id}"}
-# q = {"id" : f'{id.tolist()[0]}'}
-# q = id
-qj = json.dumps(q)
-# st.write(q, qj)
-st.write(q)
+prob = objprob['probability']
+st.write(prob)
+
+# # #
+# response = requests.post(url=f"{urlname}/prediction", data=qj)
+# obj2 = response.json()
+# pred = obj2['prediction']
+# #
+# response = requests.post(url=f"{urlname}/seuil", data=qj)
+# obj3 = response.json()
+# seuil = obj3['seuil']
+# #
+# st.divider()
 
 
-# response = requests.post(url=f"{urlname2}/probability", data=qj)
-# response = requests.post(url=f"{urlname2}/probability", json=qj) #v109 -no
-response = requests.post(url=f"{urlname}/probability", data=qj) #v110
-# response = requests.post(url=f"{urlname}/probability")
-st.write(response)
-objprob = response.json()
-st.write(objprob)
-# prob = objind['probability']
-# st.write(objind)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # # # # response = requests.post(url=f"http://86.214.128.9:8080/probability", data=qj)
 # objind = response.json()
@@ -88,16 +101,6 @@ st.write(objprob)
 
 
 
-# # #
-# response = requests.post(url=f"{urlname}/prediction", data=qj)
-# obj2 = response.json()
-# pred = obj2['prediction']
-# #
-# response = requests.post(url=f"{urlname}/seuil", data=qj)
-# obj3 = response.json()
-# seuil = obj3['seuil']
-# #
-# st.divider()
 
 
 #
