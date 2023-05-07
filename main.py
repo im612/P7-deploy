@@ -74,8 +74,16 @@ col1, col2, col3 = st.columns(3)
 # # col1, col3 = st.columns(2)
 col1.metric("Code client", "%d" % id)
 col2.metric("Prédiction", "%d" % pred )
-col3.metric("Probabilité de non solvabilité", "%.2f" % prob, "%.2f" % (seuil - prob))
+# col3.metric("Probabilité de non solvabilité", "%.2f" % prob, "%.2f" % (seuil - prob))
 # #
+if pred < seuil:
+    pref = "+"
+else:
+    pref = "-"
+
+col3.metric("Probabilité de non solvabilité", "%.2f" % prob, f"{pref}%.2f" % (seuil - prob))
+# https: // docs.streamlit.io / library / api - reference  # display-text
+
 # # if pred < seuil:
 # #     st.header('Le crédit est accordé :+1:')
 # #     # https: // docs.streamlit.io / library / api - reference  # display-text
