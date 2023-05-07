@@ -118,7 +118,7 @@ st.divider()
 # #
 # #
 
-st.image(f"{BASE_DIR}/globalshap.png")
+st.image(f"{BASE_DIR}/globalshap.png", use_column_width='always')
 # Explainer
 # with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
 #     explainer = pickle.load(f)
