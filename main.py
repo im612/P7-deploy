@@ -23,7 +23,8 @@ exec(Path("main_backend.py").read_text(), globals())
 st.set_page_config(layout="wide", page_title="Tableau de bord crédit clients", page_icon="📂")
 
 st.header("Prêt à dépénser")
-st.title("Tableau de bord sur l'état des crédits aux clients")
+st.title("Tableau de bord")
+st.title("Détail sur l'état des crédits sollicités")
 
 
 urlname=st.secrets['config']['API_URL']
