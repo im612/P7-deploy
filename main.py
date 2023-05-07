@@ -124,6 +124,14 @@ access_id = st.secrets['AWS_ACCESS_KEY_ID']
 access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
 aws_bucket = 'p7-bucket'
 
+
+from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning
+import warnings
+
+warnings.simplefilter('ignore', category=NumbaDeprecationWarning)
+warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
+
+
 @st.cache_data(ttl=3600)
 def get_x():
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
