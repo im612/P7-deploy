@@ -41,6 +41,12 @@ indnames = objind['listindnames']
 id = st.selectbox("Saisir le code client :", [i for i in indnames])
 st.header(f'Code client: {str(int(id))}')
 
+st.divider()
+
+# # APPEL AUX ENDPOINTS
+# # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
+# # https://stackoverflow.com/questions/64057445/fast-api-post-does-not-recgonize-my-parameter
+
 q = {"id" : f"{id}"}
 qj = json.dumps(q)
 response = requests.post(url=f"{urlname}/probability", data=qj)
@@ -54,16 +60,31 @@ prob = objprob['probability']
 st.write(prob)
 
 # # #
-# response = requests.post(url=f"{urlname}/prediction", data=qj)
-# obj2 = response.json()
-# pred = obj2['prediction']
+response = requests.post(url=f"{urlname}/prediction", data=qj)
+obj2 = response.json()
+pred = obj2['prediction']
 # #
-# response = requests.post(url=f"{urlname}/seuil", data=qj)
-# obj3 = response.json()
-# seuil = obj3['seuil']
-# #
-# st.divider()
+response = requests.post(url=f"{urlname}/seuil", data=qj)
+obj3 = response.json()
+seuil = obj3['seuil']
 
+
+# Premiers indicateurs
+col1, col2, col3 = st.columns(3)
+# # col1, col3 = st.columns(2)
+col1.metric("Code client", "%d" % id)
+col2.metric("Prédiction", "%d" % pred )
+col3.metric("Probabilité de non solvabilité", "%.2f" % prob, "%.2f" % (seuil - prob))
+# #
+# # if pred < seuil:
+# #     st.header('Le crédit est accordé :+1:')
+# #     # https: // docs.streamlit.io / library / api - reference  # display-text
+# # else:
+# #     st.header('Le crédit est decliné :-1:')
+# # st.write('Le crédit est refusé car la probabilité de non solvabilité dépasse %.2f' % seuil)
+# # #
+
+st.divider()
 
 
 
@@ -82,9 +103,7 @@ st.write(prob)
 # # # # response = requests.post(url=f"http://86.214.128.9:8080/probability", data=qj)
 # objind = response.json()
 
-
 # st.write(objind, prob)
-
 
 # @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
 # def get_prob(qji):
@@ -95,13 +114,7 @@ st.write(prob)
 # response = get_prob(qj)
 # st.write(response)
 
-
 # prob = objind['probability']
-
-
-
-
-
 
 #
 # # APPEL AUX ENDPOINTS
@@ -122,20 +135,7 @@ st.write(prob)
 #
 
 
-# # ALLEGGERIMENTO 1
-# # # col1, col2, col3 = st.columns(3)
-# # col1, col3 = st.columns(2)
-# # col1.metric("Code client", "%d" % id)
-# # # col2.metric("Prédiction", "%d" % pred )
-# # col3.metric("Probabilité de non solvabilité", "%.2f" % prob, "%.2f" % (seuil - prob))
-# #
-# # if pred < seuil:
-# #     st.header('Le crédit est accordé :+1:')
-# #     # https: // docs.streamlit.io / library / api - reference  # display-text
-# # else:
-# #     st.header('Le crédit est decliné :-1:')
-# # st.write('Le crédit est refusé car la probabilité de non solvabilité dépasse %.2f' % seuil)
-# # #
+
 # # # Gauge chart
 # # # https://plotly.com/python/gauge-charts/
 # # # https://docs.streamlit.io/library/api-reference/charts/st.plotly_chart
