@@ -13,16 +13,16 @@ import os
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent
 
-access_id = os.environ['S3_KEY']
-access_key = os.environ['S3_SECRET']
-aws_bucket = 'p7-bucket'
+# access_id = os.environ['S3_KEY']
+# access_key = os.environ['S3_SECRET']
+# aws_bucket = 'p7-bucket'
 
 #
 # @st.cache_data(ttl=3600)
-def get_df():
-    global df # https://www.w3schools.com/python/python_variables_global.asp
-    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-                     storage_options={'key': access_id, 'secret': access_key})
+# def get_df():
+#     global df # https://www.w3schools.com/python/python_variables_global.asp
+#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+#                      storage_options={'key': access_id, 'secret': access_key})
 
 
 
