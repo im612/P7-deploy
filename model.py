@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent
 
 access_id = os.getenv('S3_KEY')
 access_key = os.getenv('S3_SECRET')
-# aws_bucket = 'p7-bucket'
+aws_bucket = 'p7-bucket'
 
 #
 # @st.cache_data(ttl=3600)
