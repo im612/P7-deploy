@@ -37,13 +37,13 @@ aws_bucket = 'p7-bucket'
 #
 @st.cache_data(ttl=3600)
 def get_df():
-    global df
+    global df # https://www.w3schools.com/python/python_variables_global.asp
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
                      storage_options={'key': access_id, 'secret': access_key})
     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
     return df
 
-get_df()
+df = get_df()
 st.write(df.shape)
 
 # df = get_df()
@@ -236,6 +236,8 @@ from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWa
 import warnings
 warnings.simplefilter('ignore', category=NumbaDeprecationWarning)
 warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
+# https://github.com/numba/numba/blob/4fd4e39c672d119b54a2276d170f270764d2bce7/docs/source/reference/deprecation.rst?plain=1
+
 
 # @st.cache_data(ttl=3600)
 # def sh_w_id(id_i):
