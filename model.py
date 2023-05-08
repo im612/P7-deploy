@@ -2,7 +2,6 @@
 # https://github.com/AssemblyAI-Examples/ml-fastapi-docker-heroku/
 
 import pickle
-from pathlib import Path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,15 +9,17 @@ from pathlib import Path
 # import streamlit as st
 # from pydantic import BaseModel
 from itertools import chain
+import os
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent
 
 
 def get_df():
     # Section liste numéros clients
-    access_id = st.secrets['AWS_ACCESS_KEY_ID']
-    access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
+    access_id = os.environ['S3_KEY']
+    access_key = os.environ['S3_SECRET']
     aws_bucket = 'p7-bucket'
+    global df
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
                      storage_options={'key': access_id, 'secret': access_key})
     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
@@ -28,7 +29,7 @@ def get_df():
 def load_indnames():
     df = get_df()
     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
-    del df
+    # del df
     merged = list(chain.from_iterable(indnames.tolist()))
     return merged
 
