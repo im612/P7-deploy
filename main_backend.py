@@ -10,6 +10,8 @@ import uvicorn
 # import gunicorn
 # import numpy as np
 
+import pandas as pd
+
 from model import load_indnames
 
 from model import get_probability_df
@@ -66,6 +68,27 @@ def col_names():
     val = load_colnames()
     # val = load_indnames()
     return {"listcolnames": val}
+
+
+access_id = os.environ['S3_KEY']
+access_key = os.environ['S3_SECRET']
+aws_bucket = 'p7-bucket'
+
+#
+
+def get_df():
+    global df # https://www.w3schools.com/python/python_variables_global.asp
+    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+                     storage_options={'key': access_id, 'secret': access_key})
+    return df
+
+
+df = get_df()
+print('server', df.shape)
+
+
+
+
 
 # if __name__ == "__main__":
 #     uvicorn.run("main:app", host="0.0.0.0", port=8080)

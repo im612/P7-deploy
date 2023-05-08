@@ -35,31 +35,30 @@ access_id = st.secrets['AWS_ACCESS_KEY_ID']
 access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
 aws_bucket = 'p7-bucket'
 #
-@st.cache_data(ttl=3600)
-def get_df():
-    global df # https://www.w3schools.com/python/python_variables_global.asp
-    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-                     storage_options={'key': access_id, 'secret': access_key})
-    # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
-    return df
-
-df = get_df()
-st.write(df.shape)
+# @st.cache_data(ttl=3600)
+# def get_df():
+#     global df # https://www.w3schools.com/python/python_variables_global.asp
+#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+#                      storage_options={'key': access_id, 'secret': access_key})
+#     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
+#     return df
+#
+# df = get_df()
+# st.write(df.shape)
 
 # df = get_df()
-st.write('ok df')
+# st.write('ok df')
 
 #
 # #
 # #
-# @st.cache_data(ttl=3600)
-# def load_indnames():
-#     df = get_df()
-#     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
-#     del df
-#     merged = list(chain.from_iterable(indnames.tolist()))
-#     return merged
-#
+@st.cache_data(ttl=3600)
+def load_indnames():
+    indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
+    del df
+    merged = list(chain.from_iterable(indnames.tolist()))
+    return merged
+
 #
 # # # importation des indnames
 # # # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
