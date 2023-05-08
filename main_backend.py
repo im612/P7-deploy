@@ -12,7 +12,7 @@ import uvicorn
 from model import get_probability_df
 from model import get_prediction
 from model import get_threshold
-from model import get_indnames, load_indnames, load_colnames
+from model import load_indnames, load_colnames
 
 # asyncronous models
 # https://asgi.readthedocs.io/en/latest/
