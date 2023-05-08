@@ -9,11 +9,12 @@ import plotly.graph_objects as go
 import pandas as pd
 import shap
 from streamlit_shap import st_shap
+from itertools import chain
 
 from pathlib import Path
-import sklearn
+# import sklearn
 # from requests_toolbelt.multipart.encoder import MultipartEncoder
-import os
+# import os
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent
 
@@ -29,20 +30,89 @@ st.subheader("Détail des crédits sollicités")
 urlname=st.secrets['API_URL']
 # urlname2=st.secrets['config']['API_URL2']
 
-# https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
-@st.cache_data(ttl=3600)  # 👈 Add the caching decorator
-def load_indnames():
-    indnames = requests.post(url=f"{urlname}/indnames")
-    # indnames = requests.post(url=f"{urlname2}/indnames")
-    return indnames
+# Section liste numéros clients
+access_id = st.secrets['AWS_ACCESS_KEY_ID']
+access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
+aws_bucket = 'p7-bucket'
 
-response = load_indnames()
-objind = response.json()
-indnames = objind['listindnames']
+@st.cache_data(ttl=3600)
+def get_df():
+    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+                     storage_options={'key': access_id, 'secret': access_key})
+    # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
+    return df
+
+
+@st.cache_data(ttl=3600)
+def load_indnames():
+    df = get_df()
+    indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
+    del df
+    merged = list(chain.from_iterable(indnames.tolist()))
+    return merged
+
+
+indnames = load_indnames()
 
 # # SELECTION NUMERO CLIENT
 id = st.selectbox("Saisir le code client :", [i for i in indnames])
 st.header(f'Code client: {str(int(id))}')
+
+stop
+#
+#
+# # 1 collaudato
+# # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
+# @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
+# def load_indnames():
+#     indnames = requests.post(url=f"{urlname}/indnames")
+#     # indnames = requests.post(url=f"{urlname2}/indnames")
+#     return indnames
+#
+# response = load_indnames()
+# objind = response.json()
+# indnames = objind['listindnames']
+#
+#
+#
+#
+#
+#
+# @st.cache_data(ttl=3600)
+# def get_x():
+#     df = get_df()
+#     colnames = requests.post(url=f"{urlname}/colnames")
+#     df = df.drop(columns=['SK_ID_CURR', 'TARGET'])
+#     X = pd.DataFrame(df, columns=colnames)
+#
+#     return X
+#
+#
+#
+#     X_w_id = pd.DataFrame(df, columns=colnames)
+#     return X_w_id
+
+
+# @st.cache_data(ttl=3600)
+# def get_x1():
+#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+#                      storage_options={'key': access_id, 'secret': access_key})
+#     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
+#     colnames = requests.post(url=f"{urlname}/colnames")
+#
+#     df = df.drop(columns=['TARGET'])
+#     X_w_id = pd.DataFrame(df, columns=colnames)
+#
+#     indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
+#     del test_df
+#     merged = list(chain.from_iterable(indnames.tolist()))
+#     return merged
+#
+#
+#     return X_w_id
+
+
+
 
 # # APPEL AUX ENDPOINTS
 # # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
@@ -120,29 +190,6 @@ st.image(f"{BASE_DIR}/globalshap2.png")
 
 st.header('Facteurs déterminants pour ce profil')
 
-access_id = st.secrets['AWS_ACCESS_KEY_ID']
-access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
-aws_bucket = 'p7-bucket'
-
-
-from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning
-import warnings
-
-warnings.simplefilter('ignore', category=NumbaDeprecationWarning)
-warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
-
-
-@st.cache_data(ttl=3600)
-def get_x():
-    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-                     storage_options={'key': access_id, 'secret': access_key})
-    # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
-    colnames = requests.post(url=f"{urlname}/colnames")
-
-    df = df.drop(columns=['TARGET'])
-    X_w_id = pd.DataFrame(df, columns=colnames)
-
-    return X_w_id
 
 @st.cache_data(ttl=3600)
 def get_explainer():
@@ -150,30 +197,36 @@ def get_explainer():
         explainer = pickle.load(f)
     return explainer
 
-@st.cache_data(ttl=3600)
-def sh_w_id(id_i):
-    X_w_id = get_x()
-    explainer = get_explainer()
 
-    id = int(id_i)
-    X_line = pd.DataFrame(X_w_id.loc[X['SK_ID_CURR'] == id])
-    X_line = X_line.drop(columns='SK_ID_CURR')
+from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning
+import warnings
+warnings.simplefilter('ignore', category=NumbaDeprecationWarning)
+warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
 
-    with st.spinner('Je récupère les facteurs déterminants...'):
-        # shap_values = explainer(X_line, check_additivity=False)
-        shap_values = explainer(X_line)
-    st.success('Fini ')
+# @st.cache_data(ttl=3600)
+# def sh_w_id(id_i):
+#     X_w_id = get_x()
+#     explainer = get_explainer()
+#
+#     id = int(id_i)
+#     X_line = pd.DataFrame(X_w_id.loc[X['SK_ID_CURR'] == id])
+#     X_line = X_line.drop(columns='SK_ID_CURR')
+#
+#     with st.spinner('Je récupère les facteurs déterminants...'):
+#         # shap_values = explainer(X_line, check_additivity=False)
+#         shap_values = explainer(X_line)
+#     st.success('Fini ')
+#
+#     return shap_values
 
-    return shap_values
 
-
-shap_values = sh_w_id(id)
-ind = indnames.tolist().index(id)
-
-st.header('Facteurs déterminants pour ce profil')
-# st_shap(shap.plots.waterfall(shap_values[ind]), height=800, width=2000)
-st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
-
+# shap_values = sh_w_id(id)
+# ind = indnames.tolist().index(id)
+#
+# st.header('Facteurs déterminants pour ce profil')
+# # st_shap(shap.plots.waterfall(shap_values[ind]), height=800, width=2000)
+# st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
+#
 
 # st.write(df.shape)
 
