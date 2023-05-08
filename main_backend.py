@@ -74,7 +74,6 @@ access_id = os.environ['S3_KEY']
 access_key = os.environ['S3_SECRET']
 aws_bucket = 'p7-bucket'
 
-#
 
 def get_df():
     global df # https://www.w3schools.com/python/python_variables_global.asp
