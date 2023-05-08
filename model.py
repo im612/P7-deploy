@@ -31,7 +31,7 @@ print(df.shape)
 
 
 def load_indnames():
-    # df = get_df()
+    df = get_df()
     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
     # del df
     merged = list(chain.from_iterable(indnames.tolist()))
