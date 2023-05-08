@@ -13,19 +13,11 @@ import os
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent
 
-access_id = os.getenv('S3_KEY')
-access_key = os.getenv('S3_SECRET')
-aws_bucket = 'p7-bucket'
-
-#
-# @st.cache_data(ttl=3600)
-# def get_df():
-#     global df # https://www.w3schools.com/python/python_variables_global.asp
-#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-#                      storage_options={'key': access_id, 'secret': access_key})
-
-# @st.cache_data(ttl=3600)
 def get_df():
+    access_id = os.getenv('S3_KEY')
+    access_key = os.getenv('S3_SECRET')
+    aws_bucket = 'p7-bucket'
+
     global df # https://www.w3schools.com/python/python_variables_global.asp
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
                      storage_options={'key': access_id, 'secret': access_key})
@@ -38,28 +30,8 @@ print(df.shape)
 
 
 
-
-def load_colnames():
-    global colnames
-    colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
-    return colnames
-
-def get_df():
-    colnames = load_colnames()
-
-    # Section liste numéros clients
-    access_id = os.environ['S3_KEY']
-    access_key = os.environ['S3_SECRET']
-    aws_bucket = 'p7-bucket'
-    global df
-    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",  storage_options={'key': access_id, 'secret': access_key})
-    # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
-    # https: // devcenter.heroku.com / articles / config - vars
-    return df
-
-
 def load_indnames():
-    df = get_df()
+    # df = get_df()
     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
     # del df
     merged = list(chain.from_iterable(indnames.tolist()))
@@ -86,6 +58,12 @@ def load_indnames():
 
 
 
+def load_colnames():
+    global colnames
+    colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
+    return colnames
+
+
 
 
 
@@ -93,25 +71,25 @@ def load_indnames():
 
 
 
-def load_testdf():
-    test_df = pd.read_csv(f"{BASE_DIR}/backend/test_split_orig2.csv")
-    colnames = load_colnames()
-    test_df = pd.DataFrame(test_df, columns=colnames)
-    del colnames
-    test_df['SK_ID_CURR'] = test_df['SK_ID_CURR'].astype(int)
-    return test_df
-
-
-
-
-def load_data():
-    colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
-    test_df = pd.read_csv(f"{BASE_DIR}/backend/test_split_orig2.csv")
-    test_df = pd.DataFrame(test_df, columns=colnames)
-    test_df['SK_ID_CURR'] = test_df['SK_ID_CURR'].astype(int)
-    indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
-
-    return colnames, test_df, indnames
+# def load_testdf():
+#     test_df = pd.read_csv(f"{BASE_DIR}/backend/test_split_orig2.csv")
+#     colnames = load_colnames()
+#     test_df = pd.DataFrame(test_df, columns=colnames)
+#     del colnames
+#     test_df['SK_ID_CURR'] = test_df['SK_ID_CURR'].astype(int)
+#     return test_df
+#
+#
+#
+#
+# def load_data():
+#     colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
+#     test_df = pd.read_csv(f"{BASE_DIR}/backend/test_split_orig2.csv")
+#     test_df = pd.DataFrame(test_df, columns=colnames)
+#     test_df['SK_ID_CURR'] = test_df['SK_ID_CURR'].astype(int)
+#     indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
+#
+#     return colnames, test_df, indnames
 
 #
 def load_x():
