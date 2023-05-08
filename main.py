@@ -52,12 +52,12 @@ aws_bucket = 'p7-bucket'
 #
 # #
 # #
-@st.cache_data(ttl=3600)
-def load_indnames():
-    indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
-    del df
-    merged = list(chain.from_iterable(indnames.tolist()))
-    return merged
+# @st.cache_data(ttl=3600)
+# def load_indnames():
+#     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
+#     del df
+#     merged = list(chain.from_iterable(indnames.tolist()))
+#     return merged
 
 #
 # # # importation des indnames
