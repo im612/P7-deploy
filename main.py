@@ -30,29 +30,42 @@ st.subheader("Détail des crédits sollicités")
 urlname=st.secrets['API_URL']
 # urlname2=st.secrets['config']['API_URL2']
 
-# Section liste numéros clients
-access_id = st.secrets['AWS_ACCESS_KEY_ID']
-access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
-aws_bucket = 'p7-bucket'
+# # Section liste numéros clients
+# access_id = st.secrets['AWS_ACCESS_KEY_ID']
+# access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
+# aws_bucket = 'p7-bucket'
+#
+# @st.cache_data(ttl=3600)
+# def get_df():
+#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+#                      storage_options={'key': access_id, 'secret': access_key})
+#     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
+#     return df
+#
+#
+# @st.cache_data(ttl=3600)
+# def load_indnames():
+#     df = get_df()
+#     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
+#     del df
+#     merged = list(chain.from_iterable(indnames.tolist()))
+#     return merged
+#
 
-@st.cache_data(ttl=3600)
-def get_df():
-    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-                     storage_options={'key': access_id, 'secret': access_key})
-    # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
-    return df
-
-
-@st.cache_data(ttl=3600)
+# # importation des indnames
+# # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
+@st.cache_data(ttl=3600)  # 👈 Add the caching decorator
 def load_indnames():
-    df = get_df()
-    indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
-    del df
-    merged = list(chain.from_iterable(indnames.tolist()))
-    return merged
+    indnames = requests.post(url=f"{urlname}/indnames")
+#     # indnames = requests.post(url=f"{urlname2}/indnames")
+    return indnames
 
 
-indnames = load_indnames()
+
+
+
+
+
 
 # # SELECTION NUMERO CLIENT
 id = st.selectbox("Saisir le code client :", [i for i in indnames])
@@ -61,13 +74,7 @@ st.header(f'Code client: {str(int(id))}')
 stop
 #
 #
-# # 1 collaudato
-# # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
-# @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
-# def load_indnames():
-#     indnames = requests.post(url=f"{urlname}/indnames")
-#     # indnames = requests.post(url=f"{urlname2}/indnames")
-#     return indnames
+
 #
 # response = load_indnames()
 # objind = response.json()

@@ -13,6 +13,49 @@ from itertools import chain
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent
 
+
+def get_df():
+    # Section liste numéros clients
+    access_id = st.secrets['AWS_ACCESS_KEY_ID']
+    access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
+    aws_bucket = 'p7-bucket'
+    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+                     storage_options={'key': access_id, 'secret': access_key})
+    # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
+    return df
+
+
+def load_indnames():
+    df = get_df()
+    indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
+    del df
+    merged = list(chain.from_iterable(indnames.tolist()))
+    return merged
+
+#
+#
+# def load_indnames():
+#     test_df = load_testdf()
+#     indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
+#     del test_df
+#     merged = list(chain.from_iterable(indnames.tolist()))
+#     return merged
+#
+#
+# def get_indnames():
+#     colnames, test_df, indnames = load_data()
+#     del colnames
+#     del test_df
+#     # >>> list2d = [[1,2,3], [4,5,6], [7], [8,9]]
+#     merged = list(chain.from_iterable(indnames.tolist()))
+#     return merged
+
+
+
+
+
+
+
 #
 def load_colnames():
     colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
@@ -28,12 +71,7 @@ def load_testdf():
     return test_df
 
 
-def load_indnames():
-    test_df = load_testdf()
-    indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
-    del test_df
-    merged = list(chain.from_iterable(indnames.tolist()))
-    return merged
+
 
 def load_data():
     colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
@@ -44,13 +82,6 @@ def load_data():
 
     return colnames, test_df, indnames
 
-def get_indnames():
-    colnames, test_df, indnames = load_data()
-    del colnames
-    del test_df
-    # >>> list2d = [[1,2,3], [4,5,6], [7], [8,9]]
-    merged = list(chain.from_iterable(indnames.tolist()))
-    return merged
 #
 def load_x():
     test_df = load_testdf()
