@@ -93,8 +93,8 @@ st.write('ok df')
 
 
 # # SELECTION NUMERO CLIENT
-id = st.selectbox("Saisir le code client :", [i for i in indnames])
-st.header(f'Code client: {str(int(id))}')
+# id = st.selectbox("Saisir le code client :", [i for i in indnames])
+# st.header(f'Code client: {str(int(id))}')
 
 stop
 #
