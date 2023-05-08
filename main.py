@@ -43,7 +43,10 @@ def get_df():
     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
     return df
 
-df = get_df()
+get_df()
+st.write(df.shape)
+
+# df = get_df()
 st.write('ok df')
 
 #
