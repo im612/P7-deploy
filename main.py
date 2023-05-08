@@ -37,6 +37,7 @@ aws_bucket = 'p7-bucket'
 #
 @st.cache_data(ttl=3600)
 def get_df():
+    global df
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
                      storage_options={'key': access_id, 'secret': access_key})
     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
