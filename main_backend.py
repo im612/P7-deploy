@@ -9,10 +9,13 @@ from pydantic import BaseModel
 import uvicorn
 # import gunicorn
 # import numpy as np
+
+from model import load_indnames
+
 from model import get_probability_df
 from model import get_prediction
 from model import get_threshold
-from model import load_indnames, load_colnames
+from model import load_colnames
 
 # asyncronous models
 # https://asgi.readthedocs.io/en/latest/
@@ -34,6 +37,13 @@ class Id(BaseModel):
 def home():
     return {"health_check": "OK"}
 
+@app.post("/indnames")
+def ind_names():
+    # val = get_indnames()
+    val = load_indnames()
+    return {"listindnames": val}
+
+
 @app.post("/probability")
 def pred_prob(iddata: Id):
     proba = float(get_probability_df(int(iddata.id)))
@@ -49,11 +59,7 @@ def prediction(iddata: Id):
     val = float(get_threshold())
     return {"seuil": val}
 
-@app.post("/indnames")
-def ind_names():
-    val = get_indnames()
-    # val = load_indnames()
-    return {"listindnames": val}
+
 
 @app.post("/colnames")
 def col_names():
