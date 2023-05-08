@@ -31,26 +31,28 @@ urlname=st.secrets['API_URL']
 # urlname2=st.secrets['config']['API_URL2']
 
 # # Section liste numéros clients
-# access_id = st.secrets['AWS_ACCESS_KEY_ID']
-# access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
-# aws_bucket = 'p7-bucket'
+access_id = st.secrets['AWS_ACCESS_KEY_ID']
+access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
+aws_bucket = 'p7-bucket'
 #
-# @st.cache_data(ttl=3600)
-# def get_df():
-#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-#                      storage_options={'key': access_id, 'secret': access_key})
-#     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
-#     return df
+@st.cache_data(ttl=3600)
+def get_df():
+    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+                     storage_options={'key': access_id, 'secret': access_key})
+    # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
+    return df
+
+
 #
 #
-# @st.cache_data(ttl=3600)
-# def load_indnames():
-#     df = get_df()
-#     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
-#     del df
-#     merged = list(chain.from_iterable(indnames.tolist()))
-#     return merged
-#
+@st.cache_data(ttl=3600)
+def load_indnames():
+    df = get_df()
+    indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
+    del df
+    merged = list(chain.from_iterable(indnames.tolist()))
+    return merged
+
 
 # # importation des indnames
 # # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration

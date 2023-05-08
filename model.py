@@ -14,15 +14,22 @@ import os
 BASE_DIR = Path(__file__).resolve(strict=True).parent
 
 
+def load_colnames():
+    global colnames
+    colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
+    return colnames
+
 def get_df():
+    colnames = load_colnames()
+
     # Section liste numéros clients
     access_id = os.environ['S3_KEY']
     access_key = os.environ['S3_SECRET']
     aws_bucket = 'p7-bucket'
     global df
-    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-                     storage_options={'key': access_id, 'secret': access_key})
+    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",  storage_options={'key': access_id, 'secret': access_key})
     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
+    # https: // devcenter.heroku.com / articles / config - vars
     return df
 
 
@@ -58,9 +65,7 @@ def load_indnames():
 
 
 #
-def load_colnames():
-    colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
-    return colnames
+
 
 
 def load_testdf():
