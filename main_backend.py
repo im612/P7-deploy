@@ -70,20 +70,20 @@ def col_names():
     return {"listcolnames": val}
 
 
-# access_id = os.environ['S3_KEY']
-# access_key = os.environ['S3_SECRET']
-# aws_bucket = 'p7-bucket'
-#
-#
-# def get_df():
-#     global df # https://www.w3schools.com/python/python_variables_global.asp
-#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-#                      storage_options={'key': access_id, 'secret': access_key})
-#     return df
-#
-#
-# df = get_df()
-# print('server', df.shape)
+access_id = os.environ['S3_KEY']
+access_key = os.environ['S3_SECRET']
+aws_bucket = 'p7-bucket'
+
+
+def get_df():
+    global df # https://www.w3schools.com/python/python_variables_global.asp
+    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+                     storage_options={'key': access_id, 'secret': access_key})
+    return df
+
+
+df = get_df()
+print('server', df.shape)
 #
 
 
