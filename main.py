@@ -73,7 +73,7 @@ st.header(f'Code client: {str(int(id))}')
 def load_indnames2():
     response = requests.post(url=f"{urlname}/indnames")
 #     # indnames = requests.post(url=f"{urlname2}/indnames")
-    response = load_indnames()
+#     response = load_indnames()
     objind = response.json()
     indnames = objind['listindnames']
     return indnames
