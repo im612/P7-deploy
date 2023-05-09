@@ -20,7 +20,7 @@ aws_bucket = 'p7-bucket'
 
 import s3fs
 def get_df():
-    s3 = s3fs.S3FileSystem(storage_options={'key': access_id, 'secret': access_key})
+    s3 = s3fs.S3FileSystem(key=access_id, secret=access_key)
     with s3.open(f"{aws_bucket}/test_split_orig.csv", 'rb') as f:
         df = pd.read_csv(g)
     return df

@@ -59,7 +59,7 @@ urlname=st.secrets['API_URL']
 # indnames = load_indnames()
 
 # blocco che non funziona con l'importazione da s3 direttamente con pandas
-# funziona con s3fs
+# funziona con s3fs?
 # # # importation des indnames
 # # # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
 @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
