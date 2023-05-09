@@ -18,45 +18,55 @@ access_key = os.getenv('S3_SECRET')
 aws_bucket = 'p7-bucket'
 
 # non funziona 2 - inizio
-# import s3fs
-# def get_df():
-#     s3 = s3fs.S3FileSystem(key=access_id, secret=access_key)
-#     with s3.open(f"{aws_bucket}/test_split_orig.csv", 'rb') as f:
-#         df = pd.read_csv(g)
-#     return df
+import s3fs
+def get_df():
+    s3 = s3fs.S3FileSystem(key=access_id, secret=access_key)
+    s3.get_file(f"{aws_bucket}/test_split_orig.csv")
+    df = pd.read_csv(f'{BASE_DIR}/test_split_orig.csv')
+    return df
+
+def load_indnames():
+    df = get_df()
+#     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
+# #     # del df
+#     merged = list(chain.from_iterable(indnames.tolist()))
+    merged = df.shape[0]
+    return merged
+
+
 # non funziona 2 - fine
 #
 
 # 1. IMPORT FILE from an s3 bucket
 # https://www.youtube.com/watch?v=mNwO_z6faAw
 # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
-aws_bucket = 'p7-bucket'
-import boto3
-session = boto3.Session(aws_access_key_id=access_id, aws_secret_access_key=access_key)
-
-
-def download_aws(aws_filename, local_filename, session, bucket_name=aws_bucket):
-    s3 = session.resource('s3')
-    s3.Bucket(bucket_name).download_file(aws_filename, local_filename,)
-    print("Download Successful!")
-    return True
-
-my_file = Path(f"{BASE_DIR}/test_split_orig_S3.csv")
-if not my_file.is_file():
-    download_aws('test_split_orig.csv', 'test_split_orig_S3.csv', session)
-    df = pd.read_csv(my_file)
-#     # https: // stackoverflow.com / questions / 82831 / how - do - i - check - whether - a - file - exists - without - exceptions
-
-def get_df():
-    df = pd.read_csv(my_file)
-    return df
-
-def load_indnames():
-    df = get_df()
-    indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
-#     # del df
-    merged = list(chain.from_iterable(indnames.tolist()))
-    return merged
+# aws_bucket = 'p7-bucket'
+# import boto3
+# session = boto3.Session(aws_access_key_id=access_id, aws_secret_access_key=access_key)
+#
+#
+# def download_aws(aws_filename, local_filename, session, bucket_name=aws_bucket):
+#     s3 = session.resource('s3')
+#     s3.Bucket(bucket_name).download_file(aws_filename, local_filename,)
+#     print("Download Successful!")
+#     return True
+#
+# my_file = Path(f"{BASE_DIR}/test_split_orig_S3.csv")
+# if not my_file.is_file():
+#     download_aws('test_split_orig.csv', 'test_split_orig_S3.csv', session)
+#     df = pd.read_csv(my_file)
+# #     # https: // stackoverflow.com / questions / 82831 / how - do - i - check - whether - a - file - exists - without - exceptions
+#
+# def get_df():
+#     df = pd.read_csv(my_file)
+#     return df
+#
+# def load_indnames():
+#     df = get_df()
+#     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
+# #     # del df
+#     merged = list(chain.from_iterable(indnames.tolist()))
+#     return merged
 
 
 
