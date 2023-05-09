@@ -10,6 +10,7 @@ from pathlib import Path
 # from pydantic import BaseModel
 from itertools import chain
 import os
+import s3fs
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent
 
@@ -18,7 +19,7 @@ access_key = os.getenv('S3_SECRET')
 aws_bucket = 'p7-bucket'
 
 def get_df():
-    global df # https://www.w3schools.com/python/python_variables_global.asp
+    # global df # https://www.w3schools.com/python/python_variables_global.asp
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
                      storage_options={'key': access_id, 'secret': access_key})
     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
