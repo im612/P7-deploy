@@ -16,5 +16,6 @@ scikit-learn==1.1.1
 streamlit==1.22
 streamlit-shap==1.0.2
 plotly
+boto3
 s3fs # https://s3fs.readthedocs.io/en/latest/index.html
 # inizialmente https://docs.streamlit.io/knowledge-base/tutorials/databases/aws-s3
