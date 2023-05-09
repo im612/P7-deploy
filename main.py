@@ -69,8 +69,9 @@ def load_indnames():
     return indnames
 #
 response = load_indnames()
-objind = response.json()
-indnames = objind['listindnames']
+st.write(response)
+# objind = response.json()
+# indnames = objind['listindnames']
 
 
 
