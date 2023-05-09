@@ -68,17 +68,17 @@ def load_indnames():
 #     # indnames = requests.post(url=f"{urlname2}/indnames")
     return indnames
 
-# response = load_indnames()
-# objind = response.json()
-# indnames = objind['listindnames']
+response = load_indnames()
+objind = response.json()
+indnames = objind['listindnames']
 
 
 
 # st.write(indnames)
 #
 # # # SELECTION NUMERO CLIENT
-# id = st.selectbox("Saisir le code client :", [i for i in indnames])
-# st.header(f'Code client: {str(int(id))}')
+id = st.selectbox("Saisir le code client :", [i for i in indnames])
+st.header(f'Code client: {str(int(id))}')
 #
 # @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
 # def load_indnames2():
