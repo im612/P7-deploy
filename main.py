@@ -64,13 +64,14 @@ del indnames # nous n'en avons plus besoin
 # # APPEL AUX ENDPOINTS
 # # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
 # # https://stackoverflow.com/questions/64057445/fast-api-post-does-not-recgonize-my-parameter
-
+exit()
 q = {"id" : f"{id}"}
 qj = json.dumps(q)
 response = requests.post(url=f"{urlname}/probability", data=qj)
 # st.write(response)
 objprob = response.json()
 prob = objprob['probability']
+exit()
 
 response = requests.post(url=f"{urlname}/prediction", data=qj)
 obj2 = response.json()
