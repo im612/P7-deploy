@@ -149,7 +149,7 @@ def load_indnames():
 #     indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
 #
 #     return colnames, test_df, indnames
-
+exit()
 #
 def load_x():
     test_df = load_testdf()
