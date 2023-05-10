@@ -7,10 +7,10 @@ from pydantic import BaseModel
 
 # https://fastapi.tiangolo.com/tutorial/security/first-steps/
 
-from typing import Annotated
-
-from fastapi import Depends
-from fastapi.security import OAuth2PasswordBearer
+# from typing import Annotated
+#
+# from fastapi import Depends
+# from fastapi.security import OAuth2PasswordBearer
 
 app = FastAPI()
 

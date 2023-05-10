@@ -1,8 +1,8 @@
-web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app
+#web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app
 #web: gunicorn main_backend:app
 #web: uvicorn main_backend:app
 
-#web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main_backend:app
+web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main_backend:app
 # Gunicorn with Uvicorn workers
 # consiglio su SO: https://stackoverflow.com/questions/59391560/how-to-run-uvicorn-in-heroku
 
