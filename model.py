@@ -35,10 +35,10 @@ def get_df():
 
 def load_indnames():
     df = get_df()
-#     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
+    indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
 # #     # del df
-#     merged = list(chain.from_iterable(indnames.tolist()))
-    merged = df.shape[0]
+    merged = list(chain.from_iterable(indnames.tolist()))
+    # merged = df.shape[0]
     return merged
 
 
