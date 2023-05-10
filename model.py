@@ -18,17 +18,25 @@ access_key = os.getenv('S3_SECRET')
 aws_bucket = 'p7-bucket'
 
 # non funziona 2 - inizio
-import s3fs
-def get_df2():
-    s3 = s3fs.S3FileSystem(key=access_id, secret=access_key)
-    s3.get_file(f"{aws_bucket}/test_split_orig.csv", f"{BASE_DIR}/test_split_orig.csv")
-    df = pd.read_csv(f'{BASE_DIR}/test_split_orig.csv')
-    return df
+# import s3fs
+# def get_df2():
+#     s3 = s3fs.S3FileSystem(key=access_id, secret=access_key)
+#     s3.get_file(f"{aws_bucket}/test_split_orig.csv", f"{BASE_DIR}/test_split_orig.csv")
+#     df = pd.read_csv(f'{BASE_DIR}/test_split_orig.csv')
+#     return df
+
+def load_colnames():
+    global colnames
+    colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
+    return colnames
+
 
 def get_df():
-    # global df # https://www.w3schools.com/python/python_variables_global.asp
+    global df # https://www.w3schools.com/python/python_variables_global.asp
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
                      storage_options={'key': access_id, 'secret': access_key})
+
+
 #     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
     return df
 
@@ -114,10 +122,7 @@ def load_indnames():
 #     merged = list(chain.from_iterable(indnames.tolist()))
 #     return merged
 
-def load_colnames():
-    global colnames
-    colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
-    return colnames
+
 
 # def load_testdf():
 #     test_df = pd.read_csv(f"{BASE_DIR}/backend/test_split_orig2.csv")

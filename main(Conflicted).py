@@ -38,38 +38,14 @@ urlname=st.secrets['API_URL']
 # access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
 # aws_bucket = 'p7-bucket'
 # #
-
-@st.cache_data(ttl=3600)
-def get_colnames():
-    colnames = requests.post(url=f"{urlname}/colnames")
-    return colnames
-
-# access_id = st.secrets['AWS_ACCESS_KEY_ID']
-# access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
-# aws_bucket = 'p7-bucket'
-#
 # @st.cache_data(ttl=3600)
 # def get_df():
 #     global df # https://www.w3schools.com/python/python_variables_global.asp
 #     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
 #                      storage_options={'key': access_id, 'secret': access_key})
-#
-#     colnames = requests.post(url=f"{urlname}/colnames")
-#     keeep_col = colnames + ['SK_ID_CURR', 'TARGET']
-#     #     df = df.drop(columns=['SK_ID_CURR', 'TARGET'])
-#         X = pd.DataFrame(df, columns=colnames)
 #     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
 #     return df
 #
-
-# @st.cache_data(ttl=3600)
-# def get_x():
-#     df = get_df()
-#     colnames = requests.post(url=f"{urlname}/colnames")
-#     df = df.drop(columns=['SK_ID_CURR', 'TARGET'])
-#     X = pd.DataFrame(df, columns=colnames)
-#
-#     return X
 # df = get_df()
 # st.write(df.shape)
 #
@@ -88,8 +64,7 @@ def get_colnames():
 # # # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
 @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
 def load_indnames():
-    # indnames = requests.post(url=f"{urlname}/indnames")
-    response = requests.post(url=f"{urlname}/indnames")
+    indnames = requests.post(url=f"{urlname}/indnames")
 # #     # indnames = requests.post(url=f"{urlname2}/indnames")
     objind = response.json()
     indnames = objind['listindnames']
@@ -106,8 +81,6 @@ indnames = load_indnames()
 # # # SELECTION NUMERO CLIENT
 id = st.selectbox("Saisir le code client :", [i for i in indnames])
 st.header(f'Code client: {str(int(id))}')
-
-del indnames
 #
 # @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
 # def load_indnames2():
