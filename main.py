@@ -88,18 +88,18 @@ def get_colnames():
 # # # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
 @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
 def load_indnames():
-    # indnames = requests.post(url=f"{urlname}/indnames")
-    response = requests.post(url=f"{urlname}/indnames")
-# #     # indnames = requests.post(url=f"{urlname2}/indnames")
-    objind = response.json()
-    indnames = objind['listindnames']
+    indnames = requests.post(url=f"{urlname}/indnames")
+#     response = requests.post(url=f"{urlname}/indnames")
+# # #     # indnames = requests.post(url=f"{urlname2}/indnames")
+#     objind = response.json()
+#     indnames = objind['listindnames']
     return indnames
 #
-# response = load_indnames()
+response = load_indnames()
 # st.write(response)
-# objind = response.json()
-# indnames = objind['listindnames']
-indnames = load_indnames()
+objind = response.json()
+indnames = objind['listindnames']
+# indnames = load_indnames()
 # st.write(indnames)
 
 #

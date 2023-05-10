@@ -30,14 +30,20 @@ def load_colnames():
     colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
     return colnames
 
-
-def get_df():
+def get_df_2SC():
     global df # https://www.w3schools.com/python/python_variables_global.asp
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
                      storage_options={'key': access_id, 'secret': access_key})
+    return df
 
 
-#     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
+def get_df():
+    global df  # https://www.w3schools.com/python/python_variables_global.asp
+    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+                     storage_options={'key': access_id, 'secret': access_key})
+    colnames = load_colnames()
+    keep_col = colnames + ['SK_ID_CURR', 'TARGET']
+    df = pd.DataFrame(df, columns=keep_col)
     return df
 
 
