@@ -36,6 +36,7 @@ def get_colnames():
 
 # # # importation des indnames
 # # # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
+# Without caching the function is recalled at each run and
 # @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
 def load_indnames():
     response = requests.post(url=f"{urlname}/indnames")
@@ -51,77 +52,7 @@ st.write(len(indnames))
 id = st.selectbox("Saisir le code client :", [i for i in indnames])
 st.header(f'Code client: {str(int(id))}')
 
-del indnames
-#
-# @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
-# def load_indnames2():
-#     response = requests.post(url=f"{urlname}/indnames")
-# #     # indnames = requests.post(url=f"{urlname2}/indnames")
-# #     response = load_indnames()
-#     objind = response.json()
-#     indnames = objind['listindnames']
-#     return indnames
-#
-# indnames = load_indnames2()
-
-# # # SELECTION NUMERO CLIENT
-# id = st.selectbox("Saisir le code client :", [i for i in indnames])
-# st.header(f'Code client: {str(int(id))}')
-
-
-
-
-# # SELECTION NUMERO CLIENT
-# id = st.selectbox("Saisir le code client :", [i for i in indnames])
-# st.header(f'Code client: {str(int(id))}')
-
-exit()
-#
-#
-
-#
-
-#
-#
-#
-#
-#
-#
-# @st.cache_data(ttl=3600)
-# def get_x():
-#     df = get_df()
-#     colnames = requests.post(url=f"{urlname}/colnames")
-#     df = df.drop(columns=['SK_ID_CURR', 'TARGET'])
-#     X = pd.DataFrame(df, columns=colnames)
-#
-#     return X
-#
-#
-#
-#     X_w_id = pd.DataFrame(df, columns=colnames)
-#     return X_w_id
-
-
-# @st.cache_data(ttl=3600)
-# def get_x1():
-#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-#                      storage_options={'key': access_id, 'secret': access_key})
-#     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
-#     colnames = requests.post(url=f"{urlname}/colnames")
-#
-#     df = df.drop(columns=['TARGET'])
-#     X_w_id = pd.DataFrame(df, columns=colnames)
-#
-#     indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
-#     del test_df
-#     merged = list(chain.from_iterable(indnames.tolist()))
-#     return merged
-#
-#
-#     return X_w_id
-
-
-
+del indnames # nous n'en avons plus besoin
 
 # # APPEL AUX ENDPOINTS
 # # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
@@ -132,7 +63,6 @@ qj = json.dumps(q)
 response = requests.post(url=f"{urlname}/probability", data=qj)
 # st.write(response)
 objprob = response.json()
-# ok
 prob = objprob['probability']
 
 response = requests.post(url=f"{urlname}/prediction", data=qj)
@@ -171,6 +101,8 @@ else:
     st.header('Le crédit est decliné :-1:')
 st.write('Le crédit est refusé si la probabilité de non solvabilité dépasse %.2f' % seuil)
 
+
+exit()
 # Gauge chart
 # https://plotly.com/python/gauge-charts/
 # https://docs.streamlit.io/library/api-reference/charts/st.plotly_chart
@@ -421,5 +353,80 @@ warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
 # fireto = '0.0.0.0'
 # # fireto = 'backend'
 #
+
+
+
+
+
+
+
+
+#
+# @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
+# def load_indnames2():
+#     response = requests.post(url=f"{urlname}/indnames")
+# #     # indnames = requests.post(url=f"{urlname2}/indnames")
+# #     response = load_indnames()
+#     objind = response.json()
+#     indnames = objind['listindnames']
+#     return indnames
+#
+# indnames = load_indnames2()
+
+# # # SELECTION NUMERO CLIENT
+# id = st.selectbox("Saisir le code client :", [i for i in indnames])
+# st.header(f'Code client: {str(int(id))}')
+
+
+
+
+# # SELECTION NUMERO CLIENT
+# id = st.selectbox("Saisir le code client :", [i for i in indnames])
+# st.header(f'Code client: {str(int(id))}')
+
+exit()
+#
+#
+
+#
+
+#
+#
+#
+#
+#
+#
+# @st.cache_data(ttl=3600)
+# def get_x():
+#     df = get_df()
+#     colnames = requests.post(url=f"{urlname}/colnames")
+#     df = df.drop(columns=['SK_ID_CURR', 'TARGET'])
+#     X = pd.DataFrame(df, columns=colnames)
+#
+#     return X
+#
+#
+#
+#     X_w_id = pd.DataFrame(df, columns=colnames)
+#     return X_w_id
+
+
+# @st.cache_data(ttl=3600)
+# def get_x1():
+#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+#                      storage_options={'key': access_id, 'secret': access_key})
+#     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
+#     colnames = requests.post(url=f"{urlname}/colnames")
+#
+#     df = df.drop(columns=['TARGET'])
+#     X_w_id = pd.DataFrame(df, columns=colnames)
+#
+#     indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
+#     del test_df
+#     merged = list(chain.from_iterable(indnames.tolist()))
+#     return merged
+#
+#
+#     return X_w_id
 
 

@@ -32,8 +32,6 @@ app = FastAPI()
 class Id(BaseModel):
     id: str
 
-# class Id(BaseModel):
-#     id: str
 
 @app.get("/")
 def home():
@@ -41,7 +39,6 @@ def home():
 
 @app.post("/indnames")
 def ind_names():
-    # val = get_indnames()
     val = load_indnames()
     return {"listindnames": val}
 
@@ -67,35 +64,12 @@ def prediction(iddata: Id):
 @app.post("/colnames")
 def col_names():
     val = load_colnames()
-    # val = load_indnames()
     return {"listcolnames": val}
-
-
-# access_id = os.environ['S3_KEY']
-# access_key = os.environ['S3_SECRET']
-# aws_bucket = 'p7-bucket'
-#
-#
-# def get_df():
-#     global df # https://www.w3schools.com/python/python_variables_global.asp
-#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-#                      storage_options={'key': access_id, 'secret': access_key})
-#     return df
-#
-#
-# df = get_df()
-# print('server', df.shape)
-#
-
-
-
 
 # if __name__ == "__main__":
 #     uvicorn.run("main:app", host="0.0.0.0", port=8080)
 #     uvicorn.run("main:app-1container-nonfunziona", host="backend", port=8080)
-    # gunicorn.run("main:app-1container-nonfunziona", host="0.0.0.0", port=8080)
 
-# print(os.system("""host "0.0.0.0" """))
 
 # This is our server. FastAPI creates two endpoints, one dummy ("/") and
 # one for serving our prediction ("/{style}"). The serving endpoint takes in a name as a URL parameter.
