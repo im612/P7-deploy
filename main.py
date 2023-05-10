@@ -70,12 +70,10 @@ def load_indnames():
 #
 response = load_indnames()
 st.write(response)
-# objind = response.json()
-# indnames = objind['listindnames']
+objind = response.json()
+indnames = objind['listindnames']
+st.write(indnames)
 
-
-
-# st.write(indnames)
 #
 # # # SELECTION NUMERO CLIENT
 # id = st.selectbox("Saisir le code client :", [i for i in indnames])
