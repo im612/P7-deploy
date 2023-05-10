@@ -66,13 +66,16 @@ urlname=st.secrets['API_URL']
 def load_indnames():
     indnames = requests.post(url=f"{urlname}/indnames")
 # #     # indnames = requests.post(url=f"{urlname2}/indnames")
+    objind = response.json()
+    indnames = objind['listindnames']
     return indnames
 #
-response = load_indnames()
-st.write(response)
-objind = response.json()
-indnames = objind['listindnames']
-st.write(indnames)
+# response = load_indnames()
+# st.write(response)
+# objind = response.json()
+# indnames = objind['listindnames']
+indnames = load_indnames()
+# st.write(indnames)
 
 #
 # # # SELECTION NUMERO CLIENT
