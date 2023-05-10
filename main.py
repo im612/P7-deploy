@@ -6,7 +6,7 @@ import pickle
 import json
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
-# import pandas as pd
+import pandas as pd
 # import shap
 # from streamlit_shap import st_shap
 # from itertools import chain
@@ -51,6 +51,7 @@ def load_indnames():
     indnames = objind['listindnames']
     return indnames
 
+
 indnames = load_indnames()
 st.write(len(indnames))
 
@@ -65,6 +66,8 @@ del indnames # nous n'en avons plus besoin
 # # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
 # # https://stackoverflow.com/questions/64057445/fast-api-post-does-not-recgonize-my-parameter
 exit()
+
+
 q = {"id" : f"{id}"}
 qj = json.dumps(q)
 response = requests.post(url=f"{urlname}/probability", data=qj)
