@@ -30,14 +30,14 @@ def load_colnames():
     colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
     return colnames
 
+# def get_df():
+#     global df # https://www.w3schools.com/python/python_variables_global.asp
+#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+#                      storage_options={'key': access_id, 'secret': access_key})
+#     return df
+
+
 def get_df():
-    global df # https://www.w3schools.com/python/python_variables_global.asp
-    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-                     storage_options={'key': access_id, 'secret': access_key})
-    return df
-
-
-def get_dfp():
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv", nrows=10000,
                      storage_options={'key': access_id, 'secret': access_key})
     colnames = load_colnames()
@@ -47,7 +47,7 @@ def get_dfp():
 
 
 def load_indnames():
-    df = get_dfp()
+    df = get_df()
     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
 # #     # del df
     merged = list(chain.from_iterable(indnames.tolist()))
