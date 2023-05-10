@@ -51,7 +51,7 @@ urlname=st.secrets['API_URL']
 #
 # @st.cache_data(ttl=3600)
 # def load_indnames():
-#     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
+    # indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
 #     # del df
 #     merged = list(chain.from_iterable(indnames.tolist()))
 #     return merged
@@ -76,8 +76,8 @@ st.write(indnames)
 
 #
 # # # SELECTION NUMERO CLIENT
-# id = st.selectbox("Saisir le code client :", [i for i in indnames])
-# st.header(f'Code client: {str(int(id))}')
+id = st.selectbox("Saisir le code client :", [i for i in indnames])
+st.header(f'Code client: {str(int(id))}')
 #
 # @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
 # def load_indnames2():
