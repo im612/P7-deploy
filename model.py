@@ -21,7 +21,7 @@ aws_bucket = 'p7-bucket'
 import s3fs
 def get_df():
     s3 = s3fs.S3FileSystem(key=access_id, secret=access_key)
-    s3.get_file(f"{aws_bucket}/test_split_orig.csv")
+    s3.get_file(f"{aws_bucket}/test_split_orig.csv", f"{BASE_DIR}/test_split_orig.csv")
     df = pd.read_csv(f'{BASE_DIR}/test_split_orig.csv')
     return df
 
