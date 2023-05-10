@@ -1,4 +1,4 @@
-web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app
+web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app --log-config=log_conf.yaml
 # web: gunicorn main_backend:app
 # web: uvicorn main_backend:app
 
