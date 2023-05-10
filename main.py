@@ -6,10 +6,10 @@ import pickle
 import json
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
-import pandas as pd
-import shap
-from streamlit_shap import st_shap
-from itertools import chain
+# import pandas as pd
+# import shap
+# from streamlit_shap import st_shap
+# from itertools import chain
 
 from pathlib import Path
 # import sklearn
