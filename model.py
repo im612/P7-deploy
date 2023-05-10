@@ -47,7 +47,7 @@ def get_dfp():
 
 
 def load_indnames():
-    df = get_df()
+    df = get_dfp()
     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
 # #     # del df
     merged = list(chain.from_iterable(indnames.tolist()))
