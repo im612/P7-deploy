@@ -16,6 +16,13 @@ from pathlib import Path
 # from requests_toolbelt.multipart.encoder import MultipartEncoder
 # import os
 
+from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning
+import warnings
+warnings.simplefilter('ignore', category=NumbaDeprecationWarning)
+warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
+# https://github.com/numba/numba/blob/4fd4e39c672d119b54a2276d170f270764d2bce7/docs/source/reference/deprecation.rst?plain=1
+
+
 BASE_DIR = Path(__file__).resolve(strict=True).parent
 
 exec(Path("main_backend.py").read_text(), globals())
@@ -139,11 +146,6 @@ def get_explainer():
     return explainer
 
 
-from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning
-import warnings
-warnings.simplefilter('ignore', category=NumbaDeprecationWarning)
-warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
-# https://github.com/numba/numba/blob/4fd4e39c672d119b54a2276d170f270764d2bce7/docs/source/reference/deprecation.rst?plain=1
 
 
 # @st.cache_data(ttl=3600)
