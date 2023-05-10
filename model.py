@@ -40,10 +40,10 @@ def load_colnames():
 def get_df():
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv", nrows=10000,
                      storage_options={'key': access_id, 'secret': access_key})
-    colnames = load_colnames()
+    # colnames = load_colnames()
     # keep_col = colnames + ['SK_ID_CURR', 'TARGET']
-    keep_col = colnames + ['TARGET']
-    df = pd.DataFrame(df, columns=keep_col)
+    # keep_col = colnames + ['TARGET']
+    # df = pd.DataFrame(df, columns=keep_col)
     return df
 
 
