@@ -100,7 +100,7 @@ def load_indnames():
 # objind = response.json()
 # indnames = objind['listindnames']
 indnames = load_indnames()
-# st.write(indnames)
+st.write(len(indnames))
 
 #
 # # # SELECTION NUMERO CLIENT
