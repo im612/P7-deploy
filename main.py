@@ -71,7 +71,7 @@ response = requests.post(url=f"{urlname}/probability", data=qj)
 # st.write(response)
 objprob = response.json()
 prob = objprob['probability']
-exit()
+
 
 response = requests.post(url=f"{urlname}/prediction", data=qj)
 obj2 = response.json()
@@ -110,7 +110,7 @@ else:
 st.write('Le crédit est refusé si la probabilité de non solvabilité dépasse %.2f' % seuil)
 
 
-exit()
+
 # Gauge chart
 # https://plotly.com/python/gauge-charts/
 # https://docs.streamlit.io/library/api-reference/charts/st.plotly_chart
