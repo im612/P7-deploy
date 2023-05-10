@@ -39,7 +39,7 @@ def get_df():
 
 def get_dfp():
     global df  # https://www.w3schools.com/python/python_variables_global.asp
-    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv", nrows=10000,
                      storage_options={'key': access_id, 'secret': access_key})
     colnames = load_colnames()
     keep_col = colnames + ['SK_ID_CURR', 'TARGET']
