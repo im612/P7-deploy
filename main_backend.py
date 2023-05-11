@@ -27,7 +27,9 @@ from model import load_colnames
 # Da https://www.youtube.com/watch?v=h5wLuVDr0oc
 # Da https://testdriven.io/blog/fastapi-streamlit/
 # https://www.youtube.com/watch?v=IvHCxycjeR0 DF
+import os
 
+os.system("rm backend/test_split_orig.csv")
 
 app = FastAPI()
 
