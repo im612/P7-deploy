@@ -111,9 +111,9 @@ def load_indnames():
 # #     return colnames, test_df, indnames
 # #
 #
-# def get_threshold():
-#     best_model, X_work, threshold = get_the_rest()
-#     return threshold
+def get_threshold():
+    best_model, X_work, threshold = get_the_rest()
+    return threshold
 #
 #
 # def get_indice( id ):
@@ -125,34 +125,34 @@ def load_indnames():
 #     return ind_line
 #
 #
-# def get_probability_df(id):
-#     best_model, X, threshold = get_the_rest()
-#     X_line = get_line(id)
-#     output_prob = best_model.predict_proba(X_line)
-#     output_prob = pd.DataFrame(output_prob)
-#     output_prob.rename(columns={0: 'P0', 1: 'P1'}, inplace=True)
-#     prob_P1 = float(output_prob['P1'].to_list()[0])
-#
-#     return prob_P1
+def get_probability_df(id):
+    best_model, X, threshold = get_the_rest()
+    X_line = get_line(id)
+    output_prob = best_model.predict_proba(X_line)
+    output_prob = pd.DataFrame(output_prob)
+    output_prob.rename(columns={0: 'P0', 1: 'P1'}, inplace=True)
+    prob_P1 = float(output_prob['P1'].to_list()[0])
+
+    return prob_P1
 #
 #
 # # def get_probability_df(best_model, id, X, threshold):
-# def get_prediction(id):
-#     best_model, X, threshold = get_the_rest()
-#     # X_line = get_line(id, X)
-#     X_line = get_line(id)
-#     output_prob = best_model.predict_proba(X_line)
-#     output_prob = pd.DataFrame(output_prob)
-#     output_prob.rename(columns={0: 'P0', 1: 'P1'}, inplace=True)
-#     prob_P1 = output_prob['P1'].to_list()[0]
-#
-#     if prob_P1 < threshold:
-#         prediction = 0
-#     else:
-#         prediction = 1
-#
-#     return prediction
-#
+def get_prediction(id):
+    best_model, X, threshold = get_the_rest()
+    # X_line = get_line(id, X)
+    X_line = get_line(id)
+    output_prob = best_model.predict_proba(X_line)
+    output_prob = pd.DataFrame(output_prob)
+    output_prob.rename(columns={0: 'P0', 1: 'P1'}, inplace=True)
+    prob_P1 = output_prob['P1'].to_list()[0]
+
+    if prob_P1 < threshold:
+        prediction = 0
+    else:
+        prediction = 1
+
+    return prediction
+
 #
 # # Interpetabilité
 # # Explainer
