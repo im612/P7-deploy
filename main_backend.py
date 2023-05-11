@@ -1,25 +1,18 @@
 # backend/main.py
 
 # " this is where we put the FastAPI endpoints"
-
 from fastapi import FastAPI
-from pydantic import BaseModel
-
-# https://fastapi.tiangolo.com/tutorial/security/first-steps/
-
-app = FastAPI()
-
 import uvicorn
-# import gunicorn
-# import numpy as np
-
-import pandas as pd
-
+from pydantic import BaseModel
+# https://fastapi.tiangolo.com/tutorial/security/first-steps/
 from model import load_indnames
 from model import get_probability_df
 from model import get_prediction
 from model import get_threshold
 from model import load_colnames
+
+app = FastAPI()
+
 
 # asyncronous models
 # https://asgi.readthedocs.io/en/latest/
@@ -27,9 +20,6 @@ from model import load_colnames
 # Da https://www.youtube.com/watch?v=h5wLuVDr0oc
 # Da https://testdriven.io/blog/fastapi-streamlit/
 # https://www.youtube.com/watch?v=IvHCxycjeR0 DF
-import os
-
-# os.system("rm backend/test_split_orig.csv")
 
 app = FastAPI()
 

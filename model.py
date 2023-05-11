@@ -17,25 +17,10 @@ access_id = os.getenv('S3_KEY')
 access_key = os.getenv('S3_SECRET')
 aws_bucket = 'p7-bucket'
 
-# non funziona 2 - inizio
-# import s3fs
-# def get_df2():
-#     s3 = s3fs.S3FileSystem(key=access_id, secret=access_key)
-#     s3.get_file(f"{aws_bucket}/test_split_orig.csv", f"{BASE_DIR}/test_split_orig.csv")
-#     df = pd.read_csv(f'{BASE_DIR}/test_split_orig.csv')
-#     return df
-
 def load_colnames():
     global colnames
     colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
     return colnames
-
-# def get_df():
-#     global df # https://www.w3schools.com/python/python_variables_global.asp
-#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-#                      storage_options={'key': access_id, 'secret': access_key})
-#     return df
-
 
 def get_df():
     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv", nrows=10000,
@@ -55,101 +40,9 @@ def load_indnames():
     # merged = df.shape[0]
     return merged
 
+stop
+# exit()
 
-# non funziona 2 - fine
-#
-
-# 1. IMPORT FILE from an s3 bucket
-# https://www.youtube.com/watch?v=mNwO_z6faAw
-# https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
-# aws_bucket = 'p7-bucket'
-# import boto3
-# session = boto3.Session(aws_access_key_id=access_id, aws_secret_access_key=access_key)
-#
-#
-# def download_aws(aws_filename, local_filename, session, bucket_name=aws_bucket):
-#     s3 = session.resource('s3')
-#     s3.Bucket(bucket_name).download_file(aws_filename, local_filename,)
-#     print("Download Successful!")
-#     return True
-#
-# my_file = Path(f"{BASE_DIR}/test_split_orig_S3.csv")
-# if not my_file.is_file():
-#     download_aws('test_split_orig.csv', 'test_split_orig_S3.csv', session)
-#     df = pd.read_csv(my_file)
-# #     # https: // stackoverflow.com / questions / 82831 / how - do - i - check - whether - a - file - exists - without - exceptions
-#
-# def get_df():
-#     df = pd.read_csv(my_file)
-#     return df
-#
-# def load_indnames():
-#     df = get_df()
-#     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
-# #     # del df
-#     merged = list(chain.from_iterable(indnames.tolist()))
-#     return merged
-
-
-
-
-
-# # blocco che non funziona 1
-# def get_df():
-#     # global df # https://www.w3schools.com/python/python_variables_global.asp
-#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-#                      storage_options={'key': access_id, 'secret': access_key})
-#     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
-#     return df
-#
-#
-# def load_indnames():
-#     df = get_df()
-#     indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
-#     # del df
-#     merged = list(chain.from_iterable(indnames.tolist()))
-#     return merged
-#
-#
-#
-# def load_indnames():
-#     test_df = load_testdf()
-#     indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
-#     del test_df
-#     merged = list(chain.from_iterable(indnames.tolist()))
-#     return merged
-#
-#
-# def get_indnames():
-#     colnames, test_df, indnames = load_data()
-#     del colnames
-#     del test_df
-#     # >>> list2d = [[1,2,3], [4,5,6], [7], [8,9]]
-#     merged = list(chain.from_iterable(indnames.tolist()))
-#     return merged
-
-
-
-# def load_testdf():
-#     test_df = pd.read_csv(f"{BASE_DIR}/backend/test_split_orig2.csv")
-#     colnames = load_colnames()
-#     test_df = pd.DataFrame(test_df, columns=colnames)
-#     del colnames
-#     test_df['SK_ID_CURR'] = test_df['SK_ID_CURR'].astype(int)
-#     return test_df
-#
-#
-#
-#
-# def load_data():
-#     colnames = pd.read_csv(f"{BASE_DIR}/backend/colnames.csv").columns.to_list()
-#     test_df = pd.read_csv(f"{BASE_DIR}/backend/test_split_orig2.csv")
-#     test_df = pd.DataFrame(test_df, columns=colnames)
-#     test_df['SK_ID_CURR'] = test_df['SK_ID_CURR'].astype(int)
-#     indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
-#
-#     return colnames, test_df, indnames
-exit()
 #
 def load_x():
     test_df = load_testdf()
