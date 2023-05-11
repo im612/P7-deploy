@@ -113,7 +113,6 @@ else:
 st.write('Le crédit est refusé si la probabilité de non solvabilité dépasse %.2f' % seuil)
 
 
-exit()
 # Gauge chart
 # https://plotly.com/python/gauge-charts/
 # https://docs.streamlit.io/library/api-reference/charts/st.plotly_chart
@@ -150,7 +149,7 @@ def get_explainer():
     return explainer
 
 
-
+exit()
 
 # @st.cache_data(ttl=3600)
 # def sh_w_id(id_i):
