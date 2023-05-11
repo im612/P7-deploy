@@ -65,7 +65,7 @@ del indnames # nous n'en avons plus besoin
 # # APPEL AUX ENDPOINTS
 # # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
 # # https://stackoverflow.com/questions/64057445/fast-api-post-does-not-recgonize-my-parameter
-exit()
+
 
 
 q = {"id" : f"{id}"}
@@ -113,7 +113,7 @@ else:
 st.write('Le crédit est refusé si la probabilité de non solvabilité dépasse %.2f' % seuil)
 
 
-
+exit()
 # Gauge chart
 # https://plotly.com/python/gauge-charts/
 # https://docs.streamlit.io/library/api-reference/charts/st.plotly_chart
