@@ -44,7 +44,7 @@ def get_colnames():
 # # # importation des indnames
 # # # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
 # Without caching the function is recalled at each run and
-# @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
+@st.cache_data(ttl=3600)  # 👈 Add the caching decorator
 def load_indnames():
     response = requests.post(url=f"{urlname}/indnames")
     objind = response.json()
