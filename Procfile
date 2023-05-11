@@ -1,11 +1,9 @@
-web: gunicorn main_backend:app
+web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app
 
+# web: gunicorn main_backend:app
 # web: gunicorn main_backend:app  --preload --access-logfile - --error-logfile - --log-level 'debug'
-# web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app --access-logfile - --error-logfile - --log-level 'debug' # workers su e giu
-
 # web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main_backend:app --error-logfile - --log-level 'debug'
-
-# web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app
+# web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app --access-logfile - --error-logfile - --log-level 'debug' # workers su e giu
 # web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app --log-config=log_conf.yaml
 # web: gunicorn main_backend:app
 # web: uvicorn main_backend:app
