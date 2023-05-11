@@ -18,4 +18,3 @@ streamlit==1.22
 plotly
 s3fs # https://s3fs.readthedocs.io/en/latest/index.html
 
-#python-multipart
