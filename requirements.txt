@@ -2,7 +2,7 @@ gunicorn
 uvicorn
 # consiglio su SO: https://stackoverflow.com/questions/59391560/how-to-run-uvicorn-in-heroku
 # Gunicorn with Uvicorn workers
-wheel==0.39
+wheel==0.38.4
 fastapi
 matplotlib
 ipython
