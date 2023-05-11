@@ -1,4 +1,4 @@
-web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app  --preload --access-logfile - --error-logfile - --log-level 'debug'
+web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app  --preload --access-logfile - --error-logfile - --log-level 'critical'
 # web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main_backend:app --error-logfile - --log-level 'debug'
 
 # web: gunicorn -k uvicorn.workers.UvicornWorker main_backend:app
