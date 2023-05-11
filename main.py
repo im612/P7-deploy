@@ -6,10 +6,9 @@ import pickle
 import json
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
-import pandas as pd
-# import shap
-# from streamlit_shap import st_shap
-# from itertools import chain
+# import pandas as pd
+import shap.plots
+from streamlit_shap import st_shap
 
 from pathlib import Path
 # import sklearn
@@ -148,27 +147,16 @@ def get_explainer():
         explainer = pickle.load(f)
     return explainer
 
-
-exit()
-
 # @st.cache_data(ttl=3600)
-# def sh_w_id(id_i):
-#     X_w_id = get_x()
-#     explainer = get_explainer()
-#
-#     id = int(id_i)
-#     X_line = pd.DataFrame(X_w_id.loc[X['SK_ID_CURR'] == id])
-#     X_line = X_line.drop(columns='SK_ID_CURR')
-#
-#     with st.spinner('Je récupère les facteurs déterminants...'):
-#         # shap_values = explainer(X_line, check_additivity=False)
-#         shap_values = explainer(X_line)
-#     st.success('Fini ')
-#
-#     return shap_values
+def sh_w_id(id_i):
+    response = requests.post(url=f"{urlname}/shap_val", data=qj)
+    obj3 = response.json()
+    sh_w = obj3["shap"]
+    return sh_w
 
+shap_values = sh_w_id(id)
+# # st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
 
-# shap_values = sh_w_id(id)
 # ind = indnames.tolist().index(id)
 #
 # st.header('Facteurs déterminants pour ce profil')
@@ -178,6 +166,31 @@ exit()
 
 # st.write(df.shape)
 
+
+
+
+
+
+
+
+exit()
+
+
+# @st.cache_data(ttl=3600)
+def sh_w_id(id_i):
+    X_w_id = get_x()
+    explainer = get_explainer()
+#
+#     id = int(id_i)
+#     X_line = pd.DataFrame(X_w_id.loc[X['SK_ID_CURR'] == id])
+    X_line = X_line.drop(columns='SK_ID_CURR')
+#
+#     with st.spinner('Je récupère les facteurs déterminants...'):
+#         # shap_values = explainer(X_line, check_additivity=False)
+#         shap_values = explainer(X_line)
+#     st.success('Fini ')
+#
+#     return shap_values
 
 
 
