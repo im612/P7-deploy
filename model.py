@@ -23,12 +23,11 @@ def load_colnames():
     return colnames
 
 def get_df():
-    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv", nrows=10000,
-                     storage_options={'key': access_id, 'secret': access_key})
-    # colnames = load_colnames()
-    # keep_col = colnames + ['SK_ID_CURR', 'TARGET']
+    df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv", nrows=10000, storage_options={'key': access_id, 'secret': access_key})
+    colnames = load_colnames()
+    keep_col = colnames + ['SK_ID_CURR', 'TARGET']
     # keep_col = colnames + ['TARGET']
-    # df = pd.DataFrame(df, columns=keep_col)
+    df = pd.DataFrame(df, columns=keep_col)
     return df
 
 
@@ -40,6 +39,65 @@ def load_indnames():
     # merged = df.shape[0]
     return merged
 
+
+#Modèle
+with open(f"{BASE_DIR}/estimator_HistGBC_Wed_Mar_22_23_35_47_2023.pkl", "rb") as f:
+    model = pickle.load(f)
+f.close()
+
+
+def get_threshold():
+    threshold = 0.9
+    return threshold
+
+
+def load_x():
+    x = get_df()
+    x = x.drop(columns='TARGET')
+    return x
+
+
+def get_the_rest():
+    best_model = model
+    x_work = load_x()
+    threshold = get_threshold()
+    return best_model, x_work, threshold
+
+
+def get_line(idi):
+    idi = int(idi)
+    x = load_x()
+    x_line = pd.DataFrame(x.loc[x['SK_ID_CURR'] == idi])
+    x_line = x_line.drop(columns='SK_ID_CURR')
+    return x_line
+
+
+def get_probability_df(id):
+    best_model, x, threshold = get_the_rest()
+    x_line = get_line(id)
+    output_prob = best_model.predict_proba(x_line)
+    output_prob = pd.DataFrame(output_prob)
+    output_prob.rename(columns={0: 'P0', 1: 'P1'}, inplace=True)
+    prob_P1 = float(output_prob['P1'].to_list()[0])
+
+    return prob_P1
+
+
+def get_prediction(id):
+    best_model, X, threshold = get_the_rest()
+    # X_line = get_line(id, X)
+    X_line = get_line(id)
+    output_prob = best_model.predict_proba(X_line)
+    output_prob = pd.DataFrame(output_prob)
+    output_prob.rename(columns={0: 'P0', 1: 'P1'}, inplace=True)
+    prob_P1 = output_prob['P1'].to_list()[0]
+
+    if prob_P1 < threshold:
+        prediction = 0
+    else:
+        prediction = 1
+
+    return prediction
 
 # exit()
 
@@ -57,32 +115,10 @@ def load_indnames():
 #
 # # X = test_df.drop(columns='TARGET')
 #
-# #Modèle
-# with open(f"{BASE_DIR}/estimator_HistGBC_Wed_Mar_22_23_35_47_2023.pkl", "rb") as f:
-#     model = pickle.load(f)
-# f.close()
+
 #
 #
-# def get_line( id ):
-#     id = int(id)
-#     X = load_x()
-#     X_line = pd.DataFrame(X.loc[X['SK_ID_CURR'] == id])
-#     X_line = X_line.drop(columns='SK_ID_CURR')
-#     return X_line
 #
-#
-# def get_the_rest():
-#     best_model = model
-#     X_work = load_x()
-#     threshold = 0.9
-#     return best_model, X_work, threshold
-#
-# #
-# def load_x():
-#     test_df = load_testdf()
-#     X = test_df.drop(columns='TARGET')
-#     del test_df
-#     return X
 #
 #
 # # def load_data():
@@ -111,10 +147,7 @@ def load_indnames():
 # #     return colnames, test_df, indnames
 # #
 #
-def get_threshold():
-    best_model, X_work, threshold = get_the_rest()
-    return threshold
-#
+
 #
 # def get_indice( id ):
 #     best_model, X_work, threshold = get_the_rest()
@@ -125,33 +158,18 @@ def get_threshold():
 #     return ind_line
 #
 #
-def get_probability_df(id):
-    best_model, X, threshold = get_the_rest()
-    X_line = get_line(id)
-    output_prob = best_model.predict_proba(X_line)
-    output_prob = pd.DataFrame(output_prob)
-    output_prob.rename(columns={0: 'P0', 1: 'P1'}, inplace=True)
-    prob_P1 = float(output_prob['P1'].to_list()[0])
-
-    return prob_P1
+# def get_probability_df(id):
+#     best_model, X, threshold = get_the_rest()
+#     X_line = get_line(id)
+#     output_prob = best_model.predict_proba(X_line)
+#     output_prob = pd.DataFrame(output_prob)
+#     output_prob.rename(columns={0: 'P0', 1: 'P1'}, inplace=True)
+#     prob_P1 = float(output_prob['P1'].to_list()[0])
+#
+#     return prob_P1
 #
 #
 # # def get_probability_df(best_model, id, X, threshold):
-def get_prediction(id):
-    best_model, X, threshold = get_the_rest()
-    # X_line = get_line(id, X)
-    X_line = get_line(id)
-    output_prob = best_model.predict_proba(X_line)
-    output_prob = pd.DataFrame(output_prob)
-    output_prob.rename(columns={0: 'P0', 1: 'P1'}, inplace=True)
-    prob_P1 = output_prob['P1'].to_list()[0]
-
-    if prob_P1 < threshold:
-        prediction = 0
-    else:
-        prediction = 1
-
-    return prediction
 
 #
 # # Interpetabilité

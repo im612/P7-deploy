@@ -53,7 +53,7 @@ def load_indnames():
 
 
 indnames = load_indnames()
-st.write(len(indnames))
+st.write(f'Nombre de clients: {len(indnames)}')
 
 #
 # # # SELECTION NUMERO CLIENT
