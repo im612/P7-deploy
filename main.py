@@ -151,12 +151,17 @@ def get_explainer():
 q = {"id" : f"{id}"}
 qj = json.dumps(q)
 # response = requests.post(url=f"{urlname}/shap_val", data=qj)
+response = requests.post(url=f"{urlname}/shap_val", data=qj)
+st.write(response)
+objind = response.json()
+# listline = objind["listline"]
+st.write(objind)
+
 response = requests.post(url=f"{urlname}/get_line", data=qj)
 st.write(response)
 objind = response.json()
 listline = objind["listline"]
 st.write(listline)
-
 
 #
 # # @st.cache_data(ttl=3600)
