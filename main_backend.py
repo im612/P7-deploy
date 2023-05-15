@@ -64,12 +64,12 @@ def col_names():
 
 @app.post("/shap_val")
 def prediction(iddata: Id):
-    pred = get_shap(id)
+    pred = get_shap(int(iddata.id))
     return pred
 
 @app.post("/get_line")
 def prediction(iddata: Id):
-    pred = get_line(id)
+    pred = get_line(int(iddata.id))
     return {"listline": pred}
 
 
