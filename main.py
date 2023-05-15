@@ -157,9 +157,9 @@ explainer = get_explainer()
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose().sort_values(axis=1)
 shap_values = explainer.shap_values(x_line)
 shap_values_list = explainer.shap_values(x_line).tolist()
-shap_values_highest = [ argsort(shap_values)[i] for i in range(0,10) ]
+shap_values_highest = [ argsort(shap_values_list)[i] for i in range(0,10) ]
 lenshapv = len(shap_values_list)
-shap_values_highest = [ argsort(shap_values)[i] for i in range(lenshapv-11, lenshapv) ]
+shap_values_highest = [ argsort(shap_values_list)[i] for i in range(lenshapv-11, lenshapv) ]
 # shap_values_lowest = argsort(-1*shap_values)
 
 st.write(shap_values)
