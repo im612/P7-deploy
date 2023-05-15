@@ -151,7 +151,7 @@ def get_explainer():
 response = requests.post(url=f"{urlname}/get_line", data=qj)
 objind = response.json()
 x_line = pd.DataFrame.from_dict(objind["listline"])
-st.write(listline)
+# st.write(listline)
 
 explainer = get_explainer()
 shap_values = explainer.shap_values(x_line)
