@@ -49,22 +49,25 @@ def get_threshold():
     return threshold
 
 
-def load_x():
-    x = get_df()
-    x = x.drop(columns=['SK_ID_CURR', 'TARGET'])
-    return x
+# def load_x():
+#     x = get_df()
+#     x = x.drop(columns=['SK_ID_CURR', 'TARGET'])
+#     return x
 
 
 def get_the_rest():
     best_model = model
-    x_work = load_x()
+    # x_work = load_x()
+    x_work = get_df()
+    x_work = x_work.drop(columns=['SK_ID_CURR', 'TARGET'])
     threshold = get_threshold()
     return best_model, x_work, threshold
 
 
 def get_line(idi):
     idi = int(idi)
-    x = load_x()
+    x = get_df()
+    x = x.drop(columns=['SK_ID_CURR'])
     x_line = pd.DataFrame(x.loc[x['SK_ID_CURR'] == idi])
     x_line = x_line.drop(columns='SK_ID_CURR')
     return x_line
