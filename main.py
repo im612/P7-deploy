@@ -6,7 +6,7 @@ import pickle
 import json
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
-# import pandas as pd
+import pandas as pd
 import shap.plots
 from streamlit_shap import st_shap
 

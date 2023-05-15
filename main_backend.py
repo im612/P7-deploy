@@ -10,7 +10,7 @@ from model import get_probability_df
 from model import get_prediction
 from model import get_threshold
 from model import load_colnames
-from model import get_shap
+from model import get_avgs
 from model import get_line
 
 app = FastAPI()
@@ -62,10 +62,6 @@ def col_names():
     val = load_colnames()
     return {"listcolnames": val}
 
-@app.post("/shap_val")
-def prediction(iddata: Id):
-    pred = get_shap(int(iddata.id))
-    return pred
 
 @app.post("/get_line")
 def prediction(iddata: Id):
@@ -73,6 +69,10 @@ def prediction(iddata: Id):
     return {"listline": pred}
 
 
+@app.post("/get_avgs")
+def prediction():
+    pred = get_avgs()
+    return pred
 
 # if __name__ == "__main__":
 #     uvicorn.run("main:app", host="0.0.0.0", port=8080)
