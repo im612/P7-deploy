@@ -156,15 +156,16 @@ x_line = pd.DataFrame.from_dict(objind["listline"])
 explainer = get_explainer()
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose().sort_values(axis=1)
 shap_values = explainer.shap_values(x_line)
-shap_values_list = explainer.shap_values(x_line).tolist()
+st.write(shap_values)
+shap_values_list = explainer.shap_values(x_line[0]).tolist()
 shap_sorted = argsort(shap_values_list)
 st.write(len(shap_sorted))
 shap_values_highest = [ shap_sorted[i] for i in range(0,10) ]
 lenshapv = len(shap_sorted)
-shap_values_lowest = [  shap_sorted[i] for i in range(lenshapv-10, lenshapv) ]
+shap_values_lowest = [ shap_sorted[i] for i in range(lenshapv-10, lenshapv) ]
 # shap_values_lowest = argsort(-1*shap_values)
 
-st.write(shap_values)
+
 st.write(shap_values_list)
 st.write(shap_values_highest)
 st.write(shap_values_lowest)
