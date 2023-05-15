@@ -148,16 +148,23 @@ def get_explainer():
     return explainer
 
 
-# @st.cache_data(ttl=3600)
-def sh_w_id(id_i):
-    q = {"id": f"{id_i}"}
-    qj = json.dumps(q)
-    response = requests.post(url=f"{urlname}/shap_val", data=qj)
-    obj3 = response.json()
-    sh_w = obj3["shap"]
-    return sh_w
 
-shap_values = sh_w_id(id)
+response = requests.post(url=f"{urlname}/shap_val", data=qj)
+obj2 = response.json()
+pred = obj2["shap"]
+
+
+#
+# # @st.cache_data(ttl=3600)
+# def sh_w_id(id_i):
+#     q = {"id": f"{id_i}"}
+#     qj = json.dumps(q)
+#     response = requests.post(url=f"{urlname}/shap_val", data=qj)
+#     obj3 = response.json()
+#     sh_w = obj3["shap"]
+#     return sh_w
+#
+# shap_values = sh_w_id(id)
 
 # # st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
 
