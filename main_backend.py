@@ -70,7 +70,7 @@ def prediction(iddata: Id):
 @app.post("/get_line")
 def prediction(iddata: Id):
     pred = get_line(id)
-    return return {"listline": pred}
+    return {"listline": pred}
 
 
 
