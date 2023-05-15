@@ -11,6 +11,7 @@ from model import get_prediction
 from model import get_threshold
 from model import load_colnames
 from model import get_shap
+from model import get_line
 
 app = FastAPI()
 
@@ -65,6 +66,11 @@ def col_names():
 def prediction(iddata: Id):
     pred = get_shap(id)
     return pred
+
+@app.post("/get_line")
+def prediction(iddata: Id):
+    pred = get_line(id)
+    return return {"listline": pred}
 
 
 
