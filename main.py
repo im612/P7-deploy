@@ -150,8 +150,7 @@ def get_explainer():
 
 
 response = requests.post(url=f"{urlname}/shap_val", data=qj)
-obj2 = response.json()
-pred = obj2["shap"]
+st.write(response)
 
 
 #

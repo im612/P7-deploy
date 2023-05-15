@@ -64,7 +64,7 @@ def col_names():
 @app.post("/shap_val")
 def prediction(iddata: Id):
     pred = get_shap(id)
-    return {"shap": pred}
+    return pred
 
 
 
