@@ -153,7 +153,7 @@ objind = response.json()
 x_line = pd.DataFrame.from_dict(objind["listline"])
 
 explainer = get_explainer()
-shap_values = explainer.shap_values(x_line)
+shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose()
 st.write(shap_values)
 # st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
 
