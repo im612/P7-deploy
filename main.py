@@ -9,6 +9,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import shap.plots
 from streamlit_shap import st_shap
+from numpy import argsort
 
 from pathlib import Path
 # import sklearn
@@ -153,10 +154,20 @@ objind = response.json()
 x_line = pd.DataFrame.from_dict(objind["listline"])
 
 explainer = get_explainer()
-shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose().sort_values(axis=1)
-st.write(shap_values)
+# shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose().sort_values(axis=1)
+shap_values = explainer.shap_values(x_line).tolist()
+shap_values_expl_ind = argsort(shap_values)
 # st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
 
+# def get_shap(expl, id, X):
+#     # print('shap')
+#     X_line = get_line(id, X)
+#
+#     # print(X_line)
+#     shap_values_expl = expl.shap_values(X_line).tolist()
+#     # print(f'shap_values_expl {shap_values_expl}')
+#     shap_values_expl_ind = np.argsort(shap_values_expl)
+#     # print(f'shap_values_expl_ind {shap_values_expl_ind}')
 
 # # def run_shap(id):
 # #     best_model, X, threshold = get_the_rest()
