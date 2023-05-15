@@ -64,8 +64,8 @@ def get_the_rest():
     return best_model, x_work, threshold
 
 
-def get_line(id_i):
-    idi = int(id_i)
+def get_line(id):
+    idi = int(id)
     x = get_df()
     x = x.drop(columns=['TARGET'])
     x_line = pd.DataFrame(x.loc[x['SK_ID_CURR'] == idi])
