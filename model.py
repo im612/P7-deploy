@@ -115,7 +115,7 @@ warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
 
 
 def get_shap(id):
-    explainer = get_explainer()
+    # explainer = get_explainer()
     return id
     # x_line = get_line(id)
     # shap_values = explainer(x_line, check_additivity=False)
