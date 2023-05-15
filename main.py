@@ -160,7 +160,7 @@ st.write(objind)
 response = requests.post(url=f"{urlname}/get_line", data=qj)
 st.write(response)
 objind = response.json()
-listline = objind["listline"]
+listline = pd.DataFrame.from_dict(objind["listline"])
 st.write(listline)
 
 #
