@@ -148,20 +148,46 @@ def get_explainer():
     return explainer
 
 
-q = {"id" : f"{id}"}
-qj = json.dumps(q)
-# response = requests.post(url=f"{urlname}/shap_val", data=qj)
-response = requests.post(url=f"{urlname}/shap_val", data=qj)
-st.write(response)
-objind = response.json()
-# listline = objind["listline"]
-st.write(objind)
-
 response = requests.post(url=f"{urlname}/get_line", data=qj)
-st.write(response)
 objind = response.json()
-listline = pd.DataFrame.from_dict(objind["listline"])
+x_line = pd.DataFrame.from_dict(objind["listline"])
 st.write(listline)
+
+explainer = get_explainer()
+shap_values = explainer.shap_values(x_line)
+st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
+
+
+# # def run_shap(id):
+# #     best_model, X, threshold = get_the_rest()
+
+# #     ind_line = get_ind(id, X)
+# #
+# #     shap_values = explainer.shap_values(X)
+# #
+# #     fig = shap.summary_plot(shap_values, X, show=False)
+# #     plt.savefig('shap_global.png')
+# #
+# #     fig1 = shap.plots.waterfall(shap_values[ind_line])
+# #     plt.savefig('shap_local.png')
+# #     plt.close()
+
+
+# #
+
+
+
+# # inizio shap su be
+# q = {"id" : f"{id}"}
+# qj = json.dumps(q)
+# # response = requests.post(url=f"{urlname}/shap_val", data=qj)
+# response = requests.post(url=f"{urlname}/shap_val", data=qj)
+# st.write(response)
+# objind = response.json()
+# # listline = objind["listline"]
+# st.write(objind)
+#
+#
 
 #
 # # @st.cache_data(ttl=3600)
@@ -174,8 +200,6 @@ st.write(listline)
 #     return sh_w
 #
 # shap_values = sh_w_id(id)
-
-# # st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
 
 # ind = indnames.tolist().index(id)
 #
