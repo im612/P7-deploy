@@ -148,7 +148,6 @@ def get_explainer():
     return explainer
 
 
-
 # @st.cache_data(ttl=3600)
 def sh_w_id(id_i):
     q = {"id": f"{id_i}"}
@@ -158,7 +157,8 @@ def sh_w_id(id_i):
     sh_w = obj3["shap"]
     return sh_w
 
-# shap_values = sh_w_id(id)
+shap_values = sh_w_id(id)
+
 # # st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
 
 # ind = indnames.tolist().index(id)
