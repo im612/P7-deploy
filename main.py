@@ -148,7 +148,8 @@ def get_explainer():
     return explainer
 
 
-
+q = {"id" : f"{id}"}
+qj = json.dumps(q)
 response = requests.post(url=f"{urlname}/shap_val", data=qj)
 st.write(response)
 
