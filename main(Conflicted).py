@@ -6,15 +6,21 @@ import pickle
 import json
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
-import pandas as pd
-import shap
+# import pandas as pd
+import shap.plots
 from streamlit_shap import st_shap
-from itertools import chain
 
 from pathlib import Path
 # import sklearn
 # from requests_toolbelt.multipart.encoder import MultipartEncoder
 # import os
+
+from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning
+import warnings
+warnings.simplefilter('ignore', category=NumbaDeprecationWarning)
+warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
+# https://github.com/numba/numba/blob/4fd4e39c672d119b54a2276d170f270764d2bce7/docs/source/reference/deprecation.rst?plain=1
+
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent
 
@@ -28,141 +34,46 @@ st.header("Tableau de bord")
 st.subheader("Détail des crédits sollicités")
 
 urlname=st.secrets['API_URL']
-# urlname2=st.secrets['config']['API_URL2']
 
+@st.cache_data(ttl=3600)
+def get_colnames():
+    colnames = requests.post(url=f"{urlname}/colnames")
+    return colnames
 
-# blocco che funziona 1
-
-# # # Section liste numéros clients
-# access_id = st.secrets['AWS_ACCESS_KEY_ID']
-# access_key = st.secrets['AWS_SECRET_ACCESS_KEY']
-# aws_bucket = 'p7-bucket'
-# #
-# @st.cache_data(ttl=3600)
-# def get_df():
-#     global df # https://www.w3schools.com/python/python_variables_global.asp
-#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-#                      storage_options={'key': access_id, 'secret': access_key})
-#     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
-#     return df
-#
-# df = get_df()
-# st.write(df.shape)
-#
-# @st.cache_data(ttl=3600)
-# def load_indnames():
-    # indnames = pd.DataFrame(df, columns=['SK_ID_CURR']).astype(int).values
-#     # del df
-#     merged = list(chain.from_iterable(indnames.tolist()))
-#     return merged
-#
-# indnames = load_indnames()
-
-# blocco che non funziona con l'importazione da s3 direttamente con pandas
-# funziona con s3fs?
 # # # importation des indnames
 # # # https://docs.streamlit.io/library/advanced-features/caching#controlling-cache-size-and-duration
+# Without caching the function is recalled at each run and
 @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
 def load_indnames():
-    indnames = requests.post(url=f"{urlname}/indnames")
-# #     # indnames = requests.post(url=f"{urlname2}/indnames")
+    response = requests.post(url=f"{urlname}/indnames")
     objind = response.json()
     indnames = objind['listindnames']
     return indnames
-#
-# response = load_indnames()
-# st.write(response)
-# objind = response.json()
-# indnames = objind['listindnames']
+
+
 indnames = load_indnames()
-# st.write(indnames)
+st.write(f'Nombre de clients: {len(indnames)}')
 
 #
 # # # SELECTION NUMERO CLIENT
 id = st.selectbox("Saisir le code client :", [i for i in indnames])
 st.header(f'Code client: {str(int(id))}')
-#
-# @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
-# def load_indnames2():
-#     response = requests.post(url=f"{urlname}/indnames")
-# #     # indnames = requests.post(url=f"{urlname2}/indnames")
-# #     response = load_indnames()
-#     objind = response.json()
-#     indnames = objind['listindnames']
-#     return indnames
-#
-# indnames = load_indnames2()
 
-# # # SELECTION NUMERO CLIENT
-# id = st.selectbox("Saisir le code client :", [i for i in indnames])
-# st.header(f'Code client: {str(int(id))}')
-
-
-
-
-# # SELECTION NUMERO CLIENT
-# id = st.selectbox("Saisir le code client :", [i for i in indnames])
-# st.header(f'Code client: {str(int(id))}')
-
-exit()
-#
-#
-
-#
-
-#
-#
-#
-#
-#
-#
-# @st.cache_data(ttl=3600)
-# def get_x():
-#     df = get_df()
-#     colnames = requests.post(url=f"{urlname}/colnames")
-#     df = df.drop(columns=['SK_ID_CURR', 'TARGET'])
-#     X = pd.DataFrame(df, columns=colnames)
-#
-#     return X
-#
-#
-#
-#     X_w_id = pd.DataFrame(df, columns=colnames)
-#     return X_w_id
-
-
-# @st.cache_data(ttl=3600)
-# def get_x1():
-#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
-#                      storage_options={'key': access_id, 'secret': access_key})
-#     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
-#     colnames = requests.post(url=f"{urlname}/colnames")
-#
-#     df = df.drop(columns=['TARGET'])
-#     X_w_id = pd.DataFrame(df, columns=colnames)
-#
-#     indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
-#     del test_df
-#     merged = list(chain.from_iterable(indnames.tolist()))
-#     return merged
-#
-#
-#     return X_w_id
-
-
-
+del indnames # nous n'en avons plus besoin
 
 # # APPEL AUX ENDPOINTS
 # # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
 # # https://stackoverflow.com/questions/64057445/fast-api-post-does-not-recgonize-my-parameter
+
+
 
 q = {"id" : f"{id}"}
 qj = json.dumps(q)
 response = requests.post(url=f"{urlname}/probability", data=qj)
 # st.write(response)
 objprob = response.json()
-# ok
 prob = objprob['probability']
+
 
 response = requests.post(url=f"{urlname}/prediction", data=qj)
 obj2 = response.json()
@@ -200,6 +111,7 @@ else:
     st.header('Le crédit est decliné :-1:')
 st.write('Le crédit est refusé si la probabilité de non solvabilité dépasse %.2f' % seuil)
 
+
 # Gauge chart
 # https://plotly.com/python/gauge-charts/
 # https://docs.streamlit.io/library/api-reference/charts/st.plotly_chart
@@ -235,32 +147,16 @@ def get_explainer():
         explainer = pickle.load(f)
     return explainer
 
-
-from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning
-import warnings
-warnings.simplefilter('ignore', category=NumbaDeprecationWarning)
-warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
-# https://github.com/numba/numba/blob/4fd4e39c672d119b54a2276d170f270764d2bce7/docs/source/reference/deprecation.rst?plain=1
-
-
 # @st.cache_data(ttl=3600)
-# def sh_w_id(id_i):
-#     X_w_id = get_x()
-#     explainer = get_explainer()
-#
-#     id = int(id_i)
-#     X_line = pd.DataFrame(X_w_id.loc[X['SK_ID_CURR'] == id])
-#     X_line = X_line.drop(columns='SK_ID_CURR')
-#
-#     with st.spinner('Je récupère les facteurs déterminants...'):
-#         # shap_values = explainer(X_line, check_additivity=False)
-#         shap_values = explainer(X_line)
-#     st.success('Fini ')
-#
-#     return shap_values
+def sh_w_id(id_i):
+    response = requests.post(url=f"{urlname}/shap_val", data=qj)
+    obj3 = response.json()
+    sh_w = obj3["shap"]
+    return sh_w
 
+shap_values = sh_w_id(id)
+# # st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
 
-# shap_values = sh_w_id(id)
 # ind = indnames.tolist().index(id)
 #
 # st.header('Facteurs déterminants pour ce profil')
@@ -270,6 +166,31 @@ warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
 
 # st.write(df.shape)
 
+
+
+
+
+
+
+
+exit()
+
+
+# @st.cache_data(ttl=3600)
+def sh_w_id(id_i):
+    X_w_id = get_x()
+    explainer = get_explainer()
+#
+#     id = int(id_i)
+#     X_line = pd.DataFrame(X_w_id.loc[X['SK_ID_CURR'] == id])
+    X_line = X_line.drop(columns='SK_ID_CURR')
+#
+#     with st.spinner('Je récupère les facteurs déterminants...'):
+#         # shap_values = explainer(X_line, check_additivity=False)
+#         shap_values = explainer(X_line)
+#     st.success('Fini ')
+#
+#     return shap_values
 
 
 
@@ -450,5 +371,80 @@ warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
 # fireto = '0.0.0.0'
 # # fireto = 'backend'
 #
+
+
+
+
+
+
+
+
+#
+# @st.cache_data(ttl=3600)  # 👈 Add the caching decorator
+# def load_indnames2():
+#     response = requests.post(url=f"{urlname}/indnames")
+# #     # indnames = requests.post(url=f"{urlname2}/indnames")
+# #     response = load_indnames()
+#     objind = response.json()
+#     indnames = objind['listindnames']
+#     return indnames
+#
+# indnames = load_indnames2()
+
+# # # SELECTION NUMERO CLIENT
+# id = st.selectbox("Saisir le code client :", [i for i in indnames])
+# st.header(f'Code client: {str(int(id))}')
+
+
+
+
+# # SELECTION NUMERO CLIENT
+# id = st.selectbox("Saisir le code client :", [i for i in indnames])
+# st.header(f'Code client: {str(int(id))}')
+
+exit()
+#
+#
+
+#
+
+#
+#
+#
+#
+#
+#
+# @st.cache_data(ttl=3600)
+# def get_x():
+#     df = get_df()
+#     colnames = requests.post(url=f"{urlname}/colnames")
+#     df = df.drop(columns=['SK_ID_CURR', 'TARGET'])
+#     X = pd.DataFrame(df, columns=colnames)
+#
+#     return X
+#
+#
+#
+#     X_w_id = pd.DataFrame(df, columns=colnames)
+#     return X_w_id
+
+
+# @st.cache_data(ttl=3600)
+# def get_x1():
+#     df = pd.read_csv(f"s3://{aws_bucket}/test_split_orig.csv",
+#                      storage_options={'key': access_id, 'secret': access_key})
+#     # https: // s3fs.readthedocs.io / en / latest / api.html # s3fs.core.S3FileSystem
+#     colnames = requests.post(url=f"{urlname}/colnames")
+#
+#     df = df.drop(columns=['TARGET'])
+#     X_w_id = pd.DataFrame(df, columns=colnames)
+#
+#     indnames = pd.DataFrame(test_df, columns=['SK_ID_CURR']).astype(int).values
+#     del test_df
+#     merged = list(chain.from_iterable(indnames.tolist()))
+#     return merged
+#
+#
+#     return X_w_id
 
 

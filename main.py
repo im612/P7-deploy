@@ -92,7 +92,7 @@ if pred == 0:
 elif pred == 1:
     pred_word = "Non solvable"
 
-col2.metric("Prédiction", pred_word)
+col2.metric("Prévision", pred_word)
 
 # col3.metric("Probabilité de non solvabilité", "%.2f" % prob, "%.2f" % (seuil - prob))
 # #

@@ -51,7 +51,7 @@ def get_threshold():
 
 def load_x():
     x = get_df()
-    x = x.drop(columns=['TARGET'])
+    x = x.drop(columns=['SK_ID_CURR', 'TARGET'])
     return x
 
 
