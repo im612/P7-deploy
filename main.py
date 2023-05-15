@@ -156,7 +156,55 @@ x_line = pd.DataFrame.from_dict(objind["listline"])
 explainer = get_explainer()
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose().sort_values(axis=1)
 shap_values = explainer.shap_values(x_line).tolist()
-shap_values_expl_ind = argsort(shap_values)
+shap_values_highest = argsort(shap_values)
+
+st.write(shap_values_highest)
+
+# shap_values_lowest = argsort(-1*shap_values)
+#
+# top_shap = X.columns[np.argsort(np.abs(shap_values.values[ind]))[::-1][:9]]
+# ind_top_shap = np.argsort(np.abs(shap_values.values[ind]))[::-1][:9]
+#
+# ind_top_shap = np.argsort(np.abs(shap_values.values[ind]))[::-1][:9]
+# # https://stackoverflow.com/questions/16486252/is-it-possible-to-use-argsort-in-descending-order
+#
+# import plotly.graph_objects as go
+# import matplotlib.pyplot as plt
+#
+# st.header('Distribution des facteurs déterminants')
+
+# SELECTION NUMÉRO CLIENT
+# for fi in range(0, len(top_shap)):
+#     st.subheader(f'Nom variable: {top_shap[fi]}')
+#     val_feature = '%.3f' % float(shap_values.data[ind][ind_top_shap[fi]])
+#     shap_feature = float(shap_values.values[ind][ind_top_shap[fi]])
+#
+#     if shap_feature > 0:
+#         st.subheader(f':warning: Contribution positive (%.2f): risque augmenté' % shap_feature)
+#     elif shap_feature < 0:
+#         st.subheader(f'Contribution négative (%.2f): risque diminué' % shap_feature)
+#
+#     data = X[top_shap[fi]]
+#     n, _ = np.histogram(data)
+#     fig, ax = plt.subplots()
+#     _, _, bar_container = ax.hist(data,
+#                                   fc="c", alpha=0.5)
+#     media = data.mean()
+#     media_acc = '%.2f' % media
+#     mediana = data.median()
+#     mediana_acc = '%.2f' % mediana
+#     val_feature_acc = '%.2f' % float(val_feature)
+#
+#     plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media_acc}')
+#     plt.axvline(mediana, color='darkgreen', linestyle='dashed', linewidth=1, alpha=0.5, label = f'mediane : {mediana_acc}')
+#     plt.axvline(val_feature, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_acc}')
+#
+#     ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
+#               ncol=3, fancybox=True)
+#     plt.figure(figsize=(0.8, 0.8))
+#     st.pyplot(fig=fig, use_container_width=False)
+#     st.divider()
+
 # st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
 
 # def get_shap(expl, id, X):
