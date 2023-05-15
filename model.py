@@ -67,7 +67,7 @@ def get_the_rest():
 def get_line(idi):
     idi = int(idi)
     x = get_df()
-    x = x.drop(columns=['SK_ID_CURR'])
+    x = x.drop(columns=['TARGET'])
     x_line = pd.DataFrame(x.loc[x['SK_ID_CURR'] == idi])
     x_line = x_line.drop(columns='SK_ID_CURR')
     return x_line
