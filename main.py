@@ -216,7 +216,8 @@ plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
 # yticks = ax.yaxis.get_major_ticks()
-yticks = ax.yaxis.get_ticks_position()
+# yticks = ax.yaxis.get_ticks_position()
+yticks = ax.axis.get_pad()
 
 margine = shap_values_lowest["shap"].max()*3
 for ind, row in shap_values_lowest.iterrows():
