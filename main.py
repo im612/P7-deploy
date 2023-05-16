@@ -179,8 +179,8 @@ shap_values_lowest = shap_sorted.head(10)
 st.write('shap_values_lowest')
 st.write(shap_values_lowest)
 
-# import plotly.graph_objects as go
-# import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+import matplotlib.pyplot as plt
 #
 # st.header('Distribution des facteurs déterminants')
 
