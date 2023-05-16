@@ -192,7 +192,7 @@ import plotly.express as px
 
 fig = px.bar(shap_values_highest, x=shap_values_highest.index, y="shap", orientation='h')
 # https://plotly.com/python/horizontal-bar-charts/
-st.pyplot(p)
+st.pyplot(fig)
 
 exit()
 
