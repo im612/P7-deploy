@@ -165,8 +165,11 @@ del colnames_100[0]
 del colnames_100[-1]
 
 # 4. Valeurs SHAP
-shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
+# shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
+shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames_100, columns=['shap']) #orizzontale?
 shap_sorted = shap_values.sort_values(by=['shap'])
+
+x_line_with_cols = pd.DataFrame(x_line, index=colnames_100, columns=['shap']) #orizzontale?
 
 
 shap_values_lowest = shap_sorted.head(10)
@@ -175,7 +178,31 @@ shap_values_lowest = shap_sorted.head(10)
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-st.subheader('Facteurs avec impact négatif')
+
+
+st.subheader('Contributions positives :warning: risque augmenté')
+
+shap_values_highest = shap_sorted.tail(10)[::-1]
+# https://stackoverflow.com/questions/20444087/right-way-to-reverse-a-pandas-dataframe
+
+fig, ax = plt.subplots(figsize=(10,3.5))
+ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="r")
+# https://www.statology.org/seaborn-horizontal-barplot/
+ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
+plt.title(f'Id: {id}', fontdict={'fontsize':12})
+plt.xlabel('Facteurs avec impact positif', fontsize=11)
+plt.xticks(fontsize=9)
+plt.ylabel('Valeurs SHAP', fontsize=11)
+
+margine = shap_values_highest["shap"].min()
+for ind, row in shap_values_highest.iterrows():
+    n = shap_values_highest.index.get_loc(ind)
+    ax.text(shap_values_highest["shap"].max()*1.11, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
+
+plt.savefig(f'{BASE_DIR}/pos{id}.png')
+st.image(f"{BASE_DIR}/pos{id}.png")
+
+st.subheader('Contributions négative - risque diminué')
 # fig, ax = plt.subplots(figsize=(1.2,1.6))
 fig, ax = plt.subplots(figsize=(10,3.5))
 ax = sns.barplot(x=shap_values_lowest["shap"], y=shap_values_lowest["shap"].index, orient='h', color="g")
@@ -200,44 +227,18 @@ st.image(f"{BASE_DIR}/neg{id}.png")
 # https://seaborn.pydata.org/examples/part_whole_bars.html
 
 
-st.subheader('Facteurs avec impact positif')
-
-shap_values_highest = shap_sorted.tail(10)[::-1]
-# https://stackoverflow.com/questions/20444087/right-way-to-reverse-a-pandas-dataframe
-
-fig, ax = plt.subplots(figsize=(10,3.5))
-ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="r")
-# https://www.statology.org/seaborn-horizontal-barplot/
-ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
-plt.title(f'Id: {id}', fontdict={'fontsize':12})
-plt.xlabel('Facteurs avec impact positif', fontsize=11)
-plt.xticks(fontsize=9)
-plt.ylabel('Valeurs SHAP', fontsize=11)
-
-margine = shap_values_highest["shap"].min()
-for ind, row in shap_values_highest.iterrows():
-    n = shap_values_highest.index.get_loc(ind)
-    ax.text(shap_values_highest["shap"].max()*1.11, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
-
-plt.savefig(f'{BASE_DIR}/pos{id}.png')
-st.image(f"{BASE_DIR}/pos{id}.png")
-
 st.divider()
 
 st.subheader('Distributions des facteurs déterminants ')
-
+st.subheader('Contributions positives :warning: risque augmenté')
 # SELECTION NUMÉRO CLIENT
 # for fi in range(0, len(shap_values_lowest))
-for ind, row in shap_values_lowest.iterrows():
-    st.subheader(f'Nom variable: {ind}')
-#     val_feature = '%.3f' % float(shap_values.data[ind][ind_top_shap[fi]])
-#     shap_feature = float(shap_values.values[ind][ind_top_shap[fi]])
-#
-#     if shap_feature > 0:
-#         st.subheader(f':warning: Contribution positive (%.2f): risque augmenté' % shap_feature)
-#     elif shap_feature < 0:
-#         st.subheader(f'Contribution négative (%.2f): risque diminué' % shap_feature)
-#
+for ind, row in shap_values_highest.iterrows():
+    st.subheader(f'Variable: {ind}')
+    val_feature_id = x_line_with_cols['ind']
+    shap_feature = row["shap"]
+    # val_feature_all
+
 #     data = X[top_shap[fi]]
 #     n, _ = np.histogram(data)
 #     fig, ax = plt.subplots()
