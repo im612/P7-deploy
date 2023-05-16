@@ -190,8 +190,8 @@ fig, ax = plt.subplots()
 import plotly.graph_objects as go
 import plotly.express as px
 
-fig = shap_values_highest.plot(kind='barh')
-st.pyplot(fig=fig, use_container_width=False)
+ax = shap_values_highest.plot(kind='barh')
+st.pyplot(fig=ax, use_container_width=False)
 
 exit()
 
