@@ -172,8 +172,12 @@ del colnames_100[-1]
 
 shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
 shap_sorted = shap_values.sort_values(by=['shap'])
-shap_values_highest = shap_sorted.head(10)
+shap_values_highest = shap_sorted.tail(10)
+st.write('shap_values_highest')
 st.write(shap_values_highest)
+shap_values_lowest = shap_sorted.head(10)
+st.write('shap_values_lowest')
+st.write(shap_values_lowest)
 
 # st.write(shap_values.shape)
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)[0].transpose(), columns=colnames_100)
