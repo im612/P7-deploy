@@ -171,16 +171,48 @@ del colnames_100[-1]
 # 4. Valeurs SHAP
 shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
 shap_sorted = shap_values.sort_values(by=['shap'])
-shap_values_highest = shap_sorted.tail(10)[::-1]
-st.write('shap_values_highest')
-st.write(shap_values_highest)
+
+st.write('Impact négatif')
+
 shap_values_lowest = shap_sorted.head(10)
-st.write('shap_values_lowest')
+# st.write('shap_values_lowest')
 st.write(shap_values_lowest)
 
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+
+# fig, ax = plt.subplots(figsize=(0.6, 1.5))
+fig, ax = plt.subplots(figsize=(1.2,1.6))
+ax = sns.barplot(x=shap_values_lowest["shap"], y=shap_values_lowest["shap"].index, orient='h', color="r")
+# https://www.statology.org/seaborn-horizontal-barplot/
+# ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1), xlabel='Facteurs', ylabel='Valeurs SHAP', title='Facteurs favorables')
+ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
+ax.set(title=f'Id: {id}', fontsize=15)
+plt.xlabel('Facteurs', fontsize=8)
+plt.xticks(fontsize=7)
+# ax.set(ylabel='Valeurs SHAP', fontsize=15)
+plt.ylabel('Valeurs SHAP', fontsize=8)
+# ax.xaxis.set_tick_params(labelsize='small', fontsize=12)
+# https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
+# ax.set(xlim=(0, 24), xlabel='Facteurs', ylabel='ylabel', title='Facteurs avec un impact positif')
+
+plt.savefig(f'{BASE_DIR}/pos.png')
+st.image(f"{BASE_DIR}/pos.png")
+
+
+# st.pyplot(fig=fig, use_container_width=False)
+# https://stackoverflow.com/questions/21487329/add-x-and-y-labels-to-a-pandas-plot
+# https://seaborn.pydata.org/examples/part_whole_bars.html
+
+
+
+
+shap_values_highest = shap_sorted.tail(10)[::-1]
+# https://stackoverflow.com/questions/20444087/right-way-to-reverse-a-pandas-dataframe
+st.write('Impact positif')
+# st.write(shap_values_highest)
 
 # fig, ax = plt.subplots(figsize=(0.6, 1.5))
 fig, ax = plt.subplots(figsize=(1.2,1.6))
