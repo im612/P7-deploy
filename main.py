@@ -188,7 +188,7 @@ fig, ax = plt.subplots(figsize=(1.2,1.6))
 ax = sns.barplot(x=shap_values_lowest["shap"], y=shap_values_lowest["shap"].index, orient='h', color="r")
 # https://www.statology.org/seaborn-horizontal-barplot/
 # ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1), xlabel='Facteurs', ylabel='Valeurs SHAP', title='Facteurs favorables')
-ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
+ax.set(xlim=(shap_values_lowest["shap"].min()*1.1, 0))
 ax.set(title=f'Id: {id}', fontsize=15)
 plt.xlabel('Facteurs', fontsize=8)
 plt.xticks(fontsize=7)
@@ -197,6 +197,9 @@ plt.ylabel('Valeurs SHAP', fontsize=8)
 # ax.xaxis.set_tick_params(labelsize='small', fontsize=12)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 # ax.set(xlim=(0, 24), xlabel='Facteurs', ylabel='ylabel', title='Facteurs avec un impact positif')
+
+ax.bar_label(shap_values_lowest["shap"])
+
 
 plt.savefig(f'{BASE_DIR}/pos.png')
 st.image(f"{BASE_DIR}/pos.png")
