@@ -193,8 +193,8 @@ plt.xticks(fontsize=7)
 plt.ylabel('Valeurs SHAP', fontsize=8)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
-for row in shap_values_lowest.iterrows():
-    n = shap_values_lowest.index.get_loc(row.index)
+for ind, row in shap_values_lowest.iterrows():
+    n = shap_values_lowest.index.get_loc(ind)
     ax.text(float(row['shap']) + float(3), float(n + .25), str(row['shap']), color='r', fontweight='bold')
 
 
