@@ -159,6 +159,8 @@ shap_values = explainer.shap_values(x_line)
 st.write(shap_values)
 shap_values_list = explainer.shap_values(x_line).tolist()
 st.write(shap_values_list)
+st.write(len(shap_values_list))
+st.write(len(shap_values_list[0]))
 shap_sorted = argsort(shap_values_list)
 st.write(len(shap_sorted))
 shap_values_highest = [ shap_sorted[i] for i in range(0,10) ]
