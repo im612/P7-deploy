@@ -181,18 +181,20 @@ st.write(shap_values_lowest)
 
 import matplotlib.pyplot as plt
 
-shap_values_highest.plot(kind='barh')
-ax = plt.gca()
-ax.invert_yaxis()
-ax.set_ylabel('feature')
-ax.set_xlabel('feature_importance')
+fig = shap_values_highest.plot(kind='barh')
+st.pyplot(fig=fig, use_container_width=False)
+
+# ax = plt.gca()
+# ax.invert_yaxis()
+# ax.set_ylabel('feature')
+# ax.set_xlabel('feature_importance')
 # 3313     plt.suptitle(f'{model_name} : Feature Importance')
 # 3314     ax.set_title(f"jeu de données d'entrainement (top {nb} features)")
 # 3315     add_text(ax, 0.3, 0.20,
 # 3316              s=f"")
 # 3317     sns.despine()
 # 3318     to_png(f'{model_name}: Feature Importance entrainement')
-plt.show()
+# plt.show()
 
 
 # st.write(shap_values.shape)
