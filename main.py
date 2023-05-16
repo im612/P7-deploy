@@ -189,8 +189,8 @@ ax = sns.barplot(x=shap_values_lowest["shap"], y=shap_values_lowest["shap"].inde
 # https://www.statology.org/seaborn-horizontal-barplot/
 # ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1), xlabel='Facteurs', ylabel='Valeurs SHAP', title='Facteurs favorables')
 ax.set(xlim=(shap_values_lowest["shap"].min()*1.1, 0))
-ax.title(f'Id: {id}', fontsize=15)
-plt.xlabel('Facteurs', fontsize=8)
+plt.title(f'Id: {id}', fontdict={'fontsize':12})
+plt.xlabel('Facteurs à impact négatif', fontsize=8)
 plt.xticks(fontsize=7)
 # ax.set(ylabel='Valeurs SHAP', fontsize=15)
 plt.ylabel('Valeurs SHAP', fontsize=8)
