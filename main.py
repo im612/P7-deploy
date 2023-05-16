@@ -159,11 +159,11 @@ x_line = pd.DataFrame.from_dict(objind["listline"])
 # 3. Nom des features
 response = requests.post(url=f"{urlname}/colnames")
 obj2 = response.json()
-colnames = obj2["listcolnames"]
-colnames_100 = colnames
+colnames_100 = obj2["listcolnames"]
+# colnames_100 = colnames
 del colnames_100[0]
 del colnames_100[-1]
-st.write(len(colnames_100), len(colnames))
+# st.write(len(colnames_100), len(colnames))
 
 # 4. Valeurs SHAP
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
@@ -238,6 +238,15 @@ for ind, row in shap_values_highest.iterrows():
     st.subheader(f'Variable: {ind}')
     val_feature_id = x_line_with_cols['ind']
     shap_feature = row["shap"]
+
+    q = {"ncol": f"{ind}"}
+    colj = json.dumps(q)
+    response = requests.post(url=f"{urlname}/get_col", data=colj)
+    obj3 = response.json()
+    data = pd.DataFrame(obj3["listcol"])
+    st.write(data.shape, data)
+
+
     # val_feature_all
 
 #     data = X[top_shap[fi]]

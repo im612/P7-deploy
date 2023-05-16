@@ -12,6 +12,7 @@ from model import get_threshold
 from model import load_colnames
 from model import get_avgs
 from model import get_line
+from model import get_col
 
 app = FastAPI()
 
@@ -28,6 +29,8 @@ app = FastAPI()
 class Id(BaseModel):
     id: str
 
+class Col(BaseModel):
+    ncol: str
 
 @app.get("/")
 def home():
@@ -73,6 +76,11 @@ def prediction(iddata: Id):
 def prediction():
     pred = get_avgs()
     return pred
+
+@app.post("/get_col")
+def prediction(coldata: Col):
+    p = get_col(str(coldata.ncol))
+    return {"listcol": p}
 
 # if __name__ == "__main__":
 #     uvicorn.run("main:app", host="0.0.0.0", port=8080)

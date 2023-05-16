@@ -128,6 +128,11 @@ def get_avgs():
     x_avg = pd.DataFrame(x.mean(axis=1))
     return x_avg
 
+def get_col(namecol):
+    x = get_df()
+    xc = x[namecol]
+    return xc
+
 
 # shap_values = sh_w_id(id)
 # ind = indnames.tolist().index(id)
