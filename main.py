@@ -191,10 +191,10 @@ plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
-margine = shap_values_lowest["shap"].max()
+margine = shap_values_lowest["shap"].max()*3
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
-    ax.text(row['shap']+margine, float(n + .25), round(float(row['shap']), 2), color='black', fontweight='bold')
+    ax.text(row['shap']+margine, float(n + .25), round(float(row['shap']), 3), color='black', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
@@ -220,7 +220,7 @@ plt.ylabel('Valeurs SHAP', fontsize=11)
 margine = shap_values_highest["shap"].min()
 for ind, row in shap_values_highest.iterrows():
     n = shap_values_highest.index.get_loc(ind)
-    ax.text(row['shap']+margine, float(n + .25), round(float(row['shap']), 2), color='black', fontweight='bold')
+    ax.text(row['shap']+margine, float(n + .25), round(float(row['shap']), 3), color='black', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/pos{id}.png')
 st.image(f"{BASE_DIR}/pos{id}.png")
@@ -259,7 +259,6 @@ exit()
 
 
 #
-# st.header('Distribution des facteurs déterminants')
 
 # SELECTION NUMÉRO CLIENT
 
