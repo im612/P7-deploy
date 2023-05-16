@@ -60,7 +60,7 @@ st.write(f'Nombre de clients: {len(indnames)}')
 id = st.selectbox("Saisir le code client :", [i for i in indnames])
 st.header(f'Code client: {str(int(id))}')
 
-del indnames # nous n'en avons plus besoin
+# del indnames # Xnous n'en avons plus besoinX - nous en aurons besoin pour shap
 
 # # APPEL AUX ENDPOINTS
 # # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
