@@ -171,7 +171,7 @@ del colnames_100[-1]
 # 4.. Données client
 
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)[0])
-shap_values = pd.DataFrame(explainer.shap_values(x_line)[0].transpose, columns=colnames_100)
+shap_values = pd.DataFrame(explainer.shap_values(x_line)[0].transpose(), columns=colnames_100)
 
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose().sort_values(axis=1)
 # shap_values = explainer.shap_values(x_line)
