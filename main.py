@@ -182,25 +182,10 @@ st.write(shap_values_lowest)
 import matplotlib.pyplot as plt
 
 fig, ax = plt.subplots()
-p = ax.bar(shap_values_highest, label=shap_values_highest.index, height=10, width=8)
+# p = ax.bar(shap_values_highest, label=shap_values_highest.index, height=10, width=8, color='green')
+p = ax.bar(shap_values_highest, height=10, width=8, color='green')
 
 st.pyplot(p)
-
-exit()
-
-import altair as alt
-
-c = alt.Chart(shap_values_highest).mark_bar().encode(
-    # x="month:T",
-    y="shap",
-    color=alt.condition(
-        # alt.datum.nonfarm_change > 0,
-        alt.value("steelblue"),  # The positive color
-        alt.value("orange")  # The negative color
-    )
-).properties(width=600)
-
-st.altair_chart(c, use_container_width=True)
 
 exit()
 
