@@ -141,38 +141,41 @@ st.image(f"{BASE_DIR}/globalshap2.png")
 
 st.header('Facteurs déterminants pour ce profil')
 
-
+#Bloc SHAP local
+# 1. Explainer
 @st.cache_data(ttl=3600)
 def get_explainer():
     with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
         explainer = pickle.load(f)
     return explainer
 
+explainer = get_explainer()
 
+# 2. Données client
 response = requests.post(url=f"{urlname}/get_line", data=qj)
 objind = response.json()
 x_line = pd.DataFrame.from_dict(objind["listline"])
 
-explainer = get_explainer()
+# 3. Nom des features
+response = requests.post(url=f"{urlname}/colnames")
+obj2 = response.json()
+colnames = obj2["listcolnames"]
+# st.write(f'len(colnames) {len(colnames)}')
+# st.write(colnames)
+colnames_100 = colnames
+del colnames_100[0]
+del colnames_100[-1]
+# st.write(f'len(colnames_100) {len(colnames_100)}')
+# st.write(colnames_100)
 
-shap_values = pd.DataFrame(explainer.shap_values(x_line)[0])
+# 4.. Données client
+
+shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], columns=colnames_100)
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose().sort_values(axis=1)
 # shap_values = explainer.shap_values(x_line)
 st.write(shap_values)
 
-
-response = requests.post(url=f"{urlname}/colnames")
-obj2 = response.json()
-colnames = obj2["listcolnames"]
-st.write(f'len(colnames) {len(colnames)}')
-st.write(colnames)
-colnames_100 = colnames
-del colnames_100[0]
-del colnames_100[-1]
-st.write(f'len(colnames_100) {len(colnames_100)}')
-st.write(colnames_100)
-
-
+exit()
 shap_values_list = explainer.shap_values(x_line).tolist()[0]
 st.write(shap_values_list)
 st.write(len(shap_values_list))
