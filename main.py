@@ -249,7 +249,8 @@ for ind, row in shap_values_highest.iterrows():
     colj = json.dumps(q)
     response = requests.post(url=f"{urlname}/get_col", data=colj)
     obj3 = response.json()
-    data = obj3["listcol"]
+    data = pd.DataFrame.from_dict(objind["listcol"])
+
     st.write(data)
 
 
