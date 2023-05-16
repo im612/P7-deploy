@@ -192,7 +192,7 @@ ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].in
 ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
 # ax.set(xlabel='Facteurs', fontsize=15)
 plt.xlabel('Facteurs', fontsize=8)
-plt.xticks(fontsize=9)
+plt.xticks(fontsize=7)
 # ax.set(ylabel='Valeurs SHAP', fontsize=15)
 plt.ylabel('Valeurs SHAP', fontsize=8)
 # ax.xaxis.set_tick_params(labelsize='small', fontsize=12)
