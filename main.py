@@ -172,29 +172,28 @@ del colnames_100[-1]
 shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
 shap_sorted = shap_values.sort_values(by=['shap'])
 
-st.header('Facteurs à impact négatif')
+
 shap_values_lowest = shap_sorted.head(10)
 # st.write(shap_values_lowest)
-
 
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
+st.header('Facteurs à impact négatif')
 # fig, ax = plt.subplots(figsize=(1.2,1.6))
 fig, ax = plt.subplots(figsize=(10,3.5))
 ax = sns.barplot(x=shap_values_lowest["shap"], y=shap_values_lowest["shap"].index, orient='h', color="r")
 # https://www.statology.org/seaborn-horizontal-barplot/
 ax.set(xlim=(shap_values_lowest["shap"].min()*1.1, 0))
 plt.title(f'Id: {id}', fontdict={'fontsize':12})
-plt.xlabel('Facteurs à impact négatif', fontsize=8)
-plt.xticks(fontsize=7)
-plt.ylabel('Valeurs SHAP', fontsize=8)
+plt.xlabel('Facteurs à impact négatif', fontsize=11)
+plt.xticks(fontsize=9)
+plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
-    ax.text(float(row['shap']) + float(3), float(n + .25), str(row['shap']), color='r', fontweight='bold')
+    ax.text(float(row['shap']*1.1), float(n + .25), str(row['shap']), color='r', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
@@ -203,7 +202,7 @@ st.image(f"{BASE_DIR}/neg{id}.png")
 # https://seaborn.pydata.org/examples/part_whole_bars.html
 
 
-
+st.header('Facteurs à impact positif')
 
 shap_values_highest = shap_sorted.tail(10)[::-1]
 # https://stackoverflow.com/questions/20444087/right-way-to-reverse-a-pandas-dataframe
