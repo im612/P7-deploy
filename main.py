@@ -182,10 +182,10 @@ st.write(shap_values_lowest)
 import altair as alt
 
 c = alt.Chart(shap_values_highest).mark_bar().encode(
-    x="month:T",
-    y="nonfarm_change:Q",
+    # x="month:T",
+    y="shap",
     color=alt.condition(
-        alt.datum.nonfarm_change > 0,
+        # alt.datum.nonfarm_change > 0,
         alt.value("steelblue"),  # The positive color
         alt.value("orange")  # The negative color
     )
