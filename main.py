@@ -172,7 +172,7 @@ del colnames_100[-1]
 shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
 shap_sorted = shap_values.sort_values(by=['shap'])
 
-st.subtitle('Facteurs à impact négatif')
+st.header('Facteurs à impact négatif')
 shap_values_lowest = shap_sorted.head(10)
 # st.write(shap_values_lowest)
 
