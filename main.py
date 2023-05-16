@@ -183,7 +183,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # fig, ax = plt.subplots(figsize=(0.6, 1.5))
-fig, ax = plt.subplots(figsize=(1,0.6))
+fig, ax = plt.subplots(figsize=(1,1.6))
 # ax= sns.lineplot(data=df2, markers= True)
 # ax = sns.barplot(x=shap_values_highest["shap"].index, y=shap_values_highest["shap"], orient='h', color="g")
 ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="g")
@@ -194,7 +194,7 @@ ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
 plt.xlabel('Facteurs', fontsize=12)
 # ax.set(ylabel='Valeurs SHAP', fontsize=15)
 plt.ylabel('Valeurs SHAP', fontsize=12)
-ax.xaxis.set_tick_params(labelsize='x-small')
+ax.xaxis.set_tick_params(labelsize='small', fontsize=12)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 # ax.set(xlim=(0, 24), xlabel='Facteurs', ylabel='ylabel', title='Facteurs avec un impact positif')
 
