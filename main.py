@@ -217,7 +217,9 @@ plt.ylabel('Valeurs SHAP', fontsize=11)
 
 # yticks = ax.yaxis.get_major_ticks()
 # yticks = ax.yaxis.get_ticks_position()
-yticks = ax.axis.Tick.get_pad()
+yticks = ax.yaxis.get_major_ticks()
+pad_pt = yticks[-1].get_pad()
+
 
 margine = shap_values_lowest["shap"].max()*3
 for ind, row in shap_values_lowest.iterrows():
@@ -227,7 +229,7 @@ for ind, row in shap_values_lowest.iterrows():
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
 
-st.write(yticks)
+st.write(pad_pt))
 
 # st.pyplot(fig=fig, use_container_width=False)
 
