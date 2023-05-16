@@ -229,7 +229,7 @@ for ind, row in shap_values_lowest.iterrows():
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
 
-st.write(pad_pt))
+st.write(pad_pt)
 
 # st.pyplot(fig=fig, use_container_width=False)
 
