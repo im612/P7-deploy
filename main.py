@@ -190,7 +190,7 @@ plt.ylabel('Valeurs SHAP', fontsize=11)
 margine = shap_values_lowest["shap"].max()*3
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
-    ax.text(row['shap'].min()*0.1, float(n + .25), round(float(row['shap']), 3), color='black', fontweight='bold')
+    ax.text(-row['shap'].max(), float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
@@ -208,7 +208,7 @@ shap_values_highest = shap_sorted.tail(10)[::-1]
 fig, ax = plt.subplots(figsize=(10,3.5))
 ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="g")
 # https://www.statology.org/seaborn-horizontal-barplot/
-ax.set(xlim=(0, shap_values_highest["shap"].max()*1.2))
+ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
 plt.title(f'Id: {id}', fontdict={'fontsize':12})
 plt.xlabel('Facteurs avec impact positif', fontsize=11)
 plt.xticks(fontsize=9)
@@ -217,7 +217,7 @@ plt.ylabel('Valeurs SHAP', fontsize=11)
 margine = shap_values_highest["shap"].min()
 for ind, row in shap_values_highest.iterrows():
     n = shap_values_highest.index.get_loc(ind)
-    ax.text(shap_values_highest["shap"].max()*1.15, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
+    ax.text(shap_values_highest["shap"].max()*1.11, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/pos{id}.png')
 st.image(f"{BASE_DIR}/pos{id}.png")
