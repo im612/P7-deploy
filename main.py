@@ -160,13 +160,9 @@ x_line = pd.DataFrame.from_dict(objind["listline"])
 response = requests.post(url=f"{urlname}/colnames")
 obj2 = response.json()
 colnames = obj2["listcolnames"]
-# st.write(f'len(colnames) {len(colnames)}')
-# st.write(colnames)
 colnames_100 = colnames
 del colnames_100[0]
 del colnames_100[-1]
-# st.write(f'len(colnames_100) {len(colnames_100)}')
-# st.write(colnames_100)
 
 # 4. Valeurs SHAP
 shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
@@ -198,6 +194,7 @@ for ind, row in shap_values_lowest.iterrows():
 
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
+# st.pyplot(fig=fig, use_container_width=False)
 
 # https://stackoverflow.com/questions/21487329/add-x-and-y-labels-to-a-pandas-plot
 # https://seaborn.pydata.org/examples/part_whole_bars.html
@@ -211,7 +208,7 @@ shap_values_highest = shap_sorted.tail(10)[::-1]
 fig, ax = plt.subplots(figsize=(10,3.5))
 ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="g")
 # https://www.statology.org/seaborn-horizontal-barplot/
-ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
+ax.set(xlim=(0, shap_values_highest["shap"].max()*1.2))
 plt.title(f'Id: {id}', fontdict={'fontsize':12})
 plt.xlabel('Facteurs avec impact positif', fontsize=11)
 plt.xticks(fontsize=9)
@@ -225,29 +222,7 @@ for ind, row in shap_values_highest.iterrows():
 plt.savefig(f'{BASE_DIR}/pos{id}.png')
 st.image(f"{BASE_DIR}/pos{id}.png")
 
-
-
-# st.pyplot(fig=fig, use_container_width=False)
-# https://stackoverflow.com/questions/21487329/add-x-and-y-labels-to-a-pandas-plot
-# https://seaborn.pydata.org/examples/part_whole_bars.html
-
-
-# # p = ax.bar(shap_values_highest, label=shap_values_highest.index, height=10, width=8, color='green')
-# p = ax.bar(shap_values_highest, height=10, width=8, color='green')
-# fig = px.bar(shap_values_highest, x=shap_values_highest.index, y="shap", orientation='h')
-# st.pyplot(p)
-
-import plotly.graph_objects as go
-import plotly.express as px
-
-# ax = shap_values_highest.plot(kind='barh', color='green')
-# ax = shap_values_highest["shap"].plot(kind='barh', color='green') #var 2
-# plt.figure(figsize=(0.8, 0.8)) #var 1
-# st.pyplot(fig=fig, use_container_width=False)
-
-
-
-
+st.subheader('Distributions des facteurs déterminants ')
 exit()
 
 
