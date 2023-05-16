@@ -183,15 +183,15 @@ import matplotlib.pyplot as plt
 
 fig, ax = plt.subplots()
 # # p = ax.bar(shap_values_highest, label=shap_values_highest.index, height=10, width=8, color='green')
-# p = ax.bar(shap_values_highest, height=10, width=8, color='green')
+p = ax.bar(shap_values_highest, height=10, width=8, color='green')
 #
 # st.pyplot(p)
 
 import plotly.graph_objects as go
 import plotly.express as px
 
-ax = shap_values_highest.plot(kind='barh')
-st.pyplot(fig=ax, use_container_width=False)
+# ax = shap_values_highest.plot(kind='barh')
+st.pyplot(fig=p, use_container_width=False)
 
 exit()
 
