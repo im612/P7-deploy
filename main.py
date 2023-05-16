@@ -188,7 +188,7 @@ import matplotlib.pyplot as plt
 #     data = X[top_shap[fi]]
 #     n, _ = np.histogram(data)
 fig, ax = plt.subplots()
-p = ax.bar(shap_values_highest, label=shap_values_highest.index)
+p = ax.bar(shap_values_highest, label=shap_values_highest.index, height=10, width=8)
 
 st.pyplot(p)
 
