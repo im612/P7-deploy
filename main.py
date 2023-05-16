@@ -180,8 +180,15 @@ st.write(shap_values_lowest)
 
 
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(6, 15))
+# ax= sns.lineplot(data=df2, markers= True)
+ax = sns.barplot(x=shap_values_highest["shap"].index, y=shap_values_highest["shap"], color="g")
+ax.set(xlabel='xlabel', ylabel='ylabel', title='Video streaming dropout by category')
+st.pyplot(fig=fig, use_container_width=False)
+
+
 # # p = ax.bar(shap_values_highest, label=shap_values_highest.index, height=10, width=8, color='green')
 # p = ax.bar(shap_values_highest, height=10, width=8, color='green')
 # fig = px.bar(shap_values_highest, x=shap_values_highest.index, y="shap", orientation='h')
@@ -190,10 +197,13 @@ fig, ax = plt.subplots()
 import plotly.graph_objects as go
 import plotly.express as px
 
-ax = shap_values_highest.plot(kind='barh', color='green')
+# ax = shap_values_highest.plot(kind='barh', color='green')
 # ax = shap_values_highest["shap"].plot(kind='barh', color='green') #var 2
-plt.figure(figsize=(0.8, 0.8)) #var 1
-st.pyplot(fig=fig, use_container_width=False)
+# plt.figure(figsize=(0.8, 0.8)) #var 1
+# st.pyplot(fig=fig, use_container_width=False)
+
+
+
 
 exit()
 
