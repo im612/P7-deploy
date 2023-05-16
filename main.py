@@ -182,7 +182,7 @@ st.write(shap_values_lowest)
 import matplotlib.pyplot as plt
 
 fig, ax = plt.subplots()
-p = ax.bar(shap_values_highest, label=shap_values_highest.index, width=8)
+p = ax.bar(shap_values_highest, label=shap_values_highest.index, height=10, width=8)
 
 st.pyplot(p)
 
