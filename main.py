@@ -184,7 +184,7 @@ st.header('Facteurs à impact négatif')
 fig, ax = plt.subplots(figsize=(10,3.5))
 ax = sns.barplot(x=shap_values_lowest["shap"], y=shap_values_lowest["shap"].index, orient='h', color="r")
 # https://www.statology.org/seaborn-horizontal-barplot/
-ax.set(xlim=(shap_values_lowest["shap"].min()*1.1, 0))
+ax.set(xlim=(shap_values_lowest["shap"].min()*1.2, 0))
 plt.title(f'Id: {id}', fontdict={'fontsize':12})
 plt.xlabel('Facteurs à impact négatif', fontsize=11)
 plt.xticks(fontsize=9)
@@ -193,7 +193,7 @@ plt.ylabel('Valeurs SHAP', fontsize=11)
 
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
-    ax.text(float(row['shap']*1.1), float(n + .25), str(row['shap']), color='r', fontweight='bold')
+    ax.text(float(row['shap']*0.9).round, float(n + .25), str(row['shap']), color='black', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
