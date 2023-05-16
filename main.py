@@ -168,8 +168,7 @@ del colnames_100[-1]
 # st.write(f'len(colnames_100) {len(colnames_100)}')
 # st.write(colnames_100)
 
-# 4.. Données client
-
+# 4. Valeurs SHAP
 shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
 shap_sorted = shap_values.sort_values(by=['shap'])
 shap_values_highest = shap_sorted.tail(10)
@@ -188,7 +187,9 @@ import matplotlib.pyplot as plt
 
 #     data = X[top_shap[fi]]
 #     n, _ = np.histogram(data)
-fig, ax = plt.subplots()
+# fig, ax = plt.subplots()
+st.bar_chart(shap_values_highest)
+exit()
 fig = shap_values_highest.plot(kind='barh')
 
 st.pyplot(fig=fig, use_container_width=False)
