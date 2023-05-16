@@ -190,8 +190,9 @@ ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].in
 # ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1), xlabel='Facteurs', ylabel='Valeurs SHAP', title='Facteurs favorables')
 ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
 # ax.set(xlabel='Facteurs', fontsize=15)
-ax.xlabel('Facteurs', fontsize=15)
-ax.set(ylabel='Valeurs SHAP', fontsize=15)
+plt.xlabel('Facteurs', fontsize=15)
+# ax.set(ylabel='Valeurs SHAP', fontsize=15)
+plt.ylabel('Valeurs SHAP', fontsize=15)
 ax.xaxis.set_tick_params(labelsize='small')
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 # ax.set(xlim=(0, 24), xlabel='Facteurs', ylabel='ylabel', title='Facteurs avec un impact positif')
