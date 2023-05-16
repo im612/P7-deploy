@@ -182,10 +182,12 @@ st.write(shap_values_lowest)
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-fig, ax = plt.subplots(figsize=(6, 15))
+fig, ax = plt.subplots(figsize=(0.6, 1.5))
 # ax= sns.lineplot(data=df2, markers= True)
-ax = sns.barplot(x=shap_values_highest["shap"].index, y=shap_values_highest["shap"], color="g")
-ax.set(xlabel='xlabel', ylabel='ylabel', title='Video streaming dropout by category')
+ax = sns.barplot(x=shap_values_highest["shap"].index, y=shap_values_highest["shap"], orient='h', color="g")
+ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1), xlabel='Facteurs', ylabel='Valeurs SHAP', title='Facteurs favorables')
+# ax.set(xlim=(0, 24), xlabel='Facteurs', ylabel='ylabel', title='Facteurs avec un impact positif')
+
 st.pyplot(fig=fig, use_container_width=False)
 # https://stackoverflow.com/questions/21487329/add-x-and-y-labels-to-a-pandas-plot
 # https://seaborn.pydata.org/examples/part_whole_bars.html
