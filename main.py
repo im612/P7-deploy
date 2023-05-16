@@ -183,7 +183,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-fig, ax = plt.subplots(figsize=(1.2,1.6))
+# fig, ax = plt.subplots(figsize=(1.2,1.6))
+fig, ax = plt.subplots(figsize=(3,2))
 ax = sns.barplot(x=shap_values_lowest["shap"], y=shap_values_lowest["shap"].index, orient='h', color="r")
 # https://www.statology.org/seaborn-horizontal-barplot/
 ax.set(xlim=(shap_values_lowest["shap"].min()*1.1, 0))
