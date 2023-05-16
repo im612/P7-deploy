@@ -170,16 +170,16 @@ del colnames_100[-1]
 
 # 4.. Données client
 
-# shap_values = pd.DataFrame(explainer.shap_values(x_line)[0]) #verticale
-# shap_values = pd.DataFrame(explainer.shap_values(x_line)[0].transpose()) #orizzontale? no
 shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames) #orizzontale?
-
-st.write(shap_values.shape)
+shap_sorted = shap_values.sort_values(axis=1)
+st.write(shap_sorted)
+# st.write(shap_values.shape)
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)[0].transpose(), columns=colnames_100)
 
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose().sort_values(axis=1)
 # shap_values = explainer.shap_values(x_line)
-st.write(shap_values)
+# st.write(shap_values)
+
 
 exit()
 shap_values_list = explainer.shap_values(x_line).tolist()[0]
