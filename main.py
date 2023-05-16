@@ -191,7 +191,7 @@ plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
-margine = shap_values_lowest["shap"].min()*0.1
+margine = shap_values_lowest["shap"].max
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
     ax.text(row['shap']+margine, float(n + .25), round(float(row['shap']), 2), color='black', fontweight='bold')
@@ -217,7 +217,7 @@ plt.xlabel('Facteurs avec impact positif', fontsize=11)
 plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 
-margine = shap_values_highest["shap"].max()*0.05
+margine = shap_values_highest["shap"].min()
 for ind, row in shap_values_highest.iterrows():
     n = shap_values_highest.index.get_loc(ind)
     ax.text(row['shap']+margine, float(n + .25), round(float(row['shap']), 2), color='black', fontweight='bold')
