@@ -193,7 +193,7 @@ plt.ylabel('Valeurs SHAP', fontsize=11)
 
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
-    ax.text(float(row['shap']*0.9).round, float(n + .25), str(row['shap']), color='black', fontweight='bold')
+    ax.text(round(float(row['shap']*0.9), 2), float(n + .25), str(row['shap']), color='black', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
