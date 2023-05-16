@@ -179,6 +179,15 @@ st.write('shap_values_lowest')
 st.write(shap_values_lowest)
 
 
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+p = ax.bar(shap_values_highest, label=shap_values_highest.index, width=8)
+
+st.pyplot(p)
+
+exit()
+
 import altair as alt
 
 c = alt.Chart(shap_values_highest).mark_bar().encode(
@@ -196,7 +205,7 @@ st.altair_chart(c, use_container_width=True)
 exit()
 
 import plotly.graph_objects as go
-import matplotlib.pyplot as plt
+
 #
 # st.header('Distribution des facteurs déterminants')
 
@@ -204,10 +213,7 @@ import matplotlib.pyplot as plt
 
 #     data = X[top_shap[fi]]
 #     n, _ = np.histogram(data)
-fig, ax = plt.subplots()
-p = ax.bar(shap_values_highest, label=shap_values_highest.index, height=10, width=8)
 
-st.pyplot(p)
 
 exit()
 fig = shap_values_highest.plot(kind='barh')
