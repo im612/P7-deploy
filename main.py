@@ -179,7 +179,7 @@ shap_values_lowest = shap_sorted.head(10)
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-st.header('Facteurs à impact négatif')
+st.subheader('Facteurs à impact négatif')
 # fig, ax = plt.subplots(figsize=(1.2,1.6))
 fig, ax = plt.subplots(figsize=(10,3.5))
 ax = sns.barplot(x=shap_values_lowest["shap"], y=shap_values_lowest["shap"].index, orient='h', color="r")
@@ -193,7 +193,7 @@ plt.ylabel('Valeurs SHAP', fontsize=11)
 
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
-    ax.text(round(float(row['shap']*0.9), 2), float(n + .25), str(row['shap']), color='black', fontweight='bold')
+    ax.text(round(float(row['shap']+shap_values_lowest["shap"].min()*0.1), 2), float(n + .25), round(float(row['shap']), 2), color='black', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
@@ -202,32 +202,21 @@ st.image(f"{BASE_DIR}/neg{id}.png")
 # https://seaborn.pydata.org/examples/part_whole_bars.html
 
 
-st.header('Facteurs à impact positif')
+st.subheader('Facteurs à impact positif')
 
 shap_values_highest = shap_sorted.tail(10)[::-1]
 # https://stackoverflow.com/questions/20444087/right-way-to-reverse-a-pandas-dataframe
 st.write('Impact positif')
 # st.write(shap_values_highest)
 
-# fig, ax = plt.subplots(figsize=(0.6, 1.5))
-# fig, ax = plt.subplots(figsize=(1.2,1.6))
-fig, ax = plt.subplots(figsize=(6,3))
-
-# ax= sns.lineplot(data=df2, markers= True)
-# ax = sns.barplot(x=shap_values_highest["shap"].index, y=shap_values_highest["shap"], orient='h', color="g")
+fig, ax = plt.subplots(figsize=(10,3.5))
 ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="g")
 # https://www.statology.org/seaborn-horizontal-barplot/
-# ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1), xlabel='Facteurs', ylabel='Valeurs SHAP', title='Facteurs favorables')
 ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
-# ax.set(xlabel='Facteurs', fontsize=15)
 plt.title(f'Id: {id}', fontdict={'fontsize':12})
-plt.xlabel('Facteurs à impact positif', fontsize=8)
-plt.xticks(fontsize=7)
-# ax.set(ylabel='Valeurs SHAP', fontsize=15)
-plt.ylabel('Valeurs SHAP', fontsize=8)
-# ax.xaxis.set_tick_params(labelsize='small', fontsize=12)
-# https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
-# ax.set(xlim=(0, 24), xlabel='Facteurs', ylabel='ylabel', title='Facteurs avec un impact positif')
+plt.xlabel('Facteurs à impact positif', fontsize=11)
+plt.xticks(fontsize=9)
+plt.ylabel('Valeurs SHAP', fontsize=11)
 
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
