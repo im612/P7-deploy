@@ -187,6 +187,8 @@ fig, ax = plt.subplots(figsize=(6, 15))
 ax = sns.barplot(x=shap_values_highest["shap"].index, y=shap_values_highest["shap"], color="g")
 ax.set(xlabel='xlabel', ylabel='ylabel', title='Video streaming dropout by category')
 st.pyplot(fig=fig, use_container_width=False)
+# https://stackoverflow.com/questions/21487329/add-x-and-y-labels-to-a-pandas-plot
+# https://seaborn.pydata.org/examples/part_whole_bars.html
 
 
 # # p = ax.bar(shap_values_highest, label=shap_values_highest.index, height=10, width=8, color='green')
