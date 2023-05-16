@@ -163,7 +163,7 @@ colnames = obj2["listcolnames"]
 colnames_100 = colnames
 del colnames_100[0]
 del colnames_100[-1]
-st.write(colnames_100.shape, colnames.shape)
+st.write(len(colnames_100), len(colnames))
 
 # 4. Valeurs SHAP
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
