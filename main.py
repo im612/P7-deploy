@@ -187,7 +187,7 @@ fig, ax = plt.subplots()
 #
 # st.pyplot(p)
 
-
+import plotly.graph_objects as go
 import plotly.express as px
 
 fig = px.bar(shap_values_highest, x=shap_values_highest.index, y="shap", orientation='h')
@@ -196,7 +196,7 @@ st.pyplot(fig)
 
 exit()
 
-import plotly.graph_objects as go
+
 
 #
 # st.header('Distribution des facteurs déterminants')
@@ -208,9 +208,7 @@ import plotly.graph_objects as go
 
 
 exit()
-fig = shap_values_highest.plot(kind='barh')
 
-st.pyplot(fig=fig, use_container_width=False)
 
 #     _, _, bar_container = ax.hist(data,
 #                                   fc="c", alpha=0.5)
