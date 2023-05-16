@@ -183,22 +183,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-# fig, ax = plt.subplots(figsize=(0.6, 1.5))
 fig, ax = plt.subplots(figsize=(1.2,1.6))
 ax = sns.barplot(x=shap_values_lowest["shap"], y=shap_values_lowest["shap"].index, orient='h', color="r")
 # https://www.statology.org/seaborn-horizontal-barplot/
-# ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1), xlabel='Facteurs', ylabel='Valeurs SHAP', title='Facteurs favorables')
 ax.set(xlim=(shap_values_lowest["shap"].min()*1.1, 0))
 plt.title(f'Id: {id}', fontdict={'fontsize':12})
 plt.xlabel('Facteurs à impact négatif', fontsize=8)
 plt.xticks(fontsize=7)
-# ax.set(ylabel='Valeurs SHAP', fontsize=15)
 plt.ylabel('Valeurs SHAP', fontsize=8)
-# ax.xaxis.set_tick_params(labelsize='small', fontsize=12)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
-# ax.set(xlim=(0, 24), xlabel='Facteurs', ylabel='ylabel', title='Facteurs avec un impact positif')
-for i, v in enumerate(shap_values_lowest.index), enumerate(shap_values_lowest["shap"]):
-    ax.text(v + 3, i + .25, str(v), color='g', fontweight='bold')
+for row in shap_values_lowest.rows:
+    print(row['c1'], row['c2'])
+    ax.text(row['shap'] + 3, row.index + .25, str(row['shap']), color='r', fontweight='bold')
 
 # ax.bar_label(shap_values_lowest.index)
 
