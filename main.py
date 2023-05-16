@@ -154,6 +154,12 @@ objind = response.json()
 x_line = pd.DataFrame.from_dict(objind["listline"])
 
 explainer = get_explainer()
+
+
+indnames_100 = indnames
+del indnames_100[0]
+del indnames_100[-1]
+st.write('len(indnames_100)', len(indnames_100))
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose().sort_values(axis=1)
 shap_values = explainer.shap_values(x_line)
 st.write(shap_values)
