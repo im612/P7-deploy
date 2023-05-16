@@ -170,12 +170,10 @@ del colnames_100[-1]
 
 # 4.. Données client
 
-# shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames) #orizzontale?
 shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
-st.write(shap_values)
-# shap_sorted = shap_values.sort_values(axis=1, by=['shap'])
 shap_sorted = shap_values.sort_values(by=['shap'])
-st.write(shap_sorted)
+shap_values_highest = shap_sorted[:, 0:10]
+st.write(shap_values_highest)
 
 # st.write(shap_values.shape)
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)[0].transpose(), columns=colnames_100)
@@ -199,7 +197,7 @@ shap_values_lowest = [ shap_sorted[i] for i in range(lenshapv-10, lenshapv) ]
 
 
 
-st.write(shap_values_highest)
+
 st.write(shap_values_lowest)
 
 
