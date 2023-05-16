@@ -178,6 +178,23 @@ shap_values_lowest = shap_sorted.head(10)
 st.write('shap_values_lowest')
 st.write(shap_values_lowest)
 
+
+import altair as alt
+
+c = alt.Chart(shap_values_highest).mark_bar().encode(
+    x="month:T",
+    y="nonfarm_change:Q",
+    color=alt.condition(
+        alt.datum.nonfarm_change > 0,
+        alt.value("steelblue"),  # The positive color
+        alt.value("orange")  # The negative color
+    )
+).properties(width=600)
+
+st.altair_chart(c, use_container_width=True)
+
+exit()
+
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 #
