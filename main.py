@@ -217,7 +217,7 @@ plt.ylabel('Valeurs SHAP', fontsize=11)
 
 # yticks = ax.yaxis.get_major_ticks()
 # yticks = ax.yaxis.get_ticks_position()
-yticks = ax.axis.get_pad()
+yticks = ax.axis.Tick.get_pad()
 
 margine = shap_values_lowest["shap"].max()*3
 for ind, row in shap_values_lowest.iterrows():
@@ -250,7 +250,7 @@ for ind, row in shap_values_highest.iterrows():
     colj = json.dumps(q)
     response = requests.post(url=f"{urlname}/get_col", data=colj)
     obj3 = response.json()
-    data = pd.DataFrame.from_dict(objind["listcol"])
+    data = pd.DataFrame.from_dict(obj3["listcol"])
 
     st.write(data)
 
