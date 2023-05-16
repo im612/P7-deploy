@@ -215,6 +215,8 @@ plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
+yticks = ax.yaxis.get_major_ticks()
+
 margine = shap_values_lowest["shap"].max()*3
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
@@ -222,6 +224,9 @@ for ind, row in shap_values_lowest.iterrows():
 
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
+
+st.write(yticks)
+
 # st.pyplot(fig=fig, use_container_width=False)
 
 # https://stackoverflow.com/questions/21487329/add-x-and-y-labels-to-a-pandas-plot
