@@ -174,7 +174,9 @@ shap_sorted = shap_values.sort_values(by=['shap'])
 shap_values_highest = shap_sorted.tail(10)[::-1]
 st.write('shap_values_highest')
 st.write(shap_values_highest)
-
+shap_values_lowest = shap_sorted.head(10)
+st.write('shap_values_lowest')
+st.write(shap_values_lowest)
 
 
 import matplotlib.pyplot as plt
@@ -191,20 +193,15 @@ ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
 # ax.set(xlabel='Facteurs', fontsize=15)
 plt.xlabel('Facteurs', fontsize=8)
 plt.xticks(fontsize=7)
+# ax.set(ylabel='Valeurs SHAP', fontsize=15)
 plt.ylabel('Valeurs SHAP', fontsize=8)
+# ax.xaxis.set_tick_params(labelsize='small', fontsize=12)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
+# ax.set(xlim=(0, 24), xlabel='Facteurs', ylabel='ylabel', title='Facteurs avec un impact positif')
 
 st.pyplot(fig=fig, use_container_width=False)
 # https://stackoverflow.com/questions/21487329/add-x-and-y-labels-to-a-pandas-plot
 # https://seaborn.pydata.org/examples/part_whole_bars.html
-
-
-
-shap_values_lowest = shap_sorted.head(10)
-st.write('shap_values_lowest')
-st.write(shap_values_lowest)
-
-
 
 
 # # p = ax.bar(shap_values_highest, label=shap_values_highest.index, height=10, width=8, color='green')
