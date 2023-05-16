@@ -191,9 +191,10 @@ plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
+margine = shap_values_lowest["shap"].min()*0.1
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
-    ax.text(round(float(row['shap']+shap_values_lowest["shap"].min()*0.1), 2), float(n + .25), round(float(row['shap']), 2), color='black', fontweight='bold')
+    ax.text(row['shap']+margine, float(n + .25), round(float(row['shap']), 2), color='black', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
@@ -206,8 +207,6 @@ st.subheader('Facteurs à impact positif')
 
 shap_values_highest = shap_sorted.tail(10)[::-1]
 # https://stackoverflow.com/questions/20444087/right-way-to-reverse-a-pandas-dataframe
-st.write('Impact positif')
-# st.write(shap_values_highest)
 
 fig, ax = plt.subplots(figsize=(10,3.5))
 ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="g")
@@ -218,16 +217,18 @@ plt.xlabel('Facteurs à impact positif', fontsize=11)
 plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 
-for ind, row in shap_values_lowest.iterrows():
-    n = shap_values_lowest.index.get_loc(ind)
-    ax.text(float(row['shap']) + float(3), float(n + .25), str(row['shap']), color='r', fontweight='bold')
+margine = shap_values_highest["shap"].max()*0.1
+for ind, row in shap_values_highest.iterrows():
+    n = shap_values_highest.index.get_loc(ind)
+    ax.text(row['shap']+margine, float(n + .25), round(float(row['shap']), 2), color='black', fontweight='bold')
 
+plt
 plt.savefig(f'{BASE_DIR}/pos{id}.png')
 st.image(f"{BASE_DIR}/pos{id}.png")
 
 
 
-st.pyplot(fig=fig, use_container_width=False)
+# st.pyplot(fig=fig, use_container_width=False)
 # https://stackoverflow.com/questions/21487329/add-x-and-y-labels-to-a-pandas-plot
 # https://seaborn.pydata.org/examples/part_whole_bars.html
 
