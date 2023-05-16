@@ -174,7 +174,8 @@ del colnames_100[-1]
 shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
 st.write(shap_values)
 # shap_sorted = shap_values.sort_values(axis=1, by=['shap'])
-# st.write(shap_sorted)
+shap_sorted = shap_values.sort_values(by=['shap'])
+st.write(shap_sorted)
 
 # st.write(shap_values.shape)
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)[0].transpose(), columns=colnames_100)
