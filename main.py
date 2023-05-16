@@ -215,7 +215,8 @@ plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
-yticks = ax.yaxis.get_major_ticks()
+# yticks = ax.yaxis.get_major_ticks()
+yticks = ax.yaxis.get_pad()
 
 margine = shap_values_lowest["shap"].max()*3
 for ind, row in shap_values_lowest.iterrows():
@@ -241,7 +242,7 @@ st.subheader('Contributions positives :warning: risque augmenté')
 # for fi in range(0, len(shap_values_lowest))
 for ind, row in shap_values_highest.iterrows():
     st.subheader(f'Variable: {ind}')
-    val_feature_id = x_line_with_cols['ind']
+    val_feature_id = x_line_with_cols[ind]
     shap_feature = row["shap"]
 
     q = {"ncol": f"{ind}"}
