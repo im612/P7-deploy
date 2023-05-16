@@ -155,8 +155,9 @@ x_line = pd.DataFrame.from_dict(objind["listline"])
 
 explainer = get_explainer()
 
+shap_values = pd.DataFrame(explainer.shap_values(x_line)[0])
 # shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose().sort_values(axis=1)
-shap_values = explainer.shap_values(x_line)
+# shap_values = explainer.shap_values(x_line)
 st.write(shap_values)
 
 
