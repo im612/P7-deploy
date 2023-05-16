@@ -197,12 +197,14 @@ plt.ylabel('Valeurs SHAP', fontsize=8)
 # ax.xaxis.set_tick_params(labelsize='small', fontsize=12)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 # ax.set(xlim=(0, 24), xlabel='Facteurs', ylabel='ylabel', title='Facteurs avec un impact positif')
+for i, v in enumerate(shap_values_lowest.index), enumerate(shap_values_lowest["shap"]):
+    ax.text(v + 3, i + .25, str(v), color='g', fontweight='bold')
 
-ax.bar_label(shap_values_lowest.index)
+# ax.bar_label(shap_values_lowest.index)
 
 
-plt.savefig(f'{BASE_DIR}/pos.png')
-st.image(f"{BASE_DIR}/pos.png")
+plt.savefig(f'{BASE_DIR}/pos{id}.png')
+st.image(f"{BASE_DIR}/pos{id}.png")
 
 
 # st.pyplot(fig=fig, use_container_width=False)
