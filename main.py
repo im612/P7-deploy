@@ -184,7 +184,9 @@ import seaborn as sns
 
 fig, ax = plt.subplots(figsize=(0.6, 1.5))
 # ax= sns.lineplot(data=df2, markers= True)
-ax = sns.barplot(x=shap_values_highest["shap"].index, y=shap_values_highest["shap"], orient='h', color="g")
+# ax = sns.barplot(x=shap_values_highest["shap"].index, y=shap_values_highest["shap"], orient='h', color="g")
+ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="g")
+# https://www.statology.org/seaborn-horizontal-barplot/
 ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1), xlabel='Facteurs', ylabel='Valeurs SHAP', title='Facteurs favorables')
 # ax.set(xlim=(0, 24), xlabel='Facteurs', ylabel='ylabel', title='Facteurs avec un impact positif')
 
