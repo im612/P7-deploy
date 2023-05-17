@@ -258,7 +258,8 @@ medie = obj3["list_avg"]
 medie = pd.DataFrame(medie, index=colnames_100).transpose()
 
 for ind, row in shap_values_highest.iterrows():
-    st.subheader(f':warning: Variable: {ind}')
+    n = shap_values_highest.index.get_loc(ind)
+    st.subheader(f':warning: {n} - variable {ind}')
     val_feature_id = float(x_line_with_cols[ind].to_dict()['0'])
 
     shap_feature = row["shap"]
@@ -305,7 +306,9 @@ medie = obj3["list_avg"]
 medie = pd.DataFrame(medie, index=colnames_100).transpose()
 
 for ind, row in shap_values_lowest.iterrows():
-    st.subheader(f'Variable: {ind}')
+    n = shap_values_lowest.index.get_loc(ind)
+    st.subheader(f':warning: {n} - variable {ind}')
+
     val_feature_id = float(x_line_with_cols[ind].to_dict()['0'])
 
     shap_feature = row["shap"]
