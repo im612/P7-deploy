@@ -73,9 +73,10 @@ def prediction(iddata: Id):
 
 
 @app.post("/get_avgs")
-def prediction():
-    pred = get_avgs()
-    return pred
+def prediction(coldata: Col):
+    pred = get_avgs(str(coldata.ncol))
+    return {"seuil": pred}
+
 
 @app.post("/get_col")
 def prediction(coldata: Col):

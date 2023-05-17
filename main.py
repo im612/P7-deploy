@@ -197,7 +197,7 @@ lim2=str(labels[1]).split("(")[1].split(",")[0]
 
 margine = abs(float(lim1)-float(lim2))/4
 
-ax.set(xlim=(0, shap_values_highest["shap"].max()+2*margine))
+ax.set(xlim=(0, shap_values_highest["shap"].max()+margine))
 plt.title(f'Id: {id}', fontdict={'fontsize':12})
 plt.xlabel('Facteurs avec impact positif', fontsize=11)
 plt.xticks(fontsize=9)
@@ -206,7 +206,7 @@ plt.ylabel('Valeurs SHAP', fontsize=11)
 # margine = shap_values_highest["shap"].min()
 for ind, row in shap_values_highest.iterrows():
     n = shap_values_highest.index.get_loc(ind)
-    ax.text(shap_values_highest["shap"].max()+margine, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
+    ax.text(shap_values_highest["shap"].max()+2*margine, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/pos{id}.png')
 st.image(f"{BASE_DIR}/pos{id}.png")
@@ -281,7 +281,7 @@ for ind, row in shap_values_highest.iterrows():
 
     # plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media_acc}')
     # plt.axvline(mediana, color='darkgreen', linestyle='dashed', linewidth=1, alpha=0.5, label = f'mediane : {mediana_acc}')
-    plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_acc}')
+    plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_id}')
 
     ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
               ncol=3, fancybox=True)
