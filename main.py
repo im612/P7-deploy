@@ -191,10 +191,10 @@ fig, ax = plt.subplots(figsize=(10,3.5))
 ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="r")
 # https://www.statology.org/seaborn-horizontal-barplot/
 locs, labels = plt.xticks()
-# lim1=str(labels[0]).split("(").split("'")[0]
+
 lim1=str(labels[0]).split("(")[1].split(",")[0]
 lim2=str(labels[1]).split("(")[1].split(",")[0]
-# lim2=str(labels[1]).split("(").split("'")[0]
+
 margine = abs(float(lim1)-float(lim2))/4
 
 ax.set(xlim=(0, shap_values_highest["shap"].max()+2*margine))
@@ -203,7 +203,7 @@ plt.xlabel('Facteurs avec impact positif', fontsize=11)
 plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 
-margine = shap_values_highest["shap"].min()
+# margine = shap_values_highest["shap"].min()
 for ind, row in shap_values_highest.iterrows():
     n = shap_values_highest.index.get_loc(ind)
     ax.text(shap_values_highest["shap"].max()+margine, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
@@ -224,9 +224,10 @@ plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
-locs, labels = plt.xticks()
-margine = abs(float(str(labels[0]).split("(").split("'")[0])-
-              float(str(labels[1]).split("(").split("'")[0]))/4
+lim1=str(labels[0]).split("(")[1].split(",")[0]
+lim2=str(labels[1]).split("(")[1].split(",")[0]
+
+margine = abs(float(lim1)-float(lim2))/4
 
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
