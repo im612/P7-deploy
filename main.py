@@ -266,14 +266,14 @@ for ind, row in shap_values_highest.iterrows():
     st.write(data)
 
     n, _ = np.histogram(data)
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(4,4))
 
     _, _, bar_container = ax.hist(data,
                                   fc="c", alpha=0.5)
 
-    response = requests.post(url=f"{urlname}/get_avg", data=colj)
+    response = requests.post(url=f"{urlname}/get_avg")
     obj3 = response.json()
-    media = obj3["avg"]
+    media = obj3["list_avg"]
     # media = data.mean()
     # media_acc = '%.2f' % media
     # mediana = data.median()
