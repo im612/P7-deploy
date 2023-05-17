@@ -288,9 +288,9 @@ for ind, row in shap_values_highest.iterrows():
         ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
                   ncol=3, fancybox=True)
 
-        # st.pyplot(fig=fig, use_container_width=False)
-        plt.savefig(f'{BASE_DIR}/hist.png')
-        st.image(f"{BASE_DIR}/hist.png")
+        st.pyplot(fig=fig, use_container_width=False)
+        # plt.savefig(f'{BASE_DIR}/hist.png')
+        # st.image(f"{BASE_DIR}/hist.png")
         plt.close()
     st.divider()
 
