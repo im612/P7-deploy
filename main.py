@@ -190,7 +190,11 @@ shap_values_highest = shap_sorted.tail(10)[::-1]
 fig, ax = plt.subplots(figsize=(10,3.5))
 ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="r")
 # https://www.statology.org/seaborn-horizontal-barplot/
-ax.set(xlim=(0, shap_values_highest["shap"].max()*1.1))
+locs, labels = plt.xticks()
+margine = abs(float(str(labels[0]).split("(").split("'")[0])-
+              float(str(labels[1]).split("(").split("'")[0]))/4
+
+ax.set(xlim=(0, shap_values_highest["shap"].max()+2*margine))
 plt.title(f'Id: {id}', fontdict={'fontsize':12})
 plt.xlabel('Facteurs avec impact positif', fontsize=11)
 plt.xticks(fontsize=9)
@@ -199,20 +203,10 @@ plt.ylabel('Valeurs SHAP', fontsize=11)
 margine = shap_values_highest["shap"].min()
 for ind, row in shap_values_highest.iterrows():
     n = shap_values_highest.index.get_loc(ind)
-    ax.text(shap_values_highest["shap"].max()*1.11, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
+    ax.text(shap_values_highest["shap"].max()+margine, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/pos{id}.png')
 st.image(f"{BASE_DIR}/pos{id}.png")
-
-
-locs, labels = plt.xticks()
-# st.write(labels[0].to_list(), labels[1].to_list()[0])
-# st.write(str(labels[0]).split("(").split("'")[0], str(labels[1]).split("(").split("'")[0])
-st.write(str(labels[0]).split("("))
-# yticks = ax.yaxis.get_major_ticks()
-# st.write(yticks)
-# pad_pt = yticks[-1].get_pad()
-# st.write(pad_pt)
 
 
 st.subheader('Contributions négative - risque diminué')
@@ -227,25 +221,17 @@ plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
+locs, labels = plt.xticks()
+margine = abs(float(str(labels[0]).split("(").split("'")[0])-
+              float(str(labels[1]).split("(").split("'")[0]))/4
 
-
-margine = shap_values_lowest["shap"].max()*3
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
-    ax.text(-shap_values_lowest["shap"].max()*1.11, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
+    ax.text(margine, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
 
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
 
-
-# yticks = ax.yaxis.get_major_ticks()
-# yticks = ax.yaxis.get_ticks_position()
-# yticks = ax.yaxis.get_major_ticks()
-# st.write(yticks)
-# pad_pt = yticks[-1].get_pad()
-# st.write(pad_pt)
-locs, labels = plt.xticks()
-st.write(labels[0], labels[1])
 
 # st.pyplot(fig=fig, use_container_width=False)
 
