@@ -262,7 +262,7 @@ st.write(medie)
 for ind, row in shap_values_highest.iterrows():
     st.subheader(f'Variable: {ind}')
     val_feature_id = float(x_line_with_cols[ind].to_dict()['0'])
-    st.write(val_feature_id.tolist())
+    # st.write(val_feature_id.tolist())
     shap_feature = row["shap"]
 
     q = {"ncol": ind}
