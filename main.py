@@ -272,11 +272,11 @@ for ind, row in shap_values_highest.iterrows():
     st.write(data)
 
     # n, _ = np.histogram(data)
-    fig, ax = plt.subplots(figsize=(6,3))
+    fig, ax = plt.subplots(figsize=(5,2.5))
 
 
     with st.spinner('Je compare la valeur client au reste:'):
-        _, _, bar_container = ax.hist(data, 8,
+        _, _, bar_container = ax.hist(data, 15,
                                       fc="c", alpha=0.5)
 
         media = float(medie[ind].to_dict()['0'])
