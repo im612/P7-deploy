@@ -280,7 +280,7 @@ for ind, row in shap_values_highest.iterrows():
     _, _, bar_container = ax.hist(data,
                                   fc="c", alpha=0.5)
 
-    media = medie[ind].to_dict()[ind]
+    media = medie[ind].to_dict()['0']
     st.write(media)
 
     # plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media}')
