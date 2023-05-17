@@ -255,9 +255,7 @@ st.subheader('Distributions des facteurs déterminants ')
 response = requests.post(url=f"{urlname}/get_avg")
 obj3 = response.json()
 medie = obj3["list_avg"]
-# medie = pd.DataFrame(medie, index=colnames_100) #orizzontale?
-medie = pd.DataFrame(medie, index=colnames_100).transpose() #orizzontale?
-st.write(medie)
+medie = pd.DataFrame(medie, index=colnames_100).transpose()
 
 for ind, row in shap_values_highest.iterrows():
     st.subheader(f'Variable: {ind}')
@@ -275,11 +273,11 @@ for ind, row in shap_values_highest.iterrows():
     n, _ = np.histogram(data)
     fig, ax = plt.subplots(figsize=(3,1.5))
 
-    _, _, bar_container = ax.hist(data,
+    _, _, bar_container = ax.hist(data, bins=10,
                                   fc="c", alpha=0.5)
 
     media = float(medie[ind].to_dict()['0'])
-    st.write(media)
+    # st.write('Moyennemedia)
 
     plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media}')
     plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_id}')
