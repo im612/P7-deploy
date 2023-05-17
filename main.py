@@ -199,7 +199,7 @@ margine = abs(float(lim1)-float(lim2))/4
 
 ax.set(xlim=(0, shap_values_highest["shap"].max()+margine))
 plt.title(f'Id: {id}', fontdict={'fontsize':12})
-plt.xlabel('Facteurs avec impact positif', fontsize=11)
+plt.xlabel('Facteurs défavorables', fontsize=11)
 plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 
@@ -219,7 +219,7 @@ ax = sns.barplot(x=shap_values_lowest["shap"], y=shap_values_lowest["shap"].inde
 # https://www.statology.org/seaborn-horizontal-barplot/
 ax.set(xlim=(shap_values_lowest["shap"].min()*1.2, 0))
 plt.title(f'Id: {id}', fontdict={'fontsize':12})
-plt.xlabel('Facteurs avec impact négatif', fontsize=11)
+plt.xlabel('Facteurs favorables', fontsize=11)
 plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
