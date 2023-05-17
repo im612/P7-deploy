@@ -204,7 +204,7 @@ plt.savefig(f'{BASE_DIR}/pos{id}.png')
 st.image(f"{BASE_DIR}/pos{id}.png")
 
 
-locs, labels = plt.yticks()
+locs, labels = plt.xticks()
 st.write(labels[0], labels[1])
 # yticks = ax.yaxis.get_major_ticks()
 # st.write(yticks)
@@ -241,7 +241,7 @@ st.image(f"{BASE_DIR}/neg{id}.png")
 # st.write(yticks)
 # pad_pt = yticks[-1].get_pad()
 # st.write(pad_pt)
-locs, labels = plt.yticks()
+locs, labels = plt.xticks()
 st.write(labels[0], labels[1])
 
 # st.pyplot(fig=fig, use_container_width=False)
