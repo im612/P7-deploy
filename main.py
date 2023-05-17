@@ -182,7 +182,7 @@ import seaborn as sns
 
 
 
-st.subheader('Contributions positives :warning: risque augmenté')
+st.subheader(':warning: Contributions positives - risque augmenté')
 
 shap_values_highest = shap_sorted.tail(10)[::-1]
 # https://stackoverflow.com/questions/20444087/right-way-to-reverse-a-pandas-dataframe
@@ -255,8 +255,8 @@ st.subheader('Contributions positives :warning: risque augmenté')
 response = requests.post(url=f"{urlname}/get_avg")
 obj3 = response.json()
 medie = obj3["list_avg"]
-medie = pd.DataFrame(medie, index=colnames_100) #orizzontale?
-# medie = pd.DataFrame(medie, index=colnames_100).transpose() #orizzontale?
+# medie = pd.DataFrame(medie, index=colnames_100) #orizzontale?
+medie = pd.DataFrame(medie, index=colnames_100).transpose() #orizzontale?
 st.write(medie)
 
 for ind, row in shap_values_highest.iterrows():
