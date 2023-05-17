@@ -273,7 +273,7 @@ for ind, row in shap_values_highest.iterrows():
     fig, ax = plt.subplots(figsize=(10,5))
 
     with st.spinner('Je compare la valeur client au reste:'):
-        _, _, bar_container = ax.hist(data, 15,  linecolor ='g',
+        _, _, bar_container = ax.hist(data, 15,
                                       fc="r", alpha=0.5)
 
         media = float(medie[ind].to_dict()['0'])
