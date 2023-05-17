@@ -259,7 +259,7 @@ medie = pd.DataFrame(medie, index=colnames_100).transpose()
 
 for ind, row in shap_values_highest.iterrows():
     n = shap_values_highest.index.get_loc(ind)
-    st.subheader(f':warning: {n+1} - variable {ind}')
+    st.subheader(f':warning: :chart_with_downwards_trend: {n+1} - variable {ind}')
     val_feature_id = float(x_line_with_cols[ind].to_dict()['0'])
 
     shap_feature = row["shap"]
@@ -307,7 +307,7 @@ medie = pd.DataFrame(medie, index=colnames_100).transpose()
 
 for ind, row in shap_values_lowest.iterrows():
     n = shap_values_lowest.index.get_loc(ind)
-    st.subheader(f':warning: {n+1} - variable {ind}')
+    st.subheader(f':chart_with_upwards_trend:{n+1} - variable {ind}')
 
     val_feature_id = float(x_line_with_cols[ind].to_dict()['0'])
 
