@@ -119,7 +119,7 @@ def get_shap(id):
 def get_avg():
     x = get_df()
     x = x.drop(columns=['SK_ID_CURR','TARGET'])
-    x_avg = pd.DataFrame(x.mean(axis=1))
+    x_avg = pd.DataFrame(x.mean(axis=0))
     return x_avg
 
 def get_col(namecol):
