@@ -282,11 +282,11 @@ for ind, row in shap_values_highest.iterrows():
     media = medie[ind]
 
     # plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media}')
-    # plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_id}')
+    plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_id}')
 
     # ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
     #           ncol=3, fancybox=True)
-    plt.figure(figsize=(0.8, 0.8))
+    plt.figure(figsize=(0.8, 0.4))
     st.pyplot(fig=fig, use_container_width=False)
     plt.close()
     st.divider()
