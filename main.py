@@ -171,7 +171,7 @@ del colnames_100[-1]
 shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames_100, columns=['shap']) #orizzontale?
 shap_sorted = shap_values.sort_values(by=['shap'])
 
-x_line_with_cols = pd.DataFrame(x_line, columns=colnames_100, index=['0']) #orizzontale?
+x_line_with_cols = pd.DataFrame(x_line, columns=colnames_100) #orizzontale?
 st.write(x_line_with_cols)
 
 shap_values_lowest = shap_sorted.head(10)
