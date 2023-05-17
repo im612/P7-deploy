@@ -262,7 +262,7 @@ st.write(medie)
 for ind, row in shap_values_highest.iterrows():
     st.subheader(f'Variable: {ind}')
     val_feature_id = x_line_with_cols[ind]
-    st.write(val_feature_id)
+    st.write(val_feature_id.tolist())
     shap_feature = row["shap"]
 
     q = {"ncol": ind}
@@ -280,7 +280,7 @@ for ind, row in shap_values_highest.iterrows():
     _, _, bar_container = ax.hist(data,
                                   fc="c", alpha=0.5)
 
-    media = medie[ind]
+    media = medie[ind].tolist()
     st.write(media)
 
     # plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media}')
