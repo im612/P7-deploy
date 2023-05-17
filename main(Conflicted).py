@@ -6,9 +6,11 @@ import pickle
 import json
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
-# import pandas as pd
+import pandas as pd
 import shap.plots
 from streamlit_shap import st_shap
+from numpy import argsort
+import numpy as np
 
 from pathlib import Path
 # import sklearn
@@ -59,7 +61,7 @@ st.write(f'Nombre de clients: {len(indnames)}')
 id = st.selectbox("Saisir le code client :", [i for i in indnames])
 st.header(f'Code client: {str(int(id))}')
 
-del indnames # nous n'en avons plus besoin
+del indnames #nous n'en avons plus besoin
 
 # # APPEL AUX ENDPOINTS
 # # https://stackoverflow.com/questions/72060222/how-do-i-pass-args-and-kwargs-to-a-rest-endpoint-built-with-fastapi
@@ -92,7 +94,7 @@ if pred == 0:
 elif pred == 1:
     pred_word = "Non solvable"
 
-col2.metric("Prédiction", pred_word)
+col2.metric("Prévision", pred_word)
 
 # col3.metric("Probabilité de non solvabilité", "%.2f" % prob, "%.2f" % (seuil - prob))
 # #
@@ -140,22 +142,391 @@ st.image(f"{BASE_DIR}/globalshap2.png")
 
 st.header('Facteurs déterminants pour ce profil')
 
-
+#Bloc SHAP local
+# 1. Explainer
 @st.cache_data(ttl=3600)
 def get_explainer():
     with open(f"{BASE_DIR}/model_frontend/explainer.pkl", "rb") as f:
         explainer = pickle.load(f)
     return explainer
 
-# @st.cache_data(ttl=3600)
-def sh_w_id(id_i):
-    response = requests.post(url=f"{urlname}/shap_val", data=qj)
-    obj3 = response.json()
-    sh_w = obj3["shap"]
-    return sh_w
+explainer = get_explainer()
 
-shap_values = sh_w_id(id)
-# # st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
+# 2. Données client
+response = requests.post(url=f"{urlname}/get_line", data=qj)
+objind = response.json()
+x_line = pd.DataFrame.from_dict(objind["listline"])
+
+# 3. Nom des features
+response = requests.post(url=f"{urlname}/colnames")
+obj2 = response.json()
+colnames_100 = obj2["listcolnames"]
+# colnames_100 = colnames
+del colnames_100[0]
+del colnames_100[-1]
+# st.write(len(colnames_100), len(colnames))
+
+# 4. Valeurs SHAP
+# shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames, columns=['shap']) #orizzontale?
+shap_values = pd.DataFrame(explainer.shap_values(x_line)[0], index=colnames_100, columns=['shap']) #orizzontale?
+shap_sorted = shap_values.sort_values(by=['shap'])
+
+x_line_with_cols = pd.DataFrame(x_line, columns=colnames_100) #orizzontale?
+st.write(x_line_with_cols)
+
+shap_values_lowest = shap_sorted.head(10)
+# st.write(shap_values_lowest)
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+
+st.subheader(':warning: Contributions positives - risque augmenté')
+
+shap_values_highest = shap_sorted.tail(10)[::-1]
+# https://stackoverflow.com/questions/20444087/right-way-to-reverse-a-pandas-dataframe
+
+fig, ax = plt.subplots(figsize=(10,3.5))
+ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="r")
+# https://www.statology.org/seaborn-horizontal-barplot/
+locs, labels = plt.xticks()
+
+lim1=str(labels[0]).split("(")[1].split(",")[0]
+lim2=str(labels[1]).split("(")[1].split(",")[0]
+
+margine = abs(float(lim1)-float(lim2))/4
+
+ax.set(xlim=(0, shap_values_highest["shap"].max()+margine))
+plt.title(f'Id: {id}', fontdict={'fontsize':12})
+plt.xlabel('Facteurs avec impact positif', fontsize=11)
+plt.xticks(fontsize=9)
+plt.ylabel('Valeurs SHAP', fontsize=11)
+
+# margine = shap_values_highest["shap"].min()
+for ind, row in shap_values_highest.iterrows():
+    n = shap_values_highest.index.get_loc(ind)
+    ax.text(shap_values_highest["shap"].max()+2*margine, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
+
+plt.savefig(f'{BASE_DIR}/pos{id}.png')
+st.image(f"{BASE_DIR}/pos{id}.png")
+plt.close()
+
+st.subheader('Contributions négative - risque diminué')
+# fig, ax = plt.subplots(figsize=(1.2,1.6))
+fig, ax = plt.subplots(figsize=(10,3.5))
+ax = sns.barplot(x=shap_values_lowest["shap"], y=shap_values_lowest["shap"].index, orient='h', color="g")
+# https://www.statology.org/seaborn-horizontal-barplot/
+ax.set(xlim=(shap_values_lowest["shap"].min()*1.2, 0))
+plt.title(f'Id: {id}', fontdict={'fontsize':12})
+plt.xlabel('Facteurs avec impact négatif', fontsize=11)
+plt.xticks(fontsize=9)
+plt.ylabel('Valeurs SHAP', fontsize=11)
+# https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
+
+locs, labels = plt.xticks()
+lim1=str(labels[0]).split("(")[1].split(",")[0]
+lim2=str(labels[1]).split("(")[1].split(",")[0]
+
+margine = abs(float(lim1)-float(lim2))/4
+
+for ind, row in shap_values_lowest.iterrows():
+    n = shap_values_lowest.index.get_loc(ind)
+    ax.text(margine, float(n + .25), round(float(row['shap']), 3), color='gray', fontweight='bold')
+
+plt.savefig(f'{BASE_DIR}/neg{id}.png')
+st.image(f"{BASE_DIR}/neg{id}.png")
+plt.close()
+
+
+# st.pyplot(fig=fig, use_container_width=False)
+
+# https://stackoverflow.com/questions/21487329/add-x-and-y-labels-to-a-pandas-plot
+# https://seaborn.pydata.org/examples/part_whole_bars.html
+
+
+st.divider()
+
+st.subheader('Distributions des facteurs défavorables pour le client')
+
+# SELECTION NUMÉRO CLIENT
+# for fi in range(0, len(shap_values_lowest))
+
+response = requests.post(url=f"{urlname}/get_avg")
+obj3 = response.json()
+medie = obj3["list_avg"]
+medie = pd.DataFrame(medie, index=colnames_100).transpose()
+
+for ind, row in shap_values_highest.iterrows():
+    n = shap_values_highest.index.get_loc(ind)
+    st.subheader(f':warning: :chart_with_downwards_trend: {n+1} - variable {ind}')
+    val_feature_id = float(x_line_with_cols[ind].to_dict()['0'])
+
+    shap_feature = row["shap"]
+
+    q = {"ncol": ind}
+    colj = json.dumps(q)
+    response = requests.post(url=f"{urlname}/get_col", data=colj)
+    obj3 = response.json()
+    datadict = obj3["listcol"]
+    data = pd.DataFrame([datadict]).transpose() #hist funziona solo se trasponi
+
+    fig, ax = plt.subplots(figsize=(8,4))
+
+    with st.spinner('Je compare la valeur client au reste:'):
+        _, _, bar_container = ax.hist(data, 15,
+                                      fc="r", alpha=0.5)
+
+        media = float(medie[ind].to_dict()['0'])
+        media_acc = '%.2f' % media
+        val_feature_id_acc = '%.2f' % val_feature_id
+
+
+        plt.axvline(media, color='blue', linestyle='dashed', linewidth=3, alpha=0.5, label=f'moyenne : {media_acc}')
+        plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=3, alpha=0.5, label = f'valeur client : {val_feature_id_acc}')
+
+        ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
+                  ncol=3, fancybox=True)
+
+        # st.pyplot(fig=fig, use_container_width=False)
+        plt.savefig(f'{BASE_DIR}/hist.png')
+        st.image(f"{BASE_DIR}/hist.png")
+        plt.close()
+    st.divider()
+
+
+st.subheader('Distributions des facteurs favorables au client')
+
+# SELECTION NUMÉRO CLIENT
+# for fi in range(0, len(shap_values_lowest))
+
+response = requests.post(url=f"{urlname}/get_avg")
+obj3 = response.json()
+medie = obj3["list_avg"]
+medie = pd.DataFrame(medie, index=colnames_100).transpose()
+
+for ind, row in shap_values_lowest.iterrows():
+    n = shap_values_lowest.index.get_loc(ind)
+    st.subheader(f':chart_with_upwards_trend:{n+1} - variable {ind}')
+
+    val_feature_id = float(x_line_with_cols[ind].to_dict()['0'])
+
+    shap_feature = row["shap"]
+
+    q = {"ncol": ind}
+    colj = json.dumps(q)
+    response = requests.post(url=f"{urlname}/get_col", data=colj)
+    obj3 = response.json()
+    datadict = obj3["listcol"]
+    data = pd.DataFrame([datadict]).transpose() #hist funziona solo se trasponi
+
+    fig, ax = plt.subplots(figsize=(8, 4))
+
+    with st.spinner('Je compare la valeur client au reste:'):
+        _, _, bar_container = ax.hist(data, 15,
+                                      fc="g", alpha=0.5)
+
+        media = float(medie[ind].to_dict()['0'])
+        media_acc = '%.2f' % media
+        val_feature_id_acc = '%.2f' % val_feature_id
+
+
+        plt.axvline(media, color='blue', linestyle='dashed', linewidth=3, alpha=0.5, label=f'moyenne : {media_acc}')
+        plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=3, alpha=0.5, label = f'valeur client : {val_feature_id_acc}')
+
+        ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
+                  ncol=3, fancybox=True)
+
+        # st.pyplot(fig=fig, use_container_width=False)
+        plt.savefig(f'{BASE_DIR}/hist.png')
+        st.image(f"{BASE_DIR}/hist.png")
+        plt.close()
+    st.divider()
+
+
+exit()
+
+
+# https://plotly.com/python/horizontal-bar-charts/
+st.pyplot(fig)
+
+exit()
+
+
+
+#
+
+# SELECTION NUMÉRO CLIENT
+
+#     data = X[top_shap[fi]]
+#     n, _ = np.histogram(data)
+
+
+exit()
+
+
+#     _, _, bar_container = ax.hist(data,
+#                                   fc="c", alpha=0.5)
+#     media = data.mean()
+#     media_acc = '%.2f' % media
+#     mediana = data.median()
+#     mediana_acc = '%.2f' % mediana
+#     val_feature_acc = '%.2f' % float(val_feature)
+#
+#     plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media_acc}')
+#     plt.axvline(mediana, color='darkgreen', linestyle='dashed', linewidth=1, alpha=0.5, label = f'mediane : {mediana_acc}')
+#     plt.axvline(val_feature, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_acc}')
+#
+#     ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
+#               ncol=3, fancybox=True)
+#     plt.figure(figsize=(0.8, 0.8))
+#     st.pyplot(fig=fig, use_container_width=False)
+#     st.divider()
+
+
+
+# import matplotlib.pyplot as plt
+
+# fig = shap_values_highest.plot(kind='barh')
+# st.pyplot(fig=fig, use_container_width=False)
+
+# ax = plt.gca()
+# ax.invert_yaxis()
+# ax.set_ylabel('feature')
+# ax.set_xlabel('feature_importance')
+# 3313     plt.suptitle(f'{model_name} : Feature Importance')
+# 3314     ax.set_title(f"jeu de données d'entrainement (top {nb} features)")
+# 3315     add_text(ax, 0.3, 0.20,
+# 3316              s=f"")
+# 3317     sns.despine()
+# 3318     to_png(f'{model_name}: Feature Importance entrainement')
+# plt.show()
+
+
+# st.write(shap_values.shape)
+# shap_values = pd.DataFrame(explainer.shap_values(x_line)[0].transpose(), columns=colnames_100)
+
+# shap_values = pd.DataFrame(explainer.shap_values(x_line)).transpose().sort_values(axis=1)
+# shap_values = explainer.shap_values(x_line)
+# st.write(shap_values)
+
+
+exit()
+shap_values_list = explainer.shap_values(x_line).tolist()[0]
+st.write(shap_values_list)
+st.write(len(shap_values_list))
+# st.write(len(shap_values_list[0]))
+shap_sorted = argsort(shap_values_list)
+st.write(len(shap_sorted))
+shap_values_highest = [ shap_sorted[i] for i in range(0,10) ]
+lenshapv = len(shap_sorted)
+shap_values_lowest = [ shap_sorted[i] for i in range(lenshapv-10, lenshapv) ]
+# shap_values_lowest = argsort(-1*shap_values)
+
+
+
+
+st.write(shap_values_lowest)
+
+
+#
+# top_shap = X.columns[np.argsort(np.abs(shap_values.values[ind]))[::-1][:9]]
+# ind_top_shap = np.argsort(np.abs(shap_values.values[ind]))[::-1][:9]
+#
+# ind_top_shap = np.argsort(np.abs(shap_values.values[ind]))[::-1][:9]
+# # https://stackoverflow.com/questions/16486252/is-it-possible-to-use-argsort-in-descending-order
+#
+# import plotly.graph_objects as go
+# import matplotlib.pyplot as plt
+#
+# st.header('Distribution des facteurs déterminants')
+
+# SELECTION NUMÉRO CLIENT
+# for fi in range(0, len(top_shap)):
+#     st.subheader(f'Nom variable: {top_shap[fi]}')
+#     val_feature = '%.3f' % float(shap_values.data[ind][ind_top_shap[fi]])
+#     shap_feature = float(shap_values.values[ind][ind_top_shap[fi]])
+#
+#     if shap_feature > 0:
+#         st.subheader(f':warning: Contribution positive (%.2f): risque augmenté' % shap_feature)
+#     elif shap_feature < 0:
+#         st.subheader(f'Contribution négative (%.2f): risque diminué' % shap_feature)
+#
+#     data = X[top_shap[fi]]
+#     n, _ = np.histogram(data)
+#     fig, ax = plt.subplots()
+#     _, _, bar_container = ax.hist(data,
+#                                   fc="c", alpha=0.5)
+#     media = data.mean()
+#     media_acc = '%.2f' % media
+#     mediana = data.median()
+#     mediana_acc = '%.2f' % mediana
+#     val_feature_acc = '%.2f' % float(val_feature)
+#
+#     plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media_acc}')
+#     plt.axvline(mediana, color='darkgreen', linestyle='dashed', linewidth=1, alpha=0.5, label = f'mediane : {mediana_acc}')
+#     plt.axvline(val_feature, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_acc}')
+#
+#     ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
+#               ncol=3, fancybox=True)
+#     plt.figure(figsize=(0.8, 0.8))
+#     st.pyplot(fig=fig, use_container_width=False)
+#     st.divider()
+
+# st_shap(shap.plots.waterfall(shap_values), height=800, width=2000)
+
+# def get_shap(expl, id, X):
+#     # print('shap')
+#     X_line = get_line(id, X)
+#
+#     # print(X_line)
+#     shap_values_expl = expl.shap_values(X_line).tolist()
+#     # print(f'shap_values_expl {shap_values_expl}')
+#     shap_values_expl_ind = np.argsort(shap_values_expl)
+#     # print(f'shap_values_expl_ind {shap_values_expl_ind}')
+
+# # def run_shap(id):
+# #     best_model, X, threshold = get_the_rest()
+
+# #     ind_line = get_ind(id, X)
+# #
+# #     shap_values = explainer.shap_values(X)
+# #
+# #     fig = shap.summary_plot(shap_values, X, show=False)
+# #     plt.savefig('shap_global.png')
+# #
+# #     fig1 = shap.plots.waterfall(shap_values[ind_line])
+# #     plt.savefig('shap_local.png')
+# #     plt.close()
+
+
+# #
+
+
+
+# # inizio shap su be
+# q = {"id" : f"{id}"}
+# qj = json.dumps(q)
+# # response = requests.post(url=f"{urlname}/shap_val", data=qj)
+# response = requests.post(url=f"{urlname}/shap_val", data=qj)
+# st.write(response)
+# objind = response.json()
+# # listline = objind["listline"]
+# st.write(objind)
+#
+#
+
+#
+# # @st.cache_data(ttl=3600)
+# def sh_w_id(id_i):
+#     q = {"id": f"{id_i}"}
+#     qj = json.dumps(q)
+#     response = requests.post(url=f"{urlname}/shap_val", data=qj)
+#     obj3 = response.json()
+#     sh_w = obj3["shap"]
+#     return sh_w
+#
+# shap_values = sh_w_id(id)
 
 # ind = indnames.tolist().index(id)
 #
