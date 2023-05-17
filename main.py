@@ -205,7 +205,8 @@ st.image(f"{BASE_DIR}/pos{id}.png")
 
 
 locs, labels = plt.xticks()
-st.write(labels[0].to_list(), labels[1].to_list()[0])
+# st.write(labels[0].to_list(), labels[1].to_list()[0])
+st.write(labels[0], labels[1])
 # yticks = ax.yaxis.get_major_ticks()
 # st.write(yticks)
 # pad_pt = yticks[-1].get_pad()
