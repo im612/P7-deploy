@@ -269,6 +269,7 @@ for ind, row in shap_values_highest.iterrows():
     obj3 = response.json()
     datadict = obj3["listcol"]
     data = pd.DataFrame([datadict])
+    st.write(data)
 
     # n, _ = np.histogram(data)
     fig, ax = plt.subplots(figsize=(6,3))
