@@ -278,10 +278,12 @@ for ind, row in shap_values_highest.iterrows():
                                   fc="c", alpha=0.5)
 
     media = float(medie[ind].to_dict()['0'])
-    # st.write('Moyennemedia)
+    media_acc = '%.2f' % media
+    val_feature_id_acc = '%.2f' % val_feature_id
 
-    plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media}')
-    plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_id}')
+
+    plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media_acc}')
+    plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_id_acc}')
 
     ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
               ncol=3, fancybox=True)
