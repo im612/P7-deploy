@@ -192,8 +192,8 @@ ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].in
 # https://www.statology.org/seaborn-horizontal-barplot/
 locs, labels = plt.xticks()
 # lim1=str(labels[0]).split("(").split("'")[0]
-lim1=str(labels[0]).split("(")[1].split("'")[0]
-lim2=str(labels[1]).split("(")[1].split("'")[0]
+lim1=str(labels[0]).split("(")[1].split(",")[0]
+lim2=str(labels[1]).split("(")[1].split(",")[0]
 # lim2=str(labels[1]).split("(").split("'")[0]
 margine = abs(float(lim1)-float(lim2))/4
 
