@@ -270,7 +270,8 @@ for ind, row in shap_values_highest.iterrows():
     datadict = obj3["listcol"]
     data = pd.DataFrame([datadict])
 
-    n, _ = np.histogram(data)
+    with st.spinner('Je récupère les facteurs déterminants...'):
+    # n, _ = np.histogram(data)
     fig, ax = plt.subplots(figsize=(3,1.5))
 
     _, _, bar_container = ax.hist(data, bins=10,
