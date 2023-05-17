@@ -271,7 +271,7 @@ for ind, row in shap_values_highest.iterrows():
     data = pd.DataFrame([datadict])
 
     # n, _ = np.histogram(data)
-    fig, ax = plt.subplots(figsize=(3,1.5))
+    fig, ax = plt.subplots(figsize=(6,3))
 
 
     with st.spinner('Je compare la valeur client au reste:'):
