@@ -258,7 +258,7 @@ medie = obj3["list_avg"]
 medie = pd.DataFrame(medie, index=colnames_100).transpose()
 
 for ind, row in shap_values_highest.iterrows():
-    st.subheader(f'Variable: {ind}')
+    st.subheader(f':warning: Variable: {ind}')
     val_feature_id = float(x_line_with_cols[ind].to_dict()['0'])
 
     shap_feature = row["shap"]
