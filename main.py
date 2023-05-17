@@ -191,8 +191,9 @@ fig, ax = plt.subplots(figsize=(10,3.5))
 ax = sns.barplot(x=shap_values_highest["shap"], y=shap_values_highest["shap"].index, orient='h', color="r")
 # https://www.statology.org/seaborn-horizontal-barplot/
 locs, labels = plt.xticks()
-margine = abs(float(str(labels[0]).split("(").split("'")[0])-
-              float(str(labels[1]).split("(").split("'")[0]))/4
+lim1=str(labels[0]).split("(").split("'")[0]
+lim2=str(labels[1]).split("(").split("'")[0]
+margine = abs(float(lim1)-float(lim2))/4
 
 ax.set(xlim=(0, shap_values_highest["shap"].max()+2*margine))
 plt.title(f'Id: {id}', fontdict={'fontsize':12})
