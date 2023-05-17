@@ -273,9 +273,10 @@ for ind, row in shap_values_highest.iterrows():
     # n, _ = np.histogram(data)
     fig, ax = plt.subplots(figsize=(3,1.5))
 
-    _, _, bar_container = ax.hist(data, bins=10,
-                                  fc="c", alpha=0.5)
+
     with st.spinner('Je compare la valeur client au reste:'):
+        _, _, bar_container = ax.hist(data, density=10,
+                                      fc="c", alpha=0.5)
 
         media = float(medie[ind].to_dict()['0'])
         media_acc = '%.2f' % media
