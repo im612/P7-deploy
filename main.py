@@ -210,7 +210,7 @@ for ind, row in shap_values_highest.iterrows():
 
 plt.savefig(f'{BASE_DIR}/pos{id}.png')
 st.image(f"{BASE_DIR}/pos{id}.png")
-
+plt.close()
 
 st.subheader('Contributions négative - risque diminué')
 # fig, ax = plt.subplots(figsize=(1.2,1.6))
@@ -236,6 +236,7 @@ for ind, row in shap_values_lowest.iterrows():
 
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
+plt.close()
 
 
 # st.pyplot(fig=fig, use_container_width=False)
@@ -264,15 +265,15 @@ for ind, row in shap_values_highest.iterrows():
 
     st.write(data)
 
-
-    # val_feature_all
-
-#     data = X[top_shap[fi]]
     n, _ = np.histogram(data)
     fig, ax = plt.subplots()
 
     _, _, bar_container = ax.hist(data,
                                   fc="c", alpha=0.5)
+
+    response = requests.post(url=f"{urlname}/get_avg", data=colj)
+    obj3 = response.json()
+    media = obj3["avg"]
     # media = data.mean()
     # media_acc = '%.2f' % media
     # mediana = data.median()
@@ -287,6 +288,7 @@ for ind, row in shap_values_highest.iterrows():
     #           ncol=3, fancybox=True)
     plt.figure(figsize=(0.8, 0.8))
     st.pyplot(fig=fig, use_container_width=False)
+    plt.close()
     st.divider()
 
 exit()

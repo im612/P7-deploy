@@ -10,7 +10,7 @@ from model import get_probability_df
 from model import get_prediction
 from model import get_threshold
 from model import load_colnames
-from model import get_avgs
+from model import get_avg
 from model import get_line
 from model import get_col
 
@@ -72,10 +72,10 @@ def prediction(iddata: Id):
     return {"listline": pred}
 
 
-@app.post("/get_avgs")
+@app.post("/get_avg")
 def prediction(coldata: Col):
-    pred = get_avgs(str(coldata.ncol))
-    return {"seuil": pred}
+    pred = get_avg(str(coldata.ncol))
+    return {"avg": pred}
 
 
 @app.post("/get_col")

@@ -122,7 +122,7 @@ def get_shap(id):
     #     # shap_values = explainer(X_line)
     # return shap_values
 
-def get_avgs(indstr):
+def get_avg(indstr):
     x = get_df()
     x = x.drop(columns=['SK_ID_CURR','TARGET'])
     x_avg = pd.DataFrame(x.mean(axis=1))[indstr]
