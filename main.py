@@ -224,6 +224,7 @@ plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
+locs, labels = plt.xticks()
 lim1=str(labels[0]).split("(")[1].split(",")[0]
 lim2=str(labels[1]).split("(")[1].split(",")[0]
 
