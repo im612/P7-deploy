@@ -262,6 +262,7 @@ st.write(medie)
 for ind, row in shap_values_highest.iterrows():
     st.subheader(f'Variable: {ind}')
     val_feature_id = x_line_with_cols[ind]
+    st.write(val_feature_id)
     shap_feature = row["shap"]
 
     q = {"ncol": ind}
@@ -280,9 +281,10 @@ for ind, row in shap_values_highest.iterrows():
                                   fc="c", alpha=0.5)
 
     media = medie[ind]
+    st.write(media)
 
     # plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media}')
-    plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_id}')
+    # plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_id}')
 
     # ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
     #           ncol=3, fancybox=True)
