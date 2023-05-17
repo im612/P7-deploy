@@ -203,10 +203,13 @@ for ind, row in shap_values_highest.iterrows():
 plt.savefig(f'{BASE_DIR}/pos{id}.png')
 st.image(f"{BASE_DIR}/pos{id}.png")
 
-yticks = ax.yaxis.get_major_ticks()
-st.write(yticks)
-pad_pt = yticks[-1].get_pad()
-st.write(pad_pt)
+
+locs, labels = plt.yticks()
+st.write(locs[0], locs[1])
+# yticks = ax.yaxis.get_major_ticks()
+# st.write(yticks)
+# pad_pt = yticks[-1].get_pad()
+# st.write(pad_pt)
 
 
 st.subheader('Contributions négative - risque diminué')
@@ -259,8 +262,8 @@ for ind, row in shap_values_highest.iterrows():
     colj = json.dumps(q)
     response = requests.post(url=f"{urlname}/get_col", data=colj)
     obj3 = response.json()
-    data = obj3["listcol"]
-    # data = pd.DataFrame.from_dict(obj3["listcol"])
+    datadict = obj3["listcol"]
+    data = pd.DataFrame.from_dict(datadict)
 
     st.write(data)
 
@@ -268,7 +271,7 @@ for ind, row in shap_values_highest.iterrows():
     # val_feature_all
 
 #     data = X[top_shap[fi]]
-#     n, _ = np.histogram(data)
+    n, _ = np.histogram(data)
 #     fig, ax = plt.subplots()
 #
 #     _, _, bar_container = ax.hist(data,
