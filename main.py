@@ -10,6 +10,7 @@ import pandas as pd
 import shap.plots
 from streamlit_shap import st_shap
 from numpy import argsort
+import numpy as np
 
 from pathlib import Path
 # import sklearn
@@ -206,7 +207,7 @@ st.image(f"{BASE_DIR}/pos{id}.png")
 
 locs, labels = plt.xticks()
 # st.write(labels[0].to_list(), labels[1].to_list()[0])
-st.write(labels[0].split("(").split("'")[0], labels[1].split("(").split("'")[0])
+st.write(str(labels[0]).split("(").split("'")[0], str(labels[1]).split("(").split("'")[0])
 # yticks = ax.yaxis.get_major_ticks()
 # st.write(yticks)
 # pad_pt = yticks[-1].get_pad()
