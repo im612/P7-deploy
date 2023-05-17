@@ -68,22 +68,22 @@ del indnames #nous n'en avons plus besoin
 # # https://stackoverflow.com/questions/64057445/fast-api-post-does-not-recgonize-my-parameter
 
 
+with st.spinner('Un moment...'):
+    q = {"id" : f"{id}"}
+    qj = json.dumps(q)
+    response = requests.post(url=f"{urlname}/probability", data=qj)
+    # st.write(response)
+    objprob = response.json()
+    prob = objprob['probability']
 
-q = {"id" : f"{id}"}
-qj = json.dumps(q)
-response = requests.post(url=f"{urlname}/probability", data=qj)
-# st.write(response)
-objprob = response.json()
-prob = objprob['probability']
 
+    response = requests.post(url=f"{urlname}/prediction", data=qj)
+    obj2 = response.json()
+    pred = obj2['prediction']
 
-response = requests.post(url=f"{urlname}/prediction", data=qj)
-obj2 = response.json()
-pred = obj2['prediction']
-
-response = requests.post(url=f"{urlname}/seuil", data=qj)
-obj3 = response.json()
-seuil = obj3['seuil']
+    response = requests.post(url=f"{urlname}/seuil", data=qj)
+    obj3 = response.json()
+    seuil = obj3['seuil']
 
 # Premiers indicateurs
 col1, col2, col3 = st.columns(3)
