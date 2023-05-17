@@ -215,10 +215,6 @@ plt.xticks(fontsize=9)
 plt.ylabel('Valeurs SHAP', fontsize=11)
 # https://stackoverflow.com/questions/12444716/how-do-i-set-the-figure-title-and-axes-labels-font-size
 
-# yticks = ax.yaxis.get_major_ticks()
-# yticks = ax.yaxis.get_ticks_position()
-yticks = ax.yaxis.get_major_ticks()
-pad_pt = yticks[-1].get_pad()
 
 
 margine = shap_values_lowest["shap"].max()*3
@@ -229,8 +225,13 @@ for ind, row in shap_values_lowest.iterrows():
 plt.savefig(f'{BASE_DIR}/neg{id}.png')
 st.image(f"{BASE_DIR}/neg{id}.png")
 
-st.write(pad_pt)
 
+# yticks = ax.yaxis.get_major_ticks()
+# yticks = ax.yaxis.get_ticks_position()
+yticks = ax.yaxis.get_major_ticks()
+st.write(yticks)
+pad_pt = yticks[-1].get_pad()
+st.write(pad_pt)
 # st.pyplot(fig=fig, use_container_width=False)
 
 # https://stackoverflow.com/questions/21487329/add-x-and-y-labels-to-a-pandas-plot
@@ -248,11 +249,12 @@ for ind, row in shap_values_highest.iterrows():
     val_feature_id = x_line_with_cols[ind]
     shap_feature = row["shap"]
 
-    q = {"ncol": f"{ind}"}
+    q = {"ncol": ind}
     colj = json.dumps(q)
     response = requests.post(url=f"{urlname}/get_col", data=colj)
     obj3 = response.json()
-    data = pd.DataFrame.from_dict(obj3["listcol"])
+    data = obj3["listcol"]
+    # data = pd.DataFrame.from_dict(obj3["listcol"])
 
     st.write(data)
 
