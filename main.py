@@ -255,7 +255,8 @@ st.subheader('Contributions positives :warning: risque augmenté')
 response = requests.post(url=f"{urlname}/get_avg")
 obj3 = response.json()
 medie = obj3["list_avg"]
-medie = pd.DataFrame(medie, index=colnames_100).transpose() #orizzontale?
+medie = pd.DataFrame(medie, index=colnames_100) #orizzontale?
+# medie = pd.DataFrame(medie, index=colnames_100).transpose() #orizzontale?
 st.write(medie)
 
 for ind, row in shap_values_highest.iterrows():
@@ -270,7 +271,7 @@ for ind, row in shap_values_highest.iterrows():
     datadict = obj3["listcol"]
     data = pd.DataFrame([datadict])
 
-    st.write(data)
+    # st.write(data)
 
     n, _ = np.histogram(data)
     fig, ax = plt.subplots(figsize=(4,4))
