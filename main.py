@@ -270,7 +270,7 @@ for ind, row in shap_values_highest.iterrows():
     datadict = obj3["listcol"]
     data = pd.DataFrame([datadict]).transpose() #hist funziona solo se trasponi
 
-    fig, ax = plt.subplots(figsize=(10,5))
+    fig, ax = plt.subplots(figsize=(8,4))
 
     with st.spinner('Je compare la valeur client au reste:'):
         _, _, bar_container = ax.hist(data, 15,
@@ -317,10 +317,10 @@ for ind, row in shap_values_lowest.iterrows():
     datadict = obj3["listcol"]
     data = pd.DataFrame([datadict]).transpose() #hist funziona solo se trasponi
 
-    fig, ax = plt.subplots(figsize=(10,5))
+    fig, ax = plt.subplots(figsize=(8, 4))
 
     with st.spinner('Je compare la valeur client au reste:'):
-        _, _, bar_container = ax.hist(data, 15,  linecolo ='dashed',
+        _, _, bar_container = ax.hist(data, 15,
                                       fc="g", alpha=0.5)
 
         media = float(medie[ind].to_dict()['0'])
