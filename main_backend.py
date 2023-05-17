@@ -74,7 +74,7 @@ def prediction(iddata: Id):
 
 @app.post("/get_avg")
 def prediction():
-    pred = get_avg())
+    pred = get_avg()
     return {"list_avg": pred}
 
 

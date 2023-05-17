@@ -251,6 +251,12 @@ st.subheader('Distributions des facteurs déterminants ')
 st.subheader('Contributions positives :warning: risque augmenté')
 # SELECTION NUMÉRO CLIENT
 # for fi in range(0, len(shap_values_lowest))
+
+response = requests.post(url=f"{urlname}/get_avg")
+obj3 = response.json()
+medie = obj3["list_avg"]
+medie = pd.DataFrame(medie, index=colnames_100).transpose() #orizzontale?
+
 for ind, row in shap_values_highest.iterrows():
     st.subheader(f'Variable: {ind}')
     val_feature_id = x_line_with_cols[ind]
@@ -271,18 +277,10 @@ for ind, row in shap_values_highest.iterrows():
     _, _, bar_container = ax.hist(data,
                                   fc="c", alpha=0.5)
 
-    response = requests.post(url=f"{urlname}/get_avg")
-    obj3 = response.json()
-    media = obj3["list_avg"]
-    # media = data.mean()
-    # media_acc = '%.2f' % media
-    # mediana = data.median()
-    # mediana_acc = '%.2f' % mediana
-    # val_feature_acc = '%.2f' % float(val_feature)
+    media = medie[ind]
 
-    # plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media_acc}')
-    # plt.axvline(mediana, color='darkgreen', linestyle='dashed', linewidth=1, alpha=0.5, label = f'mediane : {mediana_acc}')
-    # plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_id}')
+    plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media}')
+    plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_id}')
 
     # ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
     #           ncol=3, fancybox=True)
