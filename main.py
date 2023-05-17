@@ -287,6 +287,8 @@ for ind, row in shap_values_highest.iterrows():
 
         plt.axvline(media, color='blue', linestyle='dashed', linewidth=3, alpha=0.5, label=f'moyenne : {media_acc}')
         plt.axvline(val_feature_id, color='firebrick', linestyle='solid', linewidth=3, alpha=0.5, label = f'valeur client : {val_feature_id_acc}')
+        plt.ylabel('Comptage', fontsize=11)
+        plt.xlabel('Unité spécifique de la variable', fontsize=11)
 
         ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
                   ncol=3, fancybox=True)
@@ -341,6 +343,8 @@ for ind, row in shap_values_lowest.iterrows():
 
         ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
                   ncol=3, fancybox=True)
+        plt.ylabel('Comptage', fontsize=11)
+        plt.xlabel('Unité spécifique de la variable', fontsize=11)
 
         # st.pyplot(fig=fig, use_container_width=False)
         plt.savefig(f'{BASE_DIR}/hist.png')
