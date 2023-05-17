@@ -275,7 +275,7 @@ for ind, row in shap_values_highest.iterrows():
     # st.write(data)
 
     n, _ = np.histogram(data)
-    fig, ax = plt.subplots(figsize=(4,4))
+    fig, ax = plt.subplots(figsize=(4,2))
 
     _, _, bar_container = ax.hist(data,
                                   fc="c", alpha=0.5)
@@ -288,7 +288,7 @@ for ind, row in shap_values_highest.iterrows():
 
     # ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
     #           ncol=3, fancybox=True)
-    plt.figure(figsize=(0.8, 0.4))
+
     st.pyplot(fig=fig, use_container_width=False)
     plt.close()
     st.divider()
