@@ -247,7 +247,7 @@ plt.close()
 
 st.divider()
 
-st.subheader('Distributions des facteurs déterminants ')
+st.subheader('Distributions des facteurs défavorables pour le client')
 
 # SELECTION NUMÉRO CLIENT
 # for fi in range(0, len(shap_values_lowest))
@@ -273,8 +273,8 @@ for ind, row in shap_values_highest.iterrows():
     fig, ax = plt.subplots(figsize=(10,5))
 
     with st.spinner('Je compare la valeur client au reste:'):
-        _, _, bar_container = ax.hist(data, 15,
-                                      fc="c", alpha=0.5)
+        _, _, bar_container = ax.hist(data, 15,  linecolo ='dashed',
+                                      fc="r", alpha=0.5)
 
         media = float(medie[ind].to_dict()['0'])
         media_acc = '%.2f' % media
@@ -292,6 +292,54 @@ for ind, row in shap_values_highest.iterrows():
         st.image(f"{BASE_DIR}/hist.png")
         plt.close()
     st.divider()
+
+
+st.subheader('Distributions des facteurs favorables au client')
+
+# SELECTION NUMÉRO CLIENT
+# for fi in range(0, len(shap_values_lowest))
+
+response = requests.post(url=f"{urlname}/get_avg")
+obj3 = response.json()
+medie = obj3["list_avg"]
+medie = pd.DataFrame(medie, index=colnames_100).transpose()
+
+for ind, row in shap_values_lowest.iterrows():
+    st.subheader(f'Variable: {ind}')
+    val_feature_id = float(x_line_with_cols[ind].to_dict()['0'])
+
+    shap_feature = row["shap"]
+
+    q = {"ncol": ind}
+    colj = json.dumps(q)
+    response = requests.post(url=f"{urlname}/get_col", data=colj)
+    obj3 = response.json()
+    datadict = obj3["listcol"]
+    data = pd.DataFrame([datadict]).transpose() #hist funziona solo se trasponi
+
+    fig, ax = plt.subplots(figsize=(10,5))
+
+    with st.spinner('Je compare la valeur client au reste:'):
+        _, _, bar_container = ax.hist(data, 15,  linecolo ='dashed',
+                                      fc="g", alpha=0.5)
+
+        media = float(medie[ind].to_dict()['0'])
+        media_acc = '%.2f' % media
+        val_feature_id_acc = '%.2f' % val_feature_id
+
+
+        plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media_acc}')
+        plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_id_acc}')
+
+        ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
+                  ncol=3, fancybox=True)
+
+        # st.pyplot(fig=fig, use_container_width=False)
+        plt.savefig(f'{BASE_DIR}/hist.png')
+        st.image(f"{BASE_DIR}/hist.png")
+        plt.close()
+    st.divider()
+
 
 exit()
 
