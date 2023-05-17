@@ -205,7 +205,7 @@ st.image(f"{BASE_DIR}/pos{id}.png")
 
 
 locs, labels = plt.yticks()
-st.write(locs[0], locs[1])
+st.write(labels[0], labels[1])
 # yticks = ax.yaxis.get_major_ticks()
 # st.write(yticks)
 # pad_pt = yticks[-1].get_pad()
@@ -237,10 +237,13 @@ st.image(f"{BASE_DIR}/neg{id}.png")
 
 # yticks = ax.yaxis.get_major_ticks()
 # yticks = ax.yaxis.get_ticks_position()
-yticks = ax.yaxis.get_major_ticks()
-st.write(yticks)
-pad_pt = yticks[-1].get_pad()
-st.write(pad_pt)
+# yticks = ax.yaxis.get_major_ticks()
+# st.write(yticks)
+# pad_pt = yticks[-1].get_pad()
+# st.write(pad_pt)
+locs, labels = plt.yticks()
+st.write(labels[0], labels[1])
+
 # st.pyplot(fig=fig, use_container_width=False)
 
 # https://stackoverflow.com/questions/21487329/add-x-and-y-labels-to-a-pandas-plot
