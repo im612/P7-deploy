@@ -203,6 +203,12 @@ for ind, row in shap_values_highest.iterrows():
 plt.savefig(f'{BASE_DIR}/pos{id}.png')
 st.image(f"{BASE_DIR}/pos{id}.png")
 
+yticks = ax.yaxis.get_major_ticks()
+st.write(yticks)
+pad_pt = yticks[-1].get_pad()
+st.write(pad_pt)
+
+
 st.subheader('Contributions négative - risque diminué')
 # fig, ax = plt.subplots(figsize=(1.2,1.6))
 fig, ax = plt.subplots(figsize=(10,3.5))
