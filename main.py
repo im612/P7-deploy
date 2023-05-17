@@ -275,7 +275,7 @@ for ind, row in shap_values_highest.iterrows():
 
 
     with st.spinner('Je compare la valeur client au reste:'):
-        _, _, bar_container = ax.hist(data, density=10,
+        _, _, bar_container = ax.hist(data, bins=8,
                                       fc="c", alpha=0.5)
 
         media = float(medie[ind].to_dict()['0'])
