@@ -256,6 +256,7 @@ response = requests.post(url=f"{urlname}/get_avg")
 obj3 = response.json()
 medie = obj3["list_avg"]
 medie = pd.DataFrame(medie, index=colnames_100).transpose() #orizzontale?
+st.write(medie)
 
 for ind, row in shap_values_highest.iterrows():
     st.subheader(f'Variable: {ind}')
