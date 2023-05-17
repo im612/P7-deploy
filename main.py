@@ -268,7 +268,7 @@ for ind, row in shap_values_highest.iterrows():
     response = requests.post(url=f"{urlname}/get_col", data=colj)
     obj3 = response.json()
     datadict = obj3["listcol"]
-    data = pd.DataFrame([datadict])
+    data = pd.DataFrame([datadict]).transpose()
     st.write(data)
 
     # n, _ = np.histogram(data)
