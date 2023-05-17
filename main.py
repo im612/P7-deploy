@@ -273,15 +273,15 @@ for ind, row in shap_values_highest.iterrows():
 
     _, _, bar_container = ax.hist(data,
                                   fc="c", alpha=0.5)
-    media = data.mean()
-    media_acc = '%.2f' % media
-    mediana = data.median()
-    mediana_acc = '%.2f' % mediana
-    val_feature_acc = '%.2f' % float(val_feature)
+    # media = data.mean()
+    # media_acc = '%.2f' % media
+    # mediana = data.median()
+    # mediana_acc = '%.2f' % mediana
+    # val_feature_acc = '%.2f' % float(val_feature)
 
-    plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media_acc}')
-    plt.axvline(mediana, color='darkgreen', linestyle='dashed', linewidth=1, alpha=0.5, label = f'mediane : {mediana_acc}')
-    plt.axvline(val_feature, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_acc}')
+    # plt.axvline(media, color='blue', linestyle='dashed', linewidth=1, alpha=0.5, label=f'moyenne : {media_acc}')
+    # plt.axvline(mediana, color='darkgreen', linestyle='dashed', linewidth=1, alpha=0.5, label = f'mediane : {mediana_acc}')
+    plt.axvline(val_feature_id, color='red', linestyle='solid', linewidth=1, alpha=0.5, label = f'valeur client : {val_feature_acc}')
 
     ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
               ncol=3, fancybox=True)
