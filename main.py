@@ -268,12 +268,9 @@ for ind, row in shap_values_highest.iterrows():
     response = requests.post(url=f"{urlname}/get_col", data=colj)
     obj3 = response.json()
     datadict = obj3["listcol"]
-    data = pd.DataFrame([datadict]).transpose()
-    st.write(data)
+    data = pd.DataFrame([datadict]).transpose() #hist funziona solo se trasponi
 
-    # n, _ = np.histogram(data)
-    fig, ax = plt.subplots(figsize=(5,2.5))
-
+    fig, ax = plt.subplots(figsize=(10,5))
 
     with st.spinner('Je compare la valeur client au reste:'):
         _, _, bar_container = ax.hist(data, 15,
@@ -290,9 +287,9 @@ for ind, row in shap_values_highest.iterrows():
         ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.01),
                   ncol=3, fancybox=True)
 
-        st.pyplot(fig=fig, use_container_width=False)
-        # plt.savefig(f'{BASE_DIR}/hist.png')
-        # st.image(f"{BASE_DIR}/hist.png")
+        # st.pyplot(fig=fig, use_container_width=False)
+        plt.savefig(f'{BASE_DIR}/hist.png')
+        st.image(f"{BASE_DIR}/hist.png")
         plt.close()
     st.divider()
 
