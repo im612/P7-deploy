@@ -1,9 +1,0 @@
-Gli asterischi non sono accettati
-https://devcenter.heroku.com/articles/python-support#supported-runtimes
-    python-3.11.3 (available on all stacks; recommended)
-    python-3.10.11 (available on all stacks)
-    python-3.9.16 (available on all stacks)
-    python-3.8.16 (available on the Heroku-20 stack only)
-
-#python-3.9.16
-python-3.11.3
